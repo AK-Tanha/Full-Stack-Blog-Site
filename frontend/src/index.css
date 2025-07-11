@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.active{
+    color: #1E73BE;
+}
+
+.editorJsdiv h2 {
+    font-size: 18 ;
+    font-weight:600x ;
+}
+
+.editorJsdiv h3, h4, h5 {
+    font-size: 16 ;
+    font-weight:500x ;
+}
+
+.editorJsdiv li {
+    margin-bottom: 10px;
+    list-style-type: disc;
+    margin-left: 25px;
+    padding-left: 10px;
+}
