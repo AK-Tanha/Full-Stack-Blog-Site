@@ -6,7 +6,7 @@ const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
         //baseUrl: "http://localhost:5000/api/auth",
-        baseUrl: "https://full-stack-blog-site-ontq.vercel.app/api/auth",
+        baseUrl: "https://backend-one-beta.vercel.app/api/auth",
         credentials: "include"
     }),
 

@@ -4,7 +4,7 @@ export const blogApi = createApi({
   reducerPath: 'blogApi',
   baseQuery: fetchBaseQuery({
     //baseUrl: 'http://localhost:5000/api/',
-    baseUrl: 'https://full-stack-blog-site-ontq.vercel.app/api/',
+    baseUrl: 'https://backend-one-beta.vercel.app/api/',
     credentials: 'include',
   }),
   endpoints: (builder) => ({

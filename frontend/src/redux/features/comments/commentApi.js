@@ -5,7 +5,7 @@ const commentApi = createApi({
     reducerPath: "commentApi",
     baseQuery: fetchBaseQuery({
         //baseUrl: "http://localhost:5000/api/comments",
-        baseUrl: "https://full-stack-blog-site-ontq.vercel.app/api/comments",
+        baseUrl: "https://backend-one-beta.vercel.app/api/comments",
         credentials: "include"
     }),
     tagTypes: ['Comments'],
