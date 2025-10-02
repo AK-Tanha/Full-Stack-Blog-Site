@@ -3,7 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const blogApi = createApi({
   reducerPath: 'blogApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api/',
+    //baseUrl: 'http://localhost:5000/api/',
+    baseUrl: 'https://full-stack-blog-site-ontq.vercel.app/api/',
     credentials: 'include',
   }),
   endpoints: (builder) => ({
