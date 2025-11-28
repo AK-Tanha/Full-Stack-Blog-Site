@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Searchblogs from "../blogs/Searchblogs";
-import { useFetchBlogsQuery } from '../../redux/features/blogs/blogsApi';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useFetchBlogsQuery } from '../../redux/features/blogs/blogsApi';
+import Searchblogs from "../blogs/Searchblogs";
 
 const Blogs = () => {
   const [search, setSearch] = useState('');
@@ -30,7 +30,7 @@ const Blogs = () => {
 
       {/* Status messages */}
       {isLoading && <p className="text-center mt-10 text-blue-500">Loading blogs...</p>}
-      {error && <p className="text-center mt-10 text-red-500">{error.toString()}</p>}
+      {error && <p className="text-center mt-10 text-red-500">{error?.data?.message || error?.error || JSON.stringify(error)}</p>}
       {!isLoading && blogs.length === 0 && <p className="text-center mt-10 text-gray-600">No blogs found.</p>}
 
       {/* Blog Cards */}
