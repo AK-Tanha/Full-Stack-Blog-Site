@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react';
-import { useLoginUserMutation, useLogoutUserMutation } from '../../redux/features/auth/authAPI';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useLoginUserMutation } from '../../redux/features/auth/authAPI';
 import { setUser } from '../../redux/features/auth/authSlice';
 
 const Login = () => {
@@ -39,28 +39,44 @@ const Login = () => {
 
 
   return (
-    <div className='max-w-sm bg-white mx-auto p-8 mt-36'>
-      <h2 className='text-2xl font-semibold pt-5'>Please login</h2>
-      <form onSubmit={handleLogin} className='space-y-5 max-w-sm mx-auto pt-8'>
-        <input type="text" value={email} 
-         className='w-full bg-bgPrimary focus:outline-none px-5 py-3'
-        onChange={(e) => setEmail(e.target.value)} 
-        placeholder="Email" required />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-indigo-100 px-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10">
+        <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Please login</h2>
+        <form onSubmit={handleLogin} className="space-y-6">
+          <input
+            type="text"
+            value={email}
+            className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
 
-        <input type="password" value={password} 
-        className='w-full bg-bgPrimary focus:outline-none px-5 py-3'
-        onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-        {
-          message && <p className="text-red-500">{message}</p>  // Display error message if any
-        }
-        <button type="submit" disabled={loginLoading}
-         className='w-full mt-5 bg-primary hover:bg-indigo-500 text-white font-medium py-3 rounded-md'
-        >Login</button>
-      </form>
-     
-        <p className='my-5 text-center'>Don't have an account? 
-          <Link to="/register" className='text-red-700 italic'> Register </Link> here.
+          <input
+            type="password"
+            value={password}
+            className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
+          {message && <p className="text-red-500 text-center text-sm">{message}</p>}
+          <button
+            type="submit"
+            disabled={loginLoading}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition duration-300"
+          >
+            Login
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-gray-500">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-indigo-600 hover:underline">
+            Register here
+          </Link>
         </p>
+      </div>
     </div>
   );
 };
