@@ -31,19 +31,25 @@ app.use("/api/auth", userRoute);
 app.use("/api/blogs",blogRoutes) ;
 app.use("/api/comments",commentRoutes) ;
 
+async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGODB_URL);
+    console.log("MongoDB Connected Successfully");
+  } catch (err) {
+    console.log("MongoDB Connection Error:", err);
+  }
+}
 
-async function main() {
-  await mongoose.connect(process.env.MONGODB_URL);
+connectDB();
 
-
-  app.get('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Server is running.....')
 })
+
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })
 }
-main().then(() => console.log("MongoDB Connected Successfully")).catch(err => console.log(err));
 
-
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+module.exports = app;
