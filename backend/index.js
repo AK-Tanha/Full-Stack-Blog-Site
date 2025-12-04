@@ -27,20 +27,43 @@ const blogRoutes = require('./src/routes/blog.route') ;
 const commentRoutes = require('./src/routes/comment.route') ;
 const userRoute = require ('./src/routes/auth.user');
 
-app.use("/api/auth", userRoute);
-app.use("/api/blogs",blogRoutes) ;
-app.use("/api/comments",commentRoutes) ;
+// Cache connection promise for serverless optimization
+let cachedConnection = null;
 
 async function connectDB() {
+  if (cachedConnection) {
+    return cachedConnection;
+  }
+  
   try {
-    await mongoose.connect(process.env.MONGODB_URL);
+    cachedConnection = mongoose.connect(process.env.MONGODB_URL);
+    await cachedConnection;
     console.log("MongoDB Connected Successfully");
+    return cachedConnection;
   } catch (err) {
     console.log("MongoDB Connection Error:", err);
+    cachedConnection = null; // Reset on error
+    throw err;
   }
 }
 
-connectDB();
+// Middleware to ensure DB connection before handling requests
+async function ensureDBConnection(req, res, next) {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(500).send({ 
+      message: "Database connection failed", 
+      error: err.message 
+    });
+  }
+}
+
+// Apply DB connection middleware to all API routes
+app.use("/api/auth", ensureDBConnection, userRoute);
+app.use("/api/blogs", ensureDBConnection, blogRoutes);
+app.use("/api/comments", ensureDBConnection, commentRoutes);
 
 app.get('/', (req, res) => {
   res.send('Server is running.....')
