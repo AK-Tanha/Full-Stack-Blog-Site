@@ -58,8 +58,8 @@ router.get('/', async (req, res) => {
         const posts = await Blog.find(query).populate('author', 'email').sort({ createdAt: -1 });
         res.status(200).send(posts)
     } catch (error) {
-        console.error("error creating post:", error)
-        res.status(500).send({ message: "error catching post" })
+        console.error("Error fetching blogs:", error);
+        res.status(500).send({ message: "Error fetching blogs", error: error.message });
     }
 })
 
@@ -105,8 +105,8 @@ router.patch("/update-post/:id", verifyToken, async (req, res) => {
         })
 
     } catch (error) {
-        console.error("error updaing post:", error)
-        res.status(500).send({ message: "error updaing post" })
+        console.error("Error updating post:", error);
+        res.status(500).send({ message: "Error updating post" });
     }
 })
 
