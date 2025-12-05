@@ -12,8 +12,18 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    // Allow any localhost or 127.0.0.1 and vercel app
-    if (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1') || origin.includes('vercel.app')) {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:5173',
+      'http://127.0.0.1:5174',
+      'https://combablogs.vercel.app'
+    ];
+    
+    // Check if origin is in allowed list or is a vercel.app domain
+    if (allowedOrigins.includes(origin) || origin.includes('vercel.app')) {
       return callback(null, true);
     }
     
