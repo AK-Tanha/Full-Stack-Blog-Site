@@ -27,7 +27,7 @@ const Login = () => {
       console.log(response)
       const { token, user } = response;
       
-      dispatch(setUser({user}))
+      dispatch(setUser({ user, token }))
       alert('Login successful');
       navigate('/');
       
