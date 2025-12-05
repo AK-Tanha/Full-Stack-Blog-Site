@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../model/user.model');
 const generateToken = require('../middleware/generateToken');
+const verifyToken = require('../middleware/verifyToken');
+const isAdmin = require('../middleware/isAdmin');
 
 
 
@@ -76,45 +78,45 @@ router.post("/log-out", async (req, res) => {
 })
 
 //get all users
-router.get("/users", async (req,res) => {
+router.get("/users", verifyToken, isAdmin, async (req,res) => {
     try {
-        const users = await User.find({}, 'id email role');
+        const users = await User.find({}, 'id email role username');
         res.status(200).send({message:"Users Found sucessfully", users});
     } catch (error) {
-        onsole.error("error fetching user:", error)
+        console.error("error fetching user:", error)
         res.status(500).send({ message: "error fetching user",error: error.message })
     }
 }),
 
 //delete a user
-router.delete("/users/:id", async (req,res) => {
+router.delete("/users/:id", verifyToken, isAdmin, async (req,res) => {
     try {
         const {id} = req.params;
         const user = await User.findByIdAndDelete(id);
         if (!user) {
-            return res(404).send({message: "user not found"});
+            return res.status(404).send({message: "user not found"});
         }
         res.status(200).send({message:"User deleted sucessfully"});
 
 
     } catch (error) {
-        onsole.error("error deleting user:", error)
+        console.error("error deleting user:", error)
         res.status(500).send({ message: "error deleting user",error: error.message })
     }
 })
 
 //update the role of a user
-router.put("/users/:id", async (req, res) => {
+router.put("/users/:id", verifyToken, isAdmin, async (req, res) => {
     try {
         const {id} = req.params;
         const {role} = req.body;
         const user = await User.findByIdAndUpdate(id, {role}, {new:true});
         if (!user) {
-            return res(404).send({message: "user not found"});
+            return res.status(404).send({message: "user not found"});
         }
         res.status(200).send({message:"User Updated sucessfully", user});
     } catch (error) {
-        onsole.error("error updating role of user:", error)
+        console.error("error updating role of user:", error)
         res.status(500).send({ message: "error updating role of user",error: error.message })
     }
 })
