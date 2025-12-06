@@ -1,8 +1,7 @@
-import React from 'react'
-import adminImg from "../assets/admin.png"
-import { NavLink } from 'react-router-dom'
-import { useLogoutUserMutation } from '../redux/features/auth/authAPI'
 import { useDispatch } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import adminImg from "../assets/admin.png"
+import { useLogoutUserMutation } from '../redux/features/auth/authAPI'
 import { logout } from '../redux/features/auth/authSlice'
 
 const AdminNavigation = () => {
@@ -35,6 +34,12 @@ const AdminNavigation = () => {
                     <li>
                         <NavLink to="/dashboard/add-new-post" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : "text-black"} >
                             Add New Post
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink to="/dashboard/add-category" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : "text-black"} >
+                            Add Category
                         </NavLink>
                     </li>
 

@@ -1,6 +1,7 @@
-import React from 'react';
+import { useFetchCategoriesQuery } from '../../redux/features/category/categoryApi';
 
-const Searchblogs = ({ search, handleSearchChange, handleSearch }) => {
+const Searchblogs = ({ search, handleSearchChange, handleSearch, category, handleCategoryChange }) => {
+  const { data: categories } = useFetchCategoriesQuery();
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -19,6 +20,16 @@ const Searchblogs = ({ search, handleSearchChange, handleSearch }) => {
           placeholder="Search blogs..."
           className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         />
+        <select
+            value={category}
+            onChange={handleCategoryChange}
+            className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        >
+            <option value="">All Categories</option>
+            {categories && categories.map((cat) => (
+                <option key={cat._id} value={cat.name}>{cat.name}</option>
+            ))}
+        </select>
         <button
           onClick={handleSearch}
           type="submit"

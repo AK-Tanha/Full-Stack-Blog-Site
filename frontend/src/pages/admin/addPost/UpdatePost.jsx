@@ -11,6 +11,7 @@ const UpdatePost = () => {
 
   const [updateBlog, { isLoading: isUpdating }] = useUpdateBlogMutation()
   const { data: blogData, isLoading: isFetching, refetch } = useFetchBlogsByIDQuery(id)
+  const { data: categories } = useFetchCategoriesQuery()
 
   const [formData, setFormData] = useState({
     title: '',
@@ -170,13 +171,9 @@ const UpdatePost = () => {
             required
           >
             <option value=''>Select a category</option>
-            <option value='Technology'>Technology</option>
-            <option value='Travel'>Travel</option>
-            <option value='Food'>Food</option>
-            <option value='Lifestyle'>Lifestyle</option>
-            <option value='Business'>Business</option>
-            <option value='Health'>Health</option>
-            <option value='Education'>Education</option>
+            {categories && categories.map((cat) => (
+                <option key={cat._id} value={cat.name}>{cat.name}</option>
+            ))}
           </select>
         </div>
 

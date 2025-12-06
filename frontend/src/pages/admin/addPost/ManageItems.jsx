@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Loading from '../../../Component/Loading'
 import { useDeleteBlogMutation, useFetchBlogsQuery } from '../../../redux/features/blogs/blogsApi'
+import { useFetchCategoriesQuery } from '../../../redux/features/category/categoryApi'
 
 const ManageItems = () => {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
+  const { data: categories } = useFetchCategoriesQuery()
   
   const { data: blogs, isLoading, error } = useFetchBlogsQuery({ 
     search, 
@@ -72,13 +74,9 @@ const ManageItems = () => {
               className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             >
               <option value=''>All Categories</option>
-              <option value='Technology'>Technology</option>
-              <option value='Travel'>Travel</option>
-              <option value='Food'>Food</option>
-              <option value='Lifestyle'>Lifestyle</option>
-              <option value='Business'>Business</option>
-              <option value='Health'>Health</option>
-              <option value='Education'>Education</option>
+              {categories && categories.map((cat) => (
+                  <option key={cat._id} value={cat.name}>{cat.name}</option>
+              ))}
             </select>
           </div>
         </div>

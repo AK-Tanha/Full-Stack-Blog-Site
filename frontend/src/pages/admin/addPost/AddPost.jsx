@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useCreateBlogMutation } from '../../../redux/features/blogs/blogsApi'
+import { useFetchCategoriesQuery } from '../../../redux/features/category/categoryApi'
 
 const AddPost = () => {
   const [createBlog, { isLoading }] = useCreateBlogMutation()
+  const { data: categories, isLoading: isCategoriesLoading } = useFetchCategoriesQuery()
   const { user } = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
@@ -142,13 +144,9 @@ const AddPost = () => {
             required
           >
             <option value=''>Select a category</option>
-            <option value='Technology'>Technology</option>
-            <option value='Travel'>Travel</option>
-            <option value='Food'>Food</option>
-            <option value='Lifestyle'>Lifestyle</option>
-            <option value='Business'>Business</option>
-            <option value='Health'>Health</option>
-            <option value='Education'>Education</option>
+            {categories && categories.map((cat) => (
+                <option key={cat._id} value={cat.name}>{cat.name}</option>
+            ))}
           </select>
         </div>
 

@@ -4,6 +4,7 @@ import AddPost from "../pages/admin/addPost/AddPost";
 import ManageItems from "../pages/admin/addPost/ManageItems";
 import UpdatePost from "../pages/admin/addPost/UpdatePost";
 import AdminLayout from "../pages/admin/AdminLayout";
+import AddCategory from "../pages/admin/category/AddCategory";
 import Dashboard from "../pages/admin/dashboard/Dashboard";
 import ManageUser from "../pages/admin/user/ManageUser";
 import Singleblogs from "../pages/blogs/singleblogs/Singleblogs";
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
                 {
                     path:"add-new-post",
                     element:<AddPost/>
+                },
+                {
+                    path: "add-category",
+                    element: <AddCategory/>
                 },
                 {
                     path: "update-items/:id",

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Loading from '../../Component/Loading';
 import { useFetchBlogsQuery } from '../../redux/features/blogs/blogsApi';
 import Searchblogs from "../blogs/Searchblogs";
-import Loading from '../../Component/Loading';
 
 const Blogs = () => {
   const [search, setSearch] = useState('');
@@ -17,6 +17,11 @@ const Blogs = () => {
     setQuery({ search, category });
   };
 
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+    setQuery({ ...query, category: e.target.value });
+  };
+
   const { data: blogs = [], error, isLoading } = useFetchBlogsQuery(query);
   console.log(blogs);
 
@@ -27,6 +32,8 @@ const Blogs = () => {
         search={search}
         handleSearchChange={handleSearchChange}
         handleSearch={handleSearch}
+        category={category}
+        handleCategoryChange={handleCategoryChange}
       />
 
       {/* Status messages */}

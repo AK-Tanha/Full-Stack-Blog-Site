@@ -35,6 +35,7 @@ app.use(cors({
 //routes
 const blogRoutes = require('./src/routes/blog.route') ;
 const commentRoutes = require('./src/routes/comment.route') ;
+const categoryRoutes = require('./src/routes/category.route');
 const userRoute = require ('./src/routes/auth.user');
 
 // Cache connection promise for serverless optimization
@@ -74,6 +75,7 @@ async function ensureDBConnection(req, res, next) {
 app.use("/api/auth", ensureDBConnection, userRoute);
 app.use("/api/blogs", ensureDBConnection, blogRoutes);
 app.use("/api/comments", ensureDBConnection, commentRoutes);
+app.use("/api/categories", ensureDBConnection, categoryRoutes);
 
 app.get('/', (req, res) => {
   res.send('Server is running.....')
