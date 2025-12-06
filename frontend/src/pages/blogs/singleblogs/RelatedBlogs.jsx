@@ -1,6 +1,8 @@
 import { useFetchRelatedBlogsQuery } from '../../../redux/features/blogs/blogsApi';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Loading from '../../../Component/Loading';
+
 
 const RelatedBlogs = () => {
   const { id } = useParams();
@@ -10,7 +12,7 @@ const RelatedBlogs = () => {
     <div>
       <hr className='mb-4' />
 
-      {isLoading && <p className="text-center text-blue-500">Loading related blogs...</p>}
+      {isLoading && <Loading />}
       {error && <p className="text-center text-red-500">Failed to load related blogs.</p>}
 
       {blogs.length > 0 ? (

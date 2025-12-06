@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import Loading from '../../Component/Loading';
 import { useLoginUserMutation } from '../../redux/features/auth/authAPI';
 import { setUser } from '../../redux/features/auth/authSlice';
 

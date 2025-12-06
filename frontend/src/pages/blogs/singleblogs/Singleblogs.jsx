@@ -1,9 +1,9 @@
-import { useFetchBlogsByIDQuery } from '../../../redux/features/blogs/blogsApi';
-import React from 'react';
 import { useParams } from 'react-router-dom';
-import SingleBlogCard from './SingleBlogCard';
+import { useFetchBlogsByIDQuery } from '../../../redux/features/blogs/blogsApi';
 import CommentsCard from '../Comments/CommentsCard';
 import RelatedBlogs from './RelatedBlogs';
+import SingleBlogCard from './SingleBlogCard';
+import Loading from '../../../Component/Loading';
 
 const Singleblogs = () => {
   const { id } = useParams(); 
@@ -13,7 +13,7 @@ const Singleblogs = () => {
   return (
     <div className="container mx-auto px-4 mt-12 text-primary">
       {isLoading && (
-        <div className="text-center text-blue-500 text-lg font-medium">Loading...</div>
+        <Loading />
       )}
 
       {error && (
