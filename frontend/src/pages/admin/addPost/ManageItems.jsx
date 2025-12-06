@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Loading from '../../../Component/Loading'
 import { useDeleteBlogMutation, useFetchBlogsQuery } from '../../../redux/features/blogs/blogsApi'
 
 const ManageItems = () => {
@@ -27,7 +28,7 @@ const ManageItems = () => {
   }
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading blogs...</div>
+    return <Loading />
   }
 
   if (error) {

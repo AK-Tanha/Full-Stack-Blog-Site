@@ -64,9 +64,9 @@ const Login = () => {
           <button
             type="submit"
             disabled={loginLoading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition duration-300"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition duration-300 flex items-center justify-center"
           >
-            Login
+            {loginLoading ? <Loading isSmall={true} /> : 'Login'}
           </button>
         </form>
 

@@ -105,7 +105,7 @@ const UpdatePost = () => {
   }
 
   if (isFetching) {
-    return <div className="text-center py-8">Loading...</div>
+    return <Loading />
   }
 
   return (

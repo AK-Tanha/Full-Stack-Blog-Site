@@ -35,7 +35,7 @@ const Dashboard = () => {
   ]
 
   if (blogsLoading) {
-    return <div className="text-center py-8">Loading dashboard...</div>
+    return <Loading />
   }
 
   return (
