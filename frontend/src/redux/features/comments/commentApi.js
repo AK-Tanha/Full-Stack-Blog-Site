@@ -4,8 +4,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const commentApi = createApi({
     reducerPath: "commentApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5001/api/comments",
-        //baseUrl: "https://full-stack-blog-site-ontq.vercel.app/api/comments",
+        //baseUrl: "http://localhost:5001/api/comments",
+        baseUrl: "https://full-stack-blog-site-ontq.vercel.app/api/comments",
         credentials: "include"
     }),
     tagTypes: ['Comments'],
