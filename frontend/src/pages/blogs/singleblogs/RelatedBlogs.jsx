@@ -1,7 +1,6 @@
-import { useFetchRelatedBlogsQuery } from '../../../redux/features/blogs/blogsApi';
-import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Loading from '../../../Component/Loading';
+import { useFetchRelatedBlogsQuery } from '../../../redux/features/blogs/blogsApi';
 
 
 const RelatedBlogs = () => {
@@ -9,32 +8,30 @@ const RelatedBlogs = () => {
   const { data: blogs = [], error, isLoading } = useFetchRelatedBlogsQuery(id);
 
   return (
-    <div>
-      <hr className='mb-4' />
-
-      {isLoading && <Loading />}
+    <div className='mt-4'>
+      {isLoading && <Loading isSmall />}
       {error && <p className="text-center text-red-500">Failed to load related blogs.</p>}
 
       {blogs.length > 0 ? (
-        <div className='space-y-4 px-4 pb-4'>
+        <div className='space-y-4'>
           {blogs.map((blog) => (
             <Link
               to={`/blogs/${blog?._id}`}
               key={blog._id}
-              className='flex items-start sm:items-center gap-4 p-3 bg-white hover:bg-gray-50 rounded-md shadow-sm border transition'
+              className='group flex items-start gap-4 p-4 rounded-lg bg-gray-50 hover:bg-blue-50/50 transition-colors duration-200'
             >
-              <div className='min-w-[56px] min-h-[56px]'>
+              <div className='w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg'>
                 <img
                   src={blog.coverImg}
                   alt={blog.title}
-                  className='w-14 h-14 rounded-full object-cover ring-2 ring-blue-600'
+                  className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
                 />
               </div>
-              <div className='flex-1'>
-                <h4 className='font-medium text-[#1E73BE] leading-snug line-clamp-2'>
+              <div className='flex-1 min-w-0'>
+                <h4 className='font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 mb-1 leading-snug'>
                   {blog?.title}
                 </h4>
-                <p className='text-sm text-gray-600 line-clamp-2'>
+                <p className='text-sm text-gray-500 line-clamp-2 leading-relaxed'>
                   {blog?.description}
                 </p>
               </div>
@@ -42,7 +39,7 @@ const RelatedBlogs = () => {
           ))}
         </div>
       ) : (
-        <p className='text-gray-500 px-4 pb-4'>No related blogs found.</p>
+        <p className='text-gray-500'>No related blogs found.</p>
       )}
     </div>
   );

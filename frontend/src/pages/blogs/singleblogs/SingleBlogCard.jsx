@@ -1,6 +1,5 @@
-import { formatDate } from '../../../utility/DateFormat';
-import React from 'react';
 import EditorJsHtml from "editorjs-html";
+import { formatDate } from '../../../utility/DateFormat';
 
 const parser = EditorJsHtml();
 
@@ -18,34 +17,44 @@ const SingleBlogCard = ({ blog }) => {
   }
 
   return (
-    <div className='bg-white p-8'>
-      {/* blog Header */}
+    <div className='bg-white p-8 rounded-lg shadow-md'>
+      {/* Blog Header */}
       <div>
-        <h1 className='md:text-3xl text-4xl font-medium mb-4'>{title}</h1>
-        <p className='mb-6'>
-          {formatDate(createdAt)} by 
-          <span className='text-blue-400 cursor-pointer'> Admin 1</span>
-        </p>
+        {category && (
+            <span className="text-sm text-blue-600 font-semibold uppercase tracking-wider mb-2 inline-block">
+                {category}
+            </span>
+        )}
+        <h1 className='text-3xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight'>
+            {title}
+        </h1>
+        <div className='flex items-center gap-2 text-gray-500 mb-8 text-sm'>
+            <span>{formatDate(createdAt)}</span>
+            <span>•</span>
+            <span className='font-medium text-blue-600 cursor-pointer'>Admin</span>
+        </div>
       </div>
 
-      {/* blog Image */}
-      <div>
-        <img src={coverImg} alt="Cover Image" className='w-full md:h-[520px] bg-cover' />
+      {/* Blog Image */}
+      <div className='mb-8'>
+        <img src={coverImg} alt="Cover Image" className='w-full h-auto rounded-xl shadow-sm' />
       </div>
 
-      {/* blog Content */}
-      <div className='mt-8 space-y-4'>
-        <div dangerouslySetInnerHTML={{ __html: htmlContent }}  className='space-y-3 editorJsdiv'/>
+      {/* Blog Content */}
+      <div className='space-y-6 text-gray-700 text-lg leading-relaxed'>
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} className='space-y-4 editorJsdiv' />
       </div>
 
-      {/* blog ratings */}
-      <div>
-        <span className='text-lg font-medium'>Rating: </span>
-        <span>{rating}(Based on 2300 Reviews)</span>
+      {/* Blog Ratings */}
+      <div className='mt-8 pt-6 border-t border-gray-100 flex items-center justify-between'>
+        <div className='flex items-center gap-2'>
+            <span className='text-lg font-bold text-gray-900'>Rating:</span>
+            <span className='bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded'>
+                {rating} / 5
+            </span>
+            <span className='text-sm text-gray-500'>(Based on 2300 Reviews)</span>
+        </div>
       </div>
-
-
-
     </div>
   );
 };
