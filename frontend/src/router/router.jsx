@@ -1,17 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
+import AddPost from "../pages/admin/addPost/AddPost";
+import ManageItems from "../pages/admin/addPost/ManageItems";
+import UpdatePost from "../pages/admin/addPost/UpdatePost";
+import AdminLayout from "../pages/admin/AdminLayout";
+import Dashboard from "../pages/admin/dashboard/Dashboard";
+import ManageUser from "../pages/admin/user/ManageUser";
+import Singleblogs from "../pages/blogs/singleblogs/Singleblogs";
 import Home from "../pages/Home/Home";
 import About from "../pages/miniPages/About";
 import Contact from "../pages/miniPages/Contact";
 import PrivacyPolicy from "../pages/miniPages/PrivacyPolicy";
-import Singleblogs from "../pages/blogs/singleblogs/Singleblogs";
 import Login from "../pages/user/Login";
 import Register from "../pages/user/Register";
-import AdminLayout from "../pages/admin/AdminLayout";
-import Dashboard from "../pages/admin/dashboard/Dashboard";
-import AddPost from "../pages/admin/addPost/AddPost";
-import ManageItems from "../pages/admin/addPost/ManageItems";
-import ManageUser from "../pages/admin/user/ManageUser";
 import PrivateRoutes from "./PrivateRoutes";
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
                 {
                     path:"add-new-post",
                     element:<AddPost/>
+                },
+                {
+                    path: "update-items/:id",
+                    element: <UpdatePost/>
                 },
                 {
                     path:"manage-items",

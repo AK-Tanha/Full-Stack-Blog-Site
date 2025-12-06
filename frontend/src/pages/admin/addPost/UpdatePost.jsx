@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { useCreateBlogMutation } from '../../../redux/features/blogs/blogsApi'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useFetchBlogsByIDQuery, useUpdateBlogMutation } from '../../../redux/features/blogs/blogsApi'
 
-const AddPost = () => {
-  const [createBlog, { isLoading }] = useCreateBlogMutation()
-  const { user } = useSelector((state) => state.auth)
+const UpdatePost = () => {
+  const { id } = useParams()
   const navigate = useNavigate()
+  const { user } = useSelector((state) => state.auth)
+
+  const [updateBlog, { isLoading: isUpdating }] = useUpdateBlogMutation()
+  const { data: blogData, isLoading: isFetching, refetch } = useFetchBlogsByIDQuery(id)
 
   const [formData, setFormData] = useState({
     title: '',
@@ -16,6 +19,31 @@ const AddPost = () => {
     coverImg: '',
     rating: 0
   })
+
+  // Populate form when data is fetched
+  useEffect(() => {
+    if (blogData && blogData.post) {
+      const post = blogData.post
+      
+      // Handle content conversion from EditorJS object to string for textarea
+      let contentText = ''
+      if (post.content && typeof post.content === 'object' && Array.isArray(post.content.blocks)) {
+        // Extract text from blocks
+        contentText = post.content.blocks.map(block => block.data.text).join('\n\n')
+      } else if (typeof post.content === 'string') {
+        contentText = post.content
+      }
+
+      setFormData({
+        title: post.title || '',
+        content: contentText,
+        category: post.category || '',
+        description: post.description || '',
+        coverImg: post.coverImg || '',
+        rating: post.rating || 0
+      })
+    }
+  }, [blogData])
 
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -32,13 +60,13 @@ const AddPost = () => {
     setError('')
     setSuccess('')
 
-    // Validation
     if (!formData.title || !formData.content || !formData.category) {
       setError('Please fill in all required fields')
       return
     }
 
     try {
+      // Wrap content in EditorJS structure
       const contentObject = {
         time: Date.now(),
         blocks: [
@@ -52,38 +80,37 @@ const AddPost = () => {
         version: "2.22.2"
       }
 
-      const response = await createBlog({
+      const updatedData = {
         ...formData,
         content: contentObject,
-        author: user._id
+        author: user._id // Keep author or update if needed, usually admin updates stay as admin
+      }
+
+      const response = await updateBlog({
+        id,
+        ...updatedData
       }).unwrap()
 
-      setSuccess('Blog post created successfully!')
+      setSuccess('Blog post updated successfully!')
       
-      // Reset form
-      setFormData({
-        title: '',
-        content: '',
-        category: '',
-        description: '',
-        coverImg: '',
-        rating: 0
-      })
-
       // Redirect to manage items after 2 seconds
       setTimeout(() => {
         navigate('/dashboard/manage-items')
       }, 2000)
 
     } catch (err) {
-      setError(err?.data?.message || 'Failed to create blog post')
-      console.error('Error creating blog:', err)
+      setError(err?.data?.message || 'Failed to update blog post')
+      console.error('Error updating blog:', err)
     }
+  }
+
+  if (isFetching) {
+    return <div className="text-center py-8">Loading...</div>
   }
 
   return (
     <div className='bg-white rounded-lg shadow-md p-6'>
-      <h2 className='text-2xl font-bold mb-6'>Add New Blog Post</h2>
+      <h2 className='text-2xl font-bold mb-6'>Update Blog Post</h2>
 
       {error && (
         <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4'>
@@ -204,10 +231,10 @@ const AddPost = () => {
         <div className='flex gap-4'>
           <button
             type='submit'
-            disabled={isLoading}
+            disabled={isUpdating}
             className='bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed'
           >
-            {isLoading ? 'Creating...' : 'Create Post'}
+            {isUpdating ? 'Updating...' : 'Update Post'}
           </button>
           <button
             type='button'
@@ -222,4 +249,4 @@ const AddPost = () => {
   )
 }
 
-export default AddPost
+export default UpdatePost

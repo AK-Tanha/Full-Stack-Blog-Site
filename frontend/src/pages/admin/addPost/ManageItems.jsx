@@ -127,6 +127,12 @@ const ManageItems = () => {
                       {new Date(blog.createdAt).toLocaleDateString()}
                     </td>
                     <td className='px-6 py-4 whitespace-nowrap text-sm font-medium'>
+                      <Link
+                        to={`/dashboard/update-items/${blog._id}`}
+                        className='text-indigo-600 hover:text-indigo-900 hover:underline cursor-pointer mr-4'
+                      >
+                       Edit
+                      </Link>
                       <button
                         onClick={() => setDeleteConfirm(blog._id)}
                         className='text-red-600 hover:text-red-900 ml-4'
