@@ -8,7 +8,7 @@
 
 /* EditorJS Styling */
 .editorJsdiv p {
-  margin-bottom: 1.5rem; /* ← Add paragraph spacing */
+  margin-bottom: .5rem; /* ← Add paragraph spacing */
 }
 
 .editorJsdiv h2 {
