@@ -14,7 +14,6 @@ const AdminLayout = () => {
         <AdminNavigation/>
       </header>
       <main className='p-8 bg-white w-full'>
-        <p>Admin Content</p>
         <Outlet/>
       </main>
     </div>

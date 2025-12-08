@@ -13,6 +13,7 @@ const UpdatePost = () => {
   const [updateBlog, { isLoading: isUpdating }] = useUpdateBlogMutation()
   const { data: blogData, isLoading: isFetching, refetch } = useFetchBlogsByIDQuery(id)
   const { data: categories } = useFetchCategoriesQuery()
+  const [showFull, setShowFull] = useState(false);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -212,12 +213,40 @@ const UpdatePost = () => {
             className='w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
             placeholder='https://example.com/image.jpg'
           />
-           {formData.coverImg && (
-              <div className="mt-4">
-                  <p className="text-sm text-gray-500 mb-2">Preview:</p>
-                  <img src={formData.coverImg} alt="Preview" className="h-40 w-full object-cover rounded-lg border border-gray-200" onError={(e) => e.target.style.display = 'none'} />
-              </div>
-          )}
+          {formData.coverImg && (
+  <div className="mt-4">
+    <p className="text-sm text-gray-500 mb-2">Preview:</p>
+
+    {/* Thumbnail Preview */}
+    <div
+      className="w-32 h-32 border border-gray-300 rounded-lg overflow-hidden cursor-pointer group"
+      onClick={() => setShowFull(true)}
+    >
+      <img
+        src={formData.coverImg}
+        alt="Thumbnail"
+        className="w-full h-full object-cover group-hover:opacity-75 transition"
+        onError={(e) => (e.target.style.display = "none")}
+      />
+    </div>
+
+    {/* Full Image Modal */}
+    {showFull && (
+      <div
+        className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+        onClick={() => setShowFull(false)}
+      >
+        <img
+          src={formData.coverImg}
+          alt="Full Preview"
+          className="max-w-3xl max-h-[80vh] rounded-lg shadow-lg"
+          onError={(e) => (e.target.style.display = "none")}
+        />
+      </div>
+    )}
+  </div>
+)}
+
         </div>
 
         {/* Content */}

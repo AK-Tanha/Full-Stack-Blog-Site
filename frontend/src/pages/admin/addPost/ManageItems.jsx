@@ -3,20 +3,24 @@ import { Link } from 'react-router-dom'
 import Loading from '../../../Component/Loading'
 import { useDeleteBlogMutation, useFetchBlogsQuery } from '../../../redux/features/blogs/blogsApi'
 import { useFetchCategoriesQuery } from '../../../redux/features/category/categoryApi'
+//import { EyeIcon } from 'lucide-react'
 
 const ManageItems = () => {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
-  const { data: categories } = useFetchCategoriesQuery()
-  
-  const { data: blogs, isLoading, error } = useFetchBlogsQuery({ 
-    search, 
-    category, 
-    location: '' 
-  })
-  
-  const [deleteBlog] = useDeleteBlogMutation()
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(10) // default items per page
   const [deleteConfirm, setDeleteConfirm] = useState(null)
+
+  const { data: categories } = useFetchCategoriesQuery()
+  const { data: blogs, isLoading, error } = useFetchBlogsQuery({
+    search,
+    category,
+    page,
+    limit,
+  })
+  const [deleteBlog] = useDeleteBlogMutation()
+
 
   const handleDelete = async (id) => {
     try {
@@ -29,134 +33,142 @@ const ManageItems = () => {
     }
   }
 
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <div className="text-center py-8 text-red-500">Error loading blogs</div>
-  }
+  if (isLoading) return <Loading />
+  if (error) return <div className="text-center py-8 text-red-500">Error loading blogs</div>
 
   return (
-    <div className='max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-lg'>
-      <div className='flex flex-col md:flex-row justify-between items-center mb-8 border-b pb-4'>
+    // Full page fixed height
+    <div className="h-screen flex flex-col max-w-7xl mx-auto bg-white shadow-lg rounded-lg p-6">
+
+      {/* Header */}
+      <div className='flex flex-col md:flex-row justify-between items-center border-b pb-4'>
         <h2 className='text-3xl font-bold text-gray-800'>Manage Blog Posts</h2>
-        <Link 
+        <Link
           to='/dashboard/add-new-post'
           className='bg-[#1E73BE] text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition duration-200 flex items-center gap-2 font-medium mt-4 md:mt-0'
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-          </svg>
           Add New Post
         </Link>
       </div>
 
-      {/* Search and Filter */}
-      <div className='bg-gray-50 p-6 rounded-lg border border-gray-100 mb-8'>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+      <div className='bg-gray-50 p-4 rounded-lg border border-gray-100 my-4'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+
+          {/* Search */}
           <div>
-            <label className='block text-sm font-medium text-gray-600 mb-2'>
-              Search
-            </label>
+            <label className='block text-sm font-medium text-gray-600 mb-2'>Search</label>
             <input
-              type='text'
+              type="text"
+              placeholder="Search..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder='Search by title or content...'
-              className='w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
+              onChange={e => setSearch(e.target.value)}
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
             />
           </div>
+
+          {/* Category Filter */}
           <div>
-            <label className='block text-sm font-medium text-gray-600 mb-2'>
-              Filter by Category
-            </label>
+            <label className='block text-sm font-medium text-gray-600 mb-2'>Category</label>
             <select
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className='w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
+              onChange={e => setCategory(e.target.value)}
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
             >
               <option value=''>All Categories</option>
-              {categories && categories.map((cat) => (
-                  <option key={cat._id} value={cat.name}>{cat.name}</option>
+              {categories?.map(cat => (
+                <option key={cat._id} value={cat.name}>{cat.name}</option>
               ))}
             </select>
           </div>
+
+          {/* Items per page */}
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-2'>Items per page</label>
+            <select
+              value={limit}
+              onChange={(e) => { setLimit(Number(e.target.value)); setPage(1) }}
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+            </select>
+          </div>
+
         </div>
       </div>
 
-      {/* Blogs Table */}
-      <div className='bg-white border rounded-lg overflow-hidden'>
-        <div className='overflow-x-auto'>
-          <table className='w-full'>
-            <thead className='bg-gray-50 border-b border-gray-200'>
+
+      {/* Scrollable Table */}
+      <div className='flex-1 overflow-auto'>
+        <div className='overflow-x-auto overflow-y-auto max-h-[500px]'>
+          <table className='min-w-max border-collapse w-full'>
+            <thead className='bg-gray-50 sticky top-0 z-20'>
               <tr>
-                <th className='px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>
-                  Title
-                </th>
-                <th className='px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>
-                  Category
-                </th>
-                <th className='px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>
-                  Author
-                </th>
-                <th className='px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>
-                  Created
-                </th>
-                <th className='px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>
-                  Actions
-                </th>
+                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Title</th>
+                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Category</th>
+                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Author</th>
+                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Created</th>
+                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Actions</th>
               </tr>
             </thead>
-            <tbody className='bg-white divide-y divide-gray-200'>
+            <tbody>
               {blogs && blogs.length > 0 ? (
-                blogs.map((blog) => (
-                  <tr key={blog._id} className='hover:bg-gray-50 transition duration-150'>
-                    <td className='px-6 py-4 whitespace-nowrap'>
-                      <div className='text-sm font-medium text-gray-900 line-clamp-1'>
+                blogs.map(blog => (
+                  <tr key={blog._id} className='hover:bg-gray-50'>
+                    <td className='px-4 py-2 border-b'>
+                      <div className='text-sm font-medium text-gray-900 truncate max-w-xs'>
                         {blog.title}
                       </div>
                     </td>
-                    <td className='px-6 py-4 whitespace-nowrap'>
-                      <span className='px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-100'>
-                        {blog.category}
-                      </span>
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                      {blog.author?.email || 'Unknown'}
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                      {new Date(blog.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm font-medium'>
-                      <div className='flex items-center gap-4'>
+
+                    <td className='px-4 py-2 border-b'>{blog.category}</td>
+                    <td className='px-4 py-2 border-b'>{blog.author?.email || 'Unknown'}</td>
+                    <td className='px-4 py-2 border-b'>{new Date(blog.createdAt).toLocaleDateString()}</td>
+                    <td className='px-4 py-2 border-b w-32'>
+                      <div className='flex items-center justify-start gap-2'>
+                        {/* View */}
+                        <button
+                          onClick={() => window.open(`/blogs/${blog._id}`, '_blank')}
+                          className='text-green-600 hover:text-green-900'
+                          title='View'
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </button>
+
+                        {/* Edit */}
                         <Link
                           to={`/dashboard/update-items/${blog._id}`}
-                          className='text-indigo-600 hover:text-indigo-900 flex items-center gap-1 transition duration-200'
+                          title='Edit'
+                          className='text-indigo-600 hover:text-indigo-900'
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1-9l3 3-8 8H6v-3l8-8z" />
                           </svg>
-                          Edit
                         </Link>
+
+                        {/* Delete */}
                         <button
                           onClick={() => setDeleteConfirm(blog._id)}
-                          className='text-red-500 hover:text-red-700 flex items-center gap-1 transition duration-200'
+                          title='Delete'
+                          className='text-red-500 hover:text-red-700'
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
-                          Delete
                         </button>
                       </div>
                     </td>
+
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan='5' className='px-6 py-12 text-center text-gray-500 bg-gray-50'>
-                    No blogs found. Try adjusting your search or add a new post.
-                  </td>
+                  <td colSpan='5' className='px-4 py-8 text-center text-gray-500'>No blogs found</td>
                 </tr>
               )}
             </tbody>
@@ -164,31 +176,41 @@ const ManageItems = () => {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
+
+
+      {/* Pagination */}
+      <div className='flex justify-between items-center mt-4'>
+        <button
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+          className='px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-40'
+        >
+          Prev
+        </button>
+        <span>Page {page}</span>
+        <button
+          disabled={!blogs || blogs.length < limit}
+          onClick={() => setPage(page + 1)}
+          className='px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-40'
+        >
+          Next
+        </button>
+      </div>
+
+      {/* Delete Modal */}
       {deleteConfirm && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm transition-opacity'>
-          <div className='bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl transform transition-all'>
-            <h3 className='text-xl font-bold mb-4 text-gray-800'>Confirm Delete</h3>
-            <p className='text-gray-600 mb-8'>
-              Are you sure you want to delete this blog post? This action cannot be undone.
-            </p>
-            <div className='flex gap-4 justify-end'>
-              <button
-                onClick={() => setDeleteConfirm(null)}
-                className='px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition duration-200'
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => handleDelete(deleteConfirm)}
-                className='px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition duration-200 shadow-md hover:shadow-lg'
-              >
-                Delete
-              </button>
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
+          <div className='bg-white p-6 rounded-lg shadow-lg max-w-sm w-full'>
+            <h3 className='text-lg font-bold mb-4'>Confirm Delete</h3>
+            <p className='mb-6'>Are you sure you want to delete this blog? This cannot be undone.</p>
+            <div className='flex justify-end gap-4'>
+              <button onClick={() => setDeleteConfirm(null)} className='px-4 py-2 bg-gray-200 rounded-lg'>Cancel</button>
+              <button onClick={() => handleDelete(deleteConfirm)} className='px-4 py-2 bg-red-600 text-white rounded-lg'>Delete</button>
             </div>
           </div>
         </div>
       )}
+
     </div>
   )
 }
