@@ -2,24 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+.active {
+  color: #1E73BE;
+}
 
-.active{
-    color: #1E73BE;
+/* EditorJS Styling */
+.editorJsdiv p {
+  margin-bottom: 1.5rem; /* ← Add paragraph spacing */
 }
 
 .editorJsdiv h2 {
-    font-size: 18 ;
-    font-weight:600x ;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem;
 }
 
-.editorJsdiv h3, h4, h5 {
-    font-size: 16 ;
-    font-weight:500x ;
+.editorJsdiv h3,
+.editorJsdiv h4,
+.editorJsdiv h5 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 1.25rem 0 0.75rem;
 }
 
 .editorJsdiv li {
-    margin-bottom: 10px;
-    list-style-type: disc;
-    margin-left: 25px;
-    padding-left: 10px;
+  margin-bottom: 10px;
+  list-style-type: disc;
+  margin-left: 25px;
+  padding-left: 10px;
 }

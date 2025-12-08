@@ -52,7 +52,7 @@ const SingleBlogCard = ({ blog }) => {
             <span className='bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded'>
                 {rating} / 5
             </span>
-            <span className='text-sm text-gray-500'>(Based on 2300 Reviews)</span>
+            <span className='text-xs md:text-sm  text-gray-500'>(Based on 2300 Reviews)</span>
         </div>
       </div>
     </div>
