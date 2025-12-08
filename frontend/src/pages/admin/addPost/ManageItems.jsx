@@ -106,6 +106,7 @@ const ManageItems = () => {
           <table className='min-w-max border-collapse w-full'>
             <thead className='bg-gray-50 sticky top-0 z-20'>
               <tr>
+                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>SI</th>
                 <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Title</th>
                 <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Category</th>
                 <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Author</th>
@@ -115,10 +116,13 @@ const ManageItems = () => {
             </thead>
             <tbody>
               {blogs && blogs.length > 0 ? (
-                blogs.map(blog => (
+                blogs.map((blog, index) => (
                   <tr key={blog._id} className='hover:bg-gray-50'>
                     <td className='px-4 py-2 border-b'>
-                      <div className='text-sm font-medium text-gray-900 truncate max-w-xs'>
+                      {(page - 1) * limit + index + 1}
+                    </td>
+                    <td className='px-4 py-2 border-b'>
+                      <div className='text-sm font-medium text-gray-900 truncate max-w-[150px]'>
                         {blog.title}
                       </div>
                     </td>
