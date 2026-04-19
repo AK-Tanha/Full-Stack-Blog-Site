@@ -1,67 +1,90 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import Img1 from "../../assets/hero carosol images/img1.jpg";
-import Img2 from "../../assets/hero carosol images/img2.jpg";
-import Img3 from "../../assets/hero carosol images/img3.jpg";
-import Img4 from "../../assets/hero carosol images/img4.jpg";
-import Img5 from "../../assets/hero carosol images/img5.jpg";
-
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css/navigation';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 const Hero = () => {
   return (
-    <div className='flex flex-col md:flex-row justify-between items-center gap-12'>
-        <div  className='md:w-1/2 w-full text-center md:text-left'>
-            <h1 className='md:text-5xl text-3xl font-bold md:leading-tight'>Welcome to <span className='text-blue-600'>Combat Corner</span> Bangladesh</h1>
-            <p className='py-4'>Dedicated to MMA and boxing in Bangladesh. Focused on the growth and recognition of combat sports across the nation. Get insights into local events, fighter journeys, behind-the-scenes moments, and developments shaping the scene.</p>
-        </div>
-
-        <div className='md:w-1/2 w-full mx-auto bg-white p-4 rounded-xl shadow-lg'>
-        <Swiper
+    <div className='relative w-full overflow-hidden rounded-2xl shadow-2xl bg-gray-900'>
+      <Swiper
         slidesPerView={1}
-        spaceBetween={30}
+        spaceBetween={0}
+        loop={true}
         pagination={{
-            clickable: true,
+          clickable: true,
+          dynamicBullets: true,
         }}
+        navigation={true}
         autoplay={{
-          delay: 2500,
+          delay: 4000,
           disableOnInteraction: false,
         }}
-        breakpoints={{
-          640: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 1,
-            spaceBetween: 40,
-          },
-          1024: {
-            slidesPerView: 1,
-            spaceBetween: 50,
-          },
-        }}
-        modules={[Pagination, Autoplay]}
-        className="mySwiper"
+        modules={[Pagination, Autoplay, Navigation]}
+        className="hero-swiper h-[400px] md:h-[550px]"
       >
-        <SwiperSlide>
-            <img src={Img1} alt="" className='w-full lg:h-[420px] sm:h-96 h-80 rounded-xl object-cover' />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={Img2} alt="" className='w-full lg:h-[420px] sm:h-96 h-80 rounded-xl object-cover' />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={Img3} alt="" className='w-full lg:h-[420px] sm:h-96 h-80 rounded-xl object-cover' />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={Img4} alt="" className='w-full lg:h-[420px] sm:h-96 h-80 rounded-xl object-cover' />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={Img5} alt="" className='w-full lg:h-[420px] sm:h-96 h-80 rounded-xl object-cover' />
-        </SwiperSlide>
+        {slides.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <div className='relative w-full h-full group'>
+              {/* Image with overlay */}
+              <img 
+                src={slide.img} 
+                alt={slide.title} 
+                className='w-full h-full object-cover transition-transform duration-700 group-hover:scale-105' 
+              />
+              <div className='absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent' />
+              
+              {/* Content */}
+              <div className='absolute bottom-0 left-0 p-6 md:p-12 w-full md:w-3/4 text-white'>
+                <span className='inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest uppercase bg-blue-600 rounded-full'>
+                  {slide.category}
+                </span>
+                <h2 className='text-3xl md:text-5xl font-extrabold mb-4 leading-tight drop-shadow-lg'>
+                  {slide.title}
+                </h2>
+                <p className='text-lg md:text-xl text-gray-200 mb-6 line-clamp-2 max-w-2xl'>
+                  {slide.description}
+                </p>
+                <button className='px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-blue-600 hover:text-white transition-colors duration-300 transform hover:-translate-y-1'>
+                  Read More
+                </button>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
-        </div>
+
+      {/* Modern CSS for Swiper customization */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .hero-swiper .swiper-button-next,
+        .hero-swiper .swiper-button-prev {
+          color: white;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(4px);
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          transition: all 0.3s ease;
+        }
+        .hero-swiper .swiper-button-next:after,
+        .hero-swiper .swiper-button-prev:after {
+          font-size: 18px;
+          font-weight: bold;
+        }
+        .hero-swiper .swiper-button-next:hover,
+        .hero-swiper .swiper-button-prev:hover {
+          background: #2563eb;
+        }
+        .hero-swiper .swiper-pagination-bullet {
+          background: white;
+          opacity: 0.5;
+        }
+        .hero-swiper .swiper-pagination-bullet-active {
+          background: #2563eb;
+          opacity: 1;
+          width: 24px;
+          border-radius: 4px;
+        }
+      `}} />
     </div>
   );
 };
