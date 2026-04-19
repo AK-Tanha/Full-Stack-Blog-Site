@@ -1,21 +1,9 @@
-import EditorJsHtml from "editorjs-html";
-import { formatDate } from '../../../utility/DateFormat';
-import { FaUserCircle, FaClock, FaRegStar, FaStar } from 'react-icons/fa';
+import { FaUserCircle, FaClock, FaStar, FaRegStar } from "react-icons/fa";
+import { formatDate } from "../../../utility/DateFormat";
 
-const parser = EditorJsHtml();
 
 const SingleBlogCard = ({ blog }) => {
   const { title, description, content, coverImg, category, rating, author, createdAt } = blog || {};
-
-  let htmlContent = '';
-  try {
-    if (content && typeof content === 'object' && Array.isArray(content.blocks)) {
-      const parsed = parser.parse(content);
-      htmlContent = Object.values(parsed).flat().join('');
-    }
-  } catch (err) {
-    console.error("EditorJS parsing error:", err);
-  }
 
   return (
     <div className='bg-white'>
@@ -52,11 +40,11 @@ const SingleBlogCard = ({ blog }) => {
           </div>
         </div>
 
-        {/* Blog Content - Reduced Top Padding */}
+        {/* Blog Content - Directly rendering HTML from Quill */}
         <div className='max-w-4xl mx-auto pb-16'>
           <div 
-            dangerouslySetInnerHTML={{ __html: htmlContent }} 
-            className='prose prose-lg md:prose-xl max-w-none text-gray-800 leading-relaxed font-medium space-y-8 editorJsdiv' 
+            dangerouslySetInnerHTML={{ __html: content }} 
+            className='prose prose-lg md:prose-xl max-w-none text-gray-800 leading-relaxed font-medium space-y-4 quill-content' 
           />
           
           {/* Article Footer / Rating */}
@@ -87,6 +75,12 @@ const SingleBlogCard = ({ blog }) => {
           </div>
         </div>
       </div>
+      
+      <style dangerouslySetInnerHTML={{ __html: `
+        .quill-content img { border-radius: 20px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); }
+        .quill-content h1, .quill-content h2, .quill-content h3 { font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; }
+        .quill-content blockquote { border-left: 8px solid #ea580c; background: #fff7ed; padding: 1.5rem 2rem; border-radius: 0 20px 20px 0; font-style: normal; font-weight: 700; color: #9a3412; }
+      `}} />
     </div>
   );
 };

@@ -12,6 +12,7 @@ const ManageUser = () => {
   useEffect(() => {
     getUsers()
   }, [getUsers])
+  console.log(usersData)
 
   const handleDeleteUser = async (userId) => {
     try {
