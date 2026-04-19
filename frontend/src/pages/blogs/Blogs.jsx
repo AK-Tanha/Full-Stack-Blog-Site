@@ -5,16 +5,16 @@ import { useFetchBlogsQuery } from '../../redux/features/blogs/blogsApi';
 const Blogs = ({ query }) => {
   const { data: blogs = [], error, isLoading } = useFetchBlogsQuery(query);
 
-  const renderBlogSection = (title, sectionBlogs, themeColor = 'blue') => {
+  const renderBlogSection = (title, sectionBlogs, themeColor = 'orange') => {
     if (!sectionBlogs || sectionBlogs.length === 0) return null;
     
     const featuredBlog = sectionBlogs[0];
-    const secondaryBlogs = sectionBlogs.slice(1, 5); // Take up to 4 more
+    const secondaryBlogs = sectionBlogs.slice(1, 5); 
     
     return (
       <div className="mb-24 last:mb-0">
         <div className="flex items-center gap-4 mb-10">
-          <h3 className={`text-3xl font-black uppercase tracking-tight text-gray-900 px-5 py-2 ${themeColor === 'red' ? 'bg-red-50 border-red-600' : 'bg-blue-50 border-blue-600'} border-l-8 shadow-sm`}>
+          <h3 className={`text-3xl font-black uppercase tracking-tight text-gray-900 px-5 py-2 ${themeColor === 'orange' ? 'bg-orange-50 border-orange-600' : 'bg-amber-50 border-amber-500'} border-l-8 shadow-sm`}>
             {title}
           </h3>
           <div className="h-[2px] flex-grow bg-gray-100"></div>
@@ -32,7 +32,7 @@ const Blogs = ({ query }) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               
               <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                <span className={`${themeColor === 'red' ? 'bg-red-600' : 'bg-blue-600'} text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-6 inline-block text-white shadow-lg`}>
+                <span className={`${themeColor === 'orange' ? 'bg-orange-600' : 'bg-amber-500'} text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-6 inline-block text-white shadow-lg`}>
                   Featured Story
                 </span>
                 <h2 className="text-3xl md:text-4xl font-black leading-tight mb-4 text-white drop-shadow-2xl group-hover:underline decoration-4 underline-offset-8">
@@ -58,10 +58,10 @@ const Blogs = ({ query }) => {
                   <img src={blog.coverImg} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 </div>
                 <div className="flex flex-col justify-center py-1">
-                  <span className={`text-[10px] font-black uppercase tracking-[0.15em] ${themeColor === 'red' ? 'text-red-600' : 'text-blue-600'} mb-2`}>
+                  <span className={`text-[10px] font-black uppercase tracking-[0.15em] ${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} mb-2`}>
                     {blog.category || "General"}
                   </span>
-                  <h4 className="text-lg font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors duration-300">
+                  <h4 className={`text-lg font-bold text-gray-900 line-clamp-2 leading-tight group-hover:${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} transition-colors duration-300`}>
                     {blog.title}
                   </h4>
                   <div className="mt-3 flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
@@ -94,7 +94,7 @@ const Blogs = ({ query }) => {
       {/* Status messages */}
       {isLoading && <Loading />}
       {error && (
-        <div className="bg-red-50 text-red-600 p-8 rounded-2xl border border-red-100 text-center shadow-inner">
+        <div className="bg-orange-50 text-orange-600 p-8 rounded-2xl border border-orange-100 text-center shadow-inner">
           <p className="font-bold text-lg mb-2">Oops! Something went wrong.</p>
           <p className="text-sm opacity-80">{error?.data?.message || error?.error || "An error occurred while fetching blogs."}</p>
         </div>
@@ -107,11 +107,11 @@ const Blogs = ({ query }) => {
       )}
 
       {/* Latest Blogs Section */}
-      {!isLoading && blogs.length > 0 && renderBlogSection("Latest Stories", blogs.slice(0, 5), 'red')}
+      {!isLoading && blogs.length > 0 && renderBlogSection("Latest Stories", blogs.slice(0, 5), 'orange')}
 
       {/* Category-wise Blog Sections */}
       {!isLoading && Object.entries(groupedBlogs).map(([catName, catBlogs]) => (
-        renderBlogSection(catName, catBlogs, 'blue')
+        renderBlogSection(catName, catBlogs, 'amber')
       ))}
     </div>
   );

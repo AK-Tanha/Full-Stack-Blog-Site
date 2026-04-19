@@ -61,13 +61,8 @@ const Navbar = () => {
 
       <nav className='container mx-auto flex justify-between items-center px-5 py-4'>
         {/* Logo */}
-        <Link to="/" className='flex items-center gap-2 group'>
-          <div className='bg-blue-600 text-white px-3 py-1 rounded-lg font-black text-xl italic group-hover:bg-blue-700 transition-colors'>
-            CCB
-          </div>
-          <span className='text-xl font-black tracking-tighter uppercase hidden sm:block'>
-            Combat <span className='text-blue-600'>Corner</span>
-          </span>
+        <Link to="/" className='flex items-center group'>
+          <img src="/Logo.png" alt="Combat Corner Logo" className='h-12 w-auto object-contain' />
         </Link>
 
         {/* Desktop Menu */}
@@ -77,8 +72,8 @@ const Navbar = () => {
               <NavLink
                 to={list.path}
                 className={({ isActive }) =>
-                  `text-sm font-bold uppercase tracking-widest transition-all duration-300 relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 after:transition-all hover:after:w-full ${
-                    isActive ? "text-blue-600 after:w-full" : "text-gray-900 hover:text-blue-600"
+                  `text-xs font-black uppercase tracking-[0.15em] transition-all duration-300 relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-600 after:transition-all hover:after:w-full ${
+                    isActive ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600"
                   }`
                 }>
                 {list.name}
@@ -91,7 +86,7 @@ const Navbar = () => {
           {user ? (
             <li className='flex items-center gap-4'>
               <Link to={user.role === 'admin' ? "/dashboard" : "/profile"} className='flex items-center gap-2 group'>
-                <img src={avatarImg} alt="avatar" className='w-9 h-9 rounded-full border-2 border-transparent group-hover:border-blue-600 transition-all' />
+                <img src={avatarImg} alt="avatar" className='w-9 h-9 rounded-full border-2 border-transparent group-hover:border-orange-600 transition-all' />
                 <span className='text-sm font-bold text-gray-900'>{user.username}</span>
               </Link>
               <button
@@ -104,7 +99,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/log-in"
-                className='bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200'>
+                className='bg-orange-600 text-white px-8 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-orange-700 transition-all shadow-lg shadow-orange-100 hover:shadow-orange-200'>
                 Sign In
               </NavLink>
             </li>
@@ -125,22 +120,20 @@ const Navbar = () => {
       <div className={`lg:hidden fixed inset-0 z-[60] transition-all duration-500 ${isMenuOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}>
         <div className='absolute inset-0 bg-black/60 backdrop-blur-sm' onClick={() => setIsMenuOpen(false)} />
         <div className={`absolute right-0 top-0 h-full w-4/5 max-w-sm bg-white shadow-2xl transition-transform duration-500 ease-out transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className='p-6 flex flex-col h-full'>
-            <div className='flex items-center justify-between mb-10'>
-              <span className='text-xl font-black uppercase tracking-tighter'>
-                Combat <span className='text-blue-600'>Corner</span>
-              </span>
-              <button onClick={() => setIsMenuOpen(false)} className='p-2 bg-gray-100 rounded-full'><IoCloseSharp /></button>
+          <div className='p-8 flex flex-col h-full'>
+            <div className='flex items-center justify-between mb-12'>
+              <img src="/Logo.png" alt="Combat Corner Logo" className='h-10 w-auto object-contain' />
+              <button onClick={() => setIsMenuOpen(false)} className='p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors'><IoCloseSharp /></button>
             </div>
 
-            <ul className='flex flex-col gap-6 mb-auto'>
+            <ul className='flex flex-col gap-8 mb-auto'>
               {navLists.map((list, index) => (
                 <li key={index}>
                   <NavLink
                     to={list.path}
                     onClick={() => setIsMenuOpen(false)}
                     className={({ isActive }) =>
-                      `text-lg font-bold uppercase tracking-widest ${isActive ? "text-blue-600" : "text-gray-900"}`
+                      `text-lg font-black uppercase tracking-widest ${isActive ? "text-orange-600" : "text-gray-900"}`
                     }>
                     {list.name}
                   </NavLink>
@@ -150,23 +143,23 @@ const Navbar = () => {
 
             <div className='mt-10 pt-10 border-t border-gray-100'>
               {user ? (
-                <div className='flex flex-col gap-4'>
-                  <div className='flex items-center gap-3'>
-                    <img src={avatarImg} alt="avatar" className='w-12 h-12 rounded-full border-2 border-blue-600' />
+                <div className='flex flex-col gap-6'>
+                  <div className='flex items-center gap-4'>
+                    <img src={avatarImg} alt="avatar" className='w-14 h-14 rounded-full border-2 border-orange-600 shadow-md' />
                     <div>
-                      <p className='font-bold text-gray-900'>{user.username}</p>
-                      <p className='text-xs text-gray-500 capitalize'>{user.role}</p>
+                      <p className='font-black text-gray-900 uppercase tracking-tight'>{user.username}</p>
+                      <p className='text-xs text-orange-600 font-bold uppercase tracking-widest'>{user.role}</p>
                     </div>
                   </div>
-                  <Link to={user.role === 'admin' ? "/dashboard" : "/profile"} className='w-full py-3 bg-gray-900 text-white rounded-xl font-bold text-center' onClick={() => setIsMenuOpen(false)}>
+                  <Link to={user.role === 'admin' ? "/dashboard" : "/profile"} className='w-full py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm text-center shadow-lg' onClick={() => setIsMenuOpen(false)}>
                     Go to Dashboard
                   </Link>
-                  <button onClick={hanDelLogout} className='w-full py-3 border border-red-200 text-red-600 rounded-xl font-bold'>
+                  <button onClick={hanDelLogout} className='w-full py-4 border-2 border-red-50 text-red-600 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-red-50 transition-colors'>
                     Log Out
                   </button>
                 </div>
               ) : (
-                <NavLink to="/log-in" className='w-full py-4 bg-blue-600 text-white rounded-xl font-bold text-center block shadow-xl shadow-blue-100' onClick={() => setIsMenuOpen(false)}>
+                <NavLink to="/log-in" className='w-full py-5 bg-orange-600 text-white rounded-2xl font-black uppercase tracking-widest text-center block shadow-2xl shadow-orange-100' onClick={() => setIsMenuOpen(false)}>
                   Sign In
                 </NavLink>
               )}

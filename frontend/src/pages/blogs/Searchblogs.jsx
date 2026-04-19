@@ -15,7 +15,7 @@ const Searchblogs = ({ search, handleSearchChange, handleSearch, category, handl
       <div className="flex flex-col md:flex-row items-stretch">
         {/* Search Input Section */}
         <div className="flex-grow flex items-center px-6 py-4 border-b md:border-b-0 md:border-r border-gray-100 group">
-          <FiSearch className="text-gray-400 group-focus-within:text-blue-600 transition-colors w-5 h-5" />
+          <FiSearch className="text-gray-400 group-focus-within:text-orange-600 transition-colors w-5 h-5" />
           <input
             value={search}
             onChange={handleSearchChange}
@@ -45,7 +45,7 @@ const Searchblogs = ({ search, handleSearchChange, handleSearch, category, handl
         {/* Action Button */}
         <button
           onClick={handleSearch}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-tighter px-10 py-4 transition-all active:scale-95"
+          className="bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-tighter px-10 py-4 transition-all active:scale-95"
         >
           Search
         </button>
