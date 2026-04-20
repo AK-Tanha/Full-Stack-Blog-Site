@@ -56,6 +56,14 @@ export const blogApi = createApi({
       }),
       invalidatesTags: ['Blogs'],
     }),
+
+    uploadImage: builder.mutation({
+      query: (formData) => ({
+        url: '/upload',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
 });
 
@@ -65,5 +73,6 @@ export const {
   useFetchRelatedBlogsQuery,
   useCreateBlogMutation,
   useUpdateBlogMutation,
-  useDeleteBlogMutation
+  useDeleteBlogMutation,
+  useUploadImageMutation
 } = blogApi;

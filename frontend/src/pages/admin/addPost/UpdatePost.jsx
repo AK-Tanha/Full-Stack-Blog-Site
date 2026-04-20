@@ -2,11 +2,12 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loading from '../../../Component/Loading'
-import { useFetchBlogsByIDQuery, useUpdateBlogMutation } from '../../../redux/features/blogs/blogsApi'
+import { useFetchBlogsByIDQuery, useUpdateBlogMutation, useUploadImageMutation } from '../../../redux/features/blogs/blogsApi'
 import { useFetchCategoriesQuery } from '../../../redux/features/category/categoryApi'
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { FaFileAlt, FaArrowLeft } from 'react-icons/fa'
+import { HiOutlineCloudUpload, HiOutlinePhotograph, HiOutlineX } from 'react-icons/hi'
 
 const UpdatePost = () => {
   const { id } = useParams()
@@ -14,6 +15,7 @@ const UpdatePost = () => {
   const { user } = useSelector((state) => state.auth)
 
   const [updateBlog, { isLoading: isUpdating }] = useUpdateBlogMutation()
+  const [uploadImage, { isLoading: isUploading }] = useUploadImageMutation()
   const { data: blogData, isLoading: isFetching } = useFetchBlogsByIDQuery(id)
   const { data: categories } = useFetchCategoriesQuery()
   const [showFull, setShowFull] = useState(false);
@@ -77,23 +79,36 @@ const UpdatePost = () => {
           content: initialContent || ''
         });
         setHasInitialized(true);
-        console.log("UpdatePost: Form initialized with title:", actualPost.title);
       }
     }
   }, [blogData, hasInitialized]);
-
-  // Debug log for state changes
-  useEffect(() => {
-    if (hasInitialized) {
-      console.log("UpdatePost: Form State Updated ->", formData.title);
-    }
-  }, [formData.title, hasInitialized]);
 
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }))
+  }
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const imageFormData = new FormData()
+    imageFormData.append('image', file)
+
+    try {
+      const response = await uploadImage(imageFormData).unwrap()
+      setFormData(prev => ({
+        ...prev,
+        coverImg: response.url
+      }))
+      setSuccess('Image updated successfully!')
+      setTimeout(() => setSuccess(''), 3000)
+    } catch (err) {
+      console.error('Failed to upload image:', err)
+      setError('Failed to upload image. Please try again.')
+    }
   }
 
   const handleContentChange = (value) => {
@@ -240,33 +255,67 @@ const UpdatePost = () => {
           </div>
         </div>
 
-        {/* Cover Image URL */}
+        {/* Cover Image Upload */}
         <div>
           <label className="block text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
-            Cover Image URL
+            Cover Image <span className='text-orange-600'>*</span>
           </label>
-          <div className="flex gap-4">
-            <input
-              type="url"
-              name="coverImg"
-              value={formData.coverImg}
-              onChange={handleChange}
-              className="flex-grow px-6 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-medium"
-              placeholder="https://images.unsplash.com/..."
-            />
-            {formData.coverImg && (
-              <div 
-                className="w-14 h-14 rounded-2xl overflow-hidden cursor-pointer border-2 border-orange-100 shadow-lg hover:scale-110 transition-transform"
-                onClick={() => setShowFull(true)}
-              >
-                <img src={formData.coverImg} alt="Preview" className="w-full h-full object-cover" />
+          
+          {formData.coverImg ? (
+            <div className="relative group rounded-3xl overflow-hidden border-2 border-orange-100 shadow-xl aspect-video md:aspect-[21/9]">
+              <img src={formData.coverImg} alt="Cover Preview" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                <button 
+                  type="button"
+                  onClick={() => setShowFull(true)}
+                  className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all"
+                >
+                  <HiOutlinePhotograph className="text-2xl" />
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setFormData(prev => ({...prev, coverImg: ''}))}
+                  className="p-3 bg-rose-500/80 backdrop-blur-md rounded-full text-white hover:bg-rose-600 transition-all"
+                >
+                  <HiOutlineX className="text-2xl" />
+                </button>
               </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="relative">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+                id="coverImageUpload"
+                disabled={isUploading}
+              />
+              <label
+                htmlFor="coverImageUpload"
+                className={`flex flex-col items-center justify-center w-full aspect-video md:aspect-[21/9] border-4 border-dashed border-gray-100 rounded-[32px] hover:border-orange-200 hover:bg-orange-50/30 transition-all cursor-pointer group ${isUploading ? 'opacity-50 cursor-wait' : ''}`}
+              >
+                {isUploading ? (
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin"></div>
+                    <p className="font-black text-gray-400 uppercase tracking-widest text-xs">Uploading Magic...</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <HiOutlineCloudUpload className="text-4xl text-gray-300 group-hover:text-orange-500 transition-colors" />
+                    </div>
+                    <p className="font-black text-gray-900 uppercase tracking-[0.2em] text-sm">Update your visual or Click</p>
+                    <p className="text-xs text-gray-400 mt-2 font-medium tracking-wide">Supports JPG, PNG, WEBP (Max 5MB)</p>
+                  </>
+                )}
+              </label>
+            </div>
+          )}
           
           {showFull && (
-            <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[100] p-10" onClick={() => setShowFull(false)}>
-              <img src={formData.coverImg} alt="Full Preview" className="max-w-full max-h-full rounded-3xl shadow-2xl" />
+            <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-10 backdrop-blur-lg" onClick={() => setShowFull(false)}>
+              <img src={formData.coverImg} alt="Full Preview" className="max-w-full max-h-full rounded-3xl shadow-2xl animate-in fade-in zoom-in duration-300" />
             </div>
           )}
         </div>

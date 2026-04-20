@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import Loading from '../../../Component/Loading'
 import { useDeleteBlogMutation, useFetchBlogsQuery } from '../../../redux/features/blogs/blogsApi'
 import { useFetchCategoriesQuery } from '../../../redux/features/category/categoryApi'
-//import { EyeIcon } from 'lucide-react'
+import { HiOutlineSearch, HiOutlinePencilAlt, HiOutlineTrash, HiOutlineEye, HiOutlinePlus, HiChevronLeft, HiChevronRight } from 'react-icons/hi'
 
 const ManageItems = () => {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
   const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(10) // default items per page
+  const [limit, setLimit] = useState(10)
   const [deleteConfirm, setDeleteConfirm] = useState(null)
 
   const { data: categories } = useFetchCategoriesQuery()
@@ -21,11 +21,11 @@ const ManageItems = () => {
   })
   const [deleteBlog] = useDeleteBlogMutation()
 
-
   const handleDelete = async (id) => {
     try {
       await deleteBlog(id).unwrap()
       setDeleteConfirm(null)
+      // You could use a toast library here for better UX
       alert('Blog deleted successfully!')
     } catch (err) {
       console.error('Failed to delete blog:', err)
@@ -34,187 +34,245 @@ const ManageItems = () => {
   }
 
   if (isLoading) return <Loading />
-  if (error) return <div className="text-center py-8 text-red-500">Error loading blogs</div>
+  if (error) return (
+    <div className="flex flex-col items-center justify-center min-h-[400px] text-red-500 bg-red-50 rounded-xl border border-red-100 m-6">
+      <p className="text-lg font-semibold">Error loading blogs</p>
+      <p className="text-sm opacity-70">Please check your connection or try again later.</p>
+    </div>
+  )
 
   return (
-    // Full page fixed height
-    <div className="h-screen flex flex-col max-w-7xl mx-auto bg-white shadow-lg rounded-lg p-6">
-
-      {/* Header */}
-      <div className='flex flex-col md:flex-row justify-between items-center border-b pb-4'>
-        <h2 className='text-3xl font-bold text-gray-800'>Manage Blog Posts</h2>
-        <Link
-          to='/dashboard/add-new-post'
-          className='bg-[#1E73BE] text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition duration-200 flex items-center gap-2 font-medium mt-4 md:mt-0'
-        >
-          Add New Post
-        </Link>
-      </div>
-
-      <div className='bg-gray-50 p-4 rounded-lg border border-gray-100 my-4'>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-
-          {/* Search */}
+    <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-6">
+        
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <label className='block text-sm font-medium text-gray-600 mb-2'>Search</label>
-            <input
-              type="text"
-              placeholder="Search..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
-            />
+            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
+              Manage Content
+            </h1>
+            <p className="text-gray-500 mt-1">Review, edit, and organize your blog posts</p>
           </div>
-
-          {/* Category Filter */}
-          <div>
-            <label className='block text-sm font-medium text-gray-600 mb-2'>Category</label>
-            <select
-              value={category}
-              onChange={e => setCategory(e.target.value)}
-              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
-            >
-              <option value=''>All Categories</option>
-              {categories?.map(cat => (
-                <option key={cat._id} value={cat.name}>{cat.name}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Items per page */}
-          <div>
-            <label className='block text-sm font-medium text-gray-600 mb-2'>Items per page</label>
-            <select
-              value={limit}
-              onChange={(e) => { setLimit(Number(e.target.value)); setPage(1) }}
-              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-            </select>
-          </div>
-
+          <Link
+            to="/dashboard/add-new-post"
+            className="group flex items-center gap-2 bg-[#1E73BE] hover:bg-[#165a96] text-white px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg active:scale-95"
+          >
+            <HiOutlinePlus className="text-xl group-hover:rotate-90 transition-transform duration-300" />
+            <span>Add New Post</span>
+          </Link>
         </div>
-      </div>
 
+        {/* Filters Card */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Search */}
+            <div className="relative">
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Search Posts</label>
+              <div className="relative">
+                <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                <input
+                  type="text"
+                  placeholder="Search by title..."
+                  value={search}
+                  onChange={e => { setSearch(e.target.value); setPage(1); }}
+                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none text-gray-700"
+                />
+              </div>
+            </div>
 
-      {/* Scrollable Table */}
-      <div className='flex-1 overflow-auto'>
-        <div className='overflow-x-auto overflow-y-auto max-h-[500px]'>
-          <table className='min-w-max border-collapse w-full'>
-            <thead className='bg-gray-50 sticky top-0 z-20'>
-              <tr>
-                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>SI</th>
-                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Title</th>
-                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Category</th>
-                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Author</th>
-                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Created</th>
-                <th className='px-4 py-2 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider'>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {blogs && blogs.length > 0 ? (
-                blogs.map((blog, index) => (
-                  <tr key={blog._id} className='hover:bg-gray-50'>
-                    <td className='px-4 py-2 border-b'>
-                      {(page - 1) * limit + index + 1}
-                    </td>
-                    <td className='px-4 py-2 border-b'>
-                      <div className='text-sm font-medium text-gray-900 truncate max-w-[150px]'>
-                        {blog.title}
-                      </div>
-                    </td>
+            {/* Category Filter */}
+            <div>
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Filter Category</label>
+              <select
+                value={category}
+                onChange={e => { setCategory(e.target.value); setPage(1); }}
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none text-gray-700 appearance-none cursor-pointer"
+              >
+                <option value="">All Categories</option>
+                {categories?.map(cat => (
+                  <option key={cat._id} value={cat.name}>{cat.name}</option>
+                ))}
+              </select>
+            </div>
 
-                    <td className='px-4 py-2 border-b'>{blog.category}</td>
-                    <td className='px-4 py-2 border-b'>{blog.author?.email || 'Unknown'}</td>
-                    <td className='px-4 py-2 border-b'>{new Date(blog.createdAt).toLocaleDateString()}</td>
-                    <td className='px-4 py-2 border-b w-32'>
-                      <div className='flex items-center justify-start gap-2'>
-                        {/* View */}
-                        <button
-                          onClick={() => window.open(`/blogs/${blog._id}`, '_blank')}
-                          className='text-green-600 hover:text-green-900'
-                          title='View'
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                            <circle cx="12" cy="12" r="3" />
-                          </svg>
-                        </button>
+            {/* Items per page */}
+            <div>
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Show Entries</label>
+              <select
+                value={limit}
+                onChange={(e) => { setLimit(Number(e.target.value)); setPage(1) }}
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none text-gray-700 cursor-pointer"
+              >
+                <option value={5}>5 per page</option>
+                <option value={10}>10 per page</option>
+                <option value={20}>20 per page</option>
+                <option value={50}>50 per page</option>
+              </select>
+            </div>
+          </div>
+        </div>
 
-                        {/* Edit */}
-                        <Link
-                          to={`/dashboard/update-items/${blog._id}`}
-                          title='Edit'
-                          className='text-indigo-600 hover:text-indigo-900'
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1-9l3 3-8 8H6v-3l8-8z" />
-                          </svg>
-                        </Link>
-
-                        {/* Delete */}
-                        <button
-                          onClick={() => setDeleteConfirm(blog._id)}
-                          title='Delete'
-                          className='text-red-500 hover:text-red-700'
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan='5' className='px-4 py-8 text-center text-gray-500'>No blogs found</td>
+        {/* Table Section */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-50/50 border-b border-gray-100">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">#</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Post Title</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Category</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Author Info</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Date Published</th>
+                  <th className="px-6 py-4 text-right text-xs font-bold text-gray-400 uppercase tracking-widest">Actions</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {blogs && blogs.length > 0 ? (
+                  blogs.map((blog, index) => (
+                    <tr key={blog._id} className="hover:bg-blue-50/30 transition-colors group">
+                      <td className="px-6 py-4">
+                        <span className="text-sm font-medium text-gray-400">
+                          {((page - 1) * limit + index + 1).toString().padStart(2, '0')}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-semibold text-gray-800 line-clamp-1 max-w-[250px] group-hover:text-blue-600 transition-colors">
+                          {blog.title}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                          {blog.category}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600">
+                        <div className="flex flex-col">
+                          <span className="font-medium">{blog.author?.username || 'Admin'}</span>
+                          <span className="text-[10px] text-gray-400 truncate max-w-[150px]">{blog.author?.email}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        })}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => window.open(`/blogs/${blog._id}`, '_blank')}
+                            className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                            title="Preview Post"
+                          >
+                            <HiOutlineEye className="text-xl" />
+                          </button>
+                          <Link
+                            to={`/dashboard/update-items/${blog._id}`}
+                            className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                            title="Edit Post"
+                          >
+                            <HiOutlinePencilAlt className="text-xl" />
+                          </Link>
+                          <button
+                            onClick={() => setDeleteConfirm(blog._id)}
+                            className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                            title="Delete Post"
+                          >
+                            <HiOutlineTrash className="text-xl" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="px-6 py-12 text-center">
+                      <div className="flex flex-col items-center justify-center space-y-3">
+                        <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center">
+                          <HiOutlineSearch className="text-3xl text-gray-300" />
+                        </div>
+                        <p className="text-gray-500 font-medium text-lg">No posts found</p>
+                        <p className="text-gray-400 text-sm">Try adjusting your filters or search keywords</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination */}
+          <div className="px-6 py-4 bg-gray-50/30 border-t border-gray-100 flex items-center justify-between">
+            <div className="text-sm text-gray-500">
+              Showing <span className="font-semibold text-gray-900">{blogs?.length || 0}</span> entries
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+              >
+                <HiChevronLeft className="text-lg" />
+                <span>Previous</span>
+              </button>
+              
+              <div className="flex items-center px-4 py-1.5 bg-white border border-gray-200 rounded-lg text-sm font-semibold text-gray-700">
+                Page {page}
+              </div>
+
+              <button
+                disabled={!blogs || blogs.length < limit}
+                onClick={() => setPage(page + 1)}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+              >
+                <span>Next</span>
+                <HiChevronRight className="text-lg" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-
-
-      {/* Pagination */}
-      <div className='flex justify-between items-center mt-4'>
-        <button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-          className='px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-40'
-        >
-          Prev
-        </button>
-        <span>Page {page}</span>
-        <button
-          disabled={!blogs || blogs.length < limit}
-          onClick={() => setPage(page + 1)}
-          className='px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-40'
-        >
-          Next
-        </button>
-      </div>
-
-      {/* Delete Modal */}
+      {/* Delete Confirmation Modal */}
       {deleteConfirm && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-          <div className='bg-white p-6 rounded-lg shadow-lg max-w-sm w-full'>
-            <h3 className='text-lg font-bold mb-4'>Confirm Delete</h3>
-            <p className='mb-6'>Are you sure you want to delete this blog? This cannot be undone.</p>
-            <div className='flex justify-end gap-4'>
-              <button onClick={() => setDeleteConfirm(null)} className='px-4 py-2 bg-gray-200 rounded-lg'>Cancel</button>
-              <button onClick={() => handleDelete(deleteConfirm)} className='px-4 py-2 bg-red-600 text-white rounded-lg'>Delete</button>
+        <div className="fixed inset-0 z-[100] overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div 
+              className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" 
+              onClick={() => setDeleteConfirm(null)}
+            />
+            
+            <div className="relative transform overflow-hidden rounded-2xl bg-white p-6 text-left shadow-2xl transition-all w-full max-w-md border border-gray-100">
+              <div className="flex items-center justify-center w-14 h-14 bg-rose-50 rounded-full mb-4 mx-auto">
+                <HiOutlineTrash className="text-3xl text-rose-500" />
+              </div>
+              
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Blog Post?</h3>
+                <p className="text-gray-500 text-sm mb-6 leading-relaxed">
+                  Are you sure you want to delete this post? This action cannot be undone and will permanently remove the content from our servers.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => setDeleteConfirm(null)}
+                  className="flex-1 px-4 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl font-semibold transition-all border border-gray-200"
+                >
+                  Cancel, Keep it
+                </button>
+                <button
+                  onClick={() => handleDelete(deleteConfirm)}
+                  className="flex-1 px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-semibold shadow-lg shadow-rose-200 transition-all active:scale-95"
+                >
+                  Yes, Delete Post
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
-
     </div>
   )
 }
