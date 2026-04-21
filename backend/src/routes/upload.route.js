@@ -32,7 +32,9 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     // Upload to Vercel Blob
     console.log('Attempting Vercel Blob upload...');
     const blob = await put(req.file.originalname, req.file.buffer, {
-      access: 'public',
+      // NOTE: If your store is configured as 'private', you MUST use 'private' here.
+      // However, for blog images to be visible to everyone, a 'public' store is recommended.
+      access: 'private', 
       token: process.env.BLOB_READ_WRITE_TOKEN
     });
 
