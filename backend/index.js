@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 require('dotenv').config()
 const app = express()
+app.set('trust proxy', true);
 const port = process.env.PORT || 5001;
 
 //parse option
