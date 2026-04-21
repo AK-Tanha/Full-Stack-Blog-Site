@@ -3,8 +3,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const blogApi = createApi({
   reducerPath: 'blogApi',
   baseQuery: fetchBaseQuery({
-    //baseUrl: 'http://localhost:5001/api/',
-    baseUrl: 'https://full-stack-blog-site-ontq.vercel.app/api/',
+    baseUrl: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:5001/api/' 
+      : 'https://full-stack-blog-site-ontq.vercel.app/api/',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
@@ -23,17 +24,17 @@ export const blogApi = createApi({
     }),
 
     fetchBlogsByID: builder.query({
-      query: (id) => `/blogs/${id}`,
+      query: (id) => `blogs/${id}`,
       providesTags: (result, error, id) => [{ type: 'Blogs', id }],
     }),
 
     fetchRelatedBlogs: builder.query({
-      query: (id) => `/blogs/related/${id}`,
+      query: (id) => `blogs/related/${id}`,
     }),
 
     createBlog: builder.mutation({
       query: (newBlog) => ({
-        url: '/blogs/create-post',
+        url: 'blogs/create-post',
         method: 'POST',
         body: newBlog,
       }),
@@ -42,7 +43,7 @@ export const blogApi = createApi({
 
     updateBlog: builder.mutation({
       query: ({ id, ...updatedBlog }) => ({
-        url: `/blogs/update-post/${id}`,
+        url: `blogs/update-post/${id}`,
         method: 'PATCH',
         body: updatedBlog,
       }),
@@ -51,7 +52,7 @@ export const blogApi = createApi({
 
     deleteBlog: builder.mutation({
       query: (id) => ({
-        url: `/blogs/${id}`,
+        url: `blogs/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Blogs'],
@@ -59,7 +60,7 @@ export const blogApi = createApi({
 
     uploadImage: builder.mutation({
       query: (formData) => ({
-        url: '/upload',
+        url: 'upload',
         method: 'POST',
         body: formData,
       }),
