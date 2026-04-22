@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getBaseUrl } from '../../../utility/baseUrl';
 
 export const blogApi = createApi({
   reducerPath: 'blogApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-      ? 'http://localhost:5001/api/' 
-      : 'https://full-stack-blog-site-ontq.vercel.app/api/',
+    baseUrl: `${getBaseUrl()}/api/`,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;

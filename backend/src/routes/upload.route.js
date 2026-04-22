@@ -30,24 +30,27 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     }
 
     // Upload to Vercel Blob (Public Access)
-    console.log('Attempting Vercel Blob upload...');
+    console.log('Attempting Vercel Blob upload for:', req.file.originalname);
     const blob = await put(req.file.originalname, req.file.buffer, {
       access: 'public',
+      contentType: req.file.mimetype, // Explicitly set content type
+      addRandomSuffix: true,         // Ensure unique filenames
       token: process.env.BLOB_READ_WRITE_TOKEN
     });
 
     console.log('Vercel Blob Upload Success:', blob.url);
 
     res.status(200).send({
-      message: 'Image uploaded successfully to Vercel Blob',
+      message: 'Image uploaded successfully',
       url: blob.url,
     });
   } catch (error) {
-    console.error('Vercel Blob upload error details:', error);
+    console.error('CRITICAL: Vercel Blob upload failed:', error);
     res.status(500).send({ 
       message: 'Failed to upload image', 
       error: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      code: error.code, // Vercel Blob often provides a code
+      details: 'Check if BLOB_READ_WRITE_TOKEN is correctly set in Vercel dashboard'
     });
   }
 });

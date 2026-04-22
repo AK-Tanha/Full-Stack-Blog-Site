@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getBaseUrl } from '../../../utility/baseUrl';
 
 export const categoryApi = createApi({
     reducerPath: 'categoryApi',
     baseQuery: fetchBaseQuery({
-        //baseUrl: 'http://localhost:5001/api/',
-        baseUrl: 'https://full-stack-blog-site-ontq.vercel.app/api/',
+        baseUrl: `${getBaseUrl()}/api/`,
         credentials: 'include',
         prepareHeaders: (headers) => {
             const token = localStorage.getItem('token');

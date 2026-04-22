@@ -19,7 +19,8 @@ app.use(cors({
       'http://127.0.0.1:3000',
       'http://127.0.0.1:5173',
       'http://127.0.0.1:5174',
-      'https://combablogs.vercel.app'
+      'https://combablogs.vercel.app',
+      'https://combatcornerbd.vercel.app'
     ];
     
     // Check if origin is in allowed list or is a vercel.app domain

@@ -5,14 +5,14 @@ import { useFetchBlogsQuery } from '../../redux/features/blogs/blogsApi';
 const Blogs = ({ query }) => {
   const { data: blogs = [], error, isLoading } = useFetchBlogsQuery(query);
 
-  const renderBlogSection = (title, sectionBlogs, themeColor = 'orange') => {
+  const renderBlogSection = (title, sectionBlogs, themeColor = 'orange', key) => {
     if (!sectionBlogs || sectionBlogs.length === 0) return null;
     
     const featuredBlog = sectionBlogs[0];
     const secondaryBlogs = sectionBlogs.slice(1, 5); 
     
     return (
-      <div className="mb-24 last:mb-0">
+      <div className="mb-24 last:mb-0" key={key}>
         <div className="flex items-center gap-4 mb-10">
           <h3 className={`text-3xl font-black uppercase tracking-tight text-gray-900 px-5 py-2 ${themeColor === 'orange' ? 'bg-orange-50 border-orange-600' : 'bg-amber-50 border-amber-500'} border-l-8 shadow-sm`}>
             {title}
@@ -111,7 +111,7 @@ const Blogs = ({ query }) => {
 
       {/* Category-wise Blog Sections */}
       {!isLoading && Object.entries(groupedBlogs).map(([catName, catBlogs]) => (
-        renderBlogSection(catName, catBlogs, 'amber')
+        renderBlogSection(catName, catBlogs, 'amber', catName)
       ))}
     </div>
   );

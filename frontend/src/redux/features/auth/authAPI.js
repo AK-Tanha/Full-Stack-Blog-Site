@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-
+import { getBaseUrl } from '../../../utility/baseUrl';
 
 const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
-        //baseUrl: "http://localhost:5001/api/auth",
-        baseUrl: "https://full-stack-blog-site-ontq.vercel.app/api/auth",
+        baseUrl: `${getBaseUrl()}/api/auth`,
         credentials: "include"
     }),
 
