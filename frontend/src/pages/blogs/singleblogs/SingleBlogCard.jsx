@@ -8,19 +8,19 @@ const SingleBlogCard = ({ blog }) => {
   return (
     <div className='bg-white'>
       {/* Article Cover Image */}
-      <div className="w-full overflow-hidden rounded-[32px] shadow-sm mb-6">
+      <div className="w-full overflow-hidden rounded-2xl md:rounded-[32px] shadow-sm mb-6">
         <img src={coverImg} alt={title} className="w-full h-auto object-cover max-h-[700px]" />
       </div>
 
-      <div className="px-6 md:px-12">
+      <div className="px-4 md:px-12">
         {/* Article Header Info - Tightened Spacing */}
         <div className="max-w-4xl mb-8">
           {category && (
-            <span className="bg-orange-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-full mb-4 inline-block shadow-lg">
+            <span className="bg-orange-600 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-4 md:px-5 py-2 rounded-full mb-4 inline-block shadow-lg">
               {category}
             </span>
           )}
-          <h1 className='text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-[1.1] tracking-tight'>
+          <h1 className='text-2xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 md:mb-6 leading-[1.1] tracking-tight'>
             {title}
           </h1>
           

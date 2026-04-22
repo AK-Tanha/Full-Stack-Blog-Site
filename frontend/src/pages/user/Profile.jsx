@@ -112,18 +112,18 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="pt-24 pb-12 px-12">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+          <div className="pt-24 pb-12 px-6 md:px-12">
+            <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8 text-center md:text-left">
               <div className="flex-1 space-y-2">
-                <h1 className="text-4xl font-black text-gray-900 uppercase tracking-tight">{user?.username}</h1>
-                <p className="text-gray-400 font-bold uppercase tracking-[0.2em] text-xs">
+                <h1 className="text-2xl md:text-4xl font-black text-gray-900 uppercase tracking-tight">{user?.username}</h1>
+                <p className="text-gray-400 font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs">
                    {user?.role} • Member since {new Date(user?.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </p>
               </div>
               
-              <div className="bg-indigo-50 px-6 py-3 rounded-2xl border border-indigo-100">
+              <div className="bg-indigo-50 px-6 py-3 rounded-2xl border border-indigo-100 w-full md:w-auto">
                 <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-1">Status</p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center md:justify-start gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                   <span className="text-sm font-black text-indigo-900 uppercase">Active Account</span>
                 </div>
@@ -167,7 +167,7 @@ const Profile = () => {
                   <button
                     type="submit"
                     disabled={isUpdating || isUploading}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-[24px] font-black uppercase tracking-widest text-xs transition-all active:scale-95 shadow-xl shadow-indigo-200 disabled:opacity-50"
+                    className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-[24px] font-black uppercase tracking-widest text-xs transition-all active:scale-95 shadow-xl shadow-indigo-200 disabled:opacity-50"
                   >
                     {isUpdating || isUploading ? 'Saving Changes...' : 'Update Profile'}
                   </button>

@@ -123,22 +123,64 @@ const ManageUser = () => {
   const users = usersData?.users || []
 
   return (
-    <div className='max-w-7xl mx-auto bg-white p-8 rounded-[32px] shadow-2xl shadow-gray-200/50 border border-gray-100'>
-      <div className='flex flex-col md:flex-row justify-between items-center mb-10 pb-6 border-b border-gray-100'>
-        <div>
-            <h2 className='text-3xl font-black text-gray-900 uppercase tracking-tight'>Control Users</h2>
-            <p className='text-gray-400 font-bold uppercase tracking-widest text-xs mt-2'>Manage permissions and profiles</p>
+    <div className='max-w-7xl mx-auto bg-white p-4 md:p-8 rounded-[24px] md:rounded-[32px] shadow-2xl shadow-gray-200/50 border border-gray-100'>
+      <div className='flex flex-col md:flex-row justify-between items-center mb-8 md:mb-10 pb-6 border-b border-gray-100 gap-6'>
+        <div className="text-center md:text-left">
+            <h2 className='text-2xl md:text-3xl font-black text-gray-900 uppercase tracking-tight'>Control Users</h2>
+            <p className='text-gray-400 font-bold uppercase tracking-widest text-[10px] md:text-xs mt-2'>Manage permissions and profiles</p>
         </div>
         <button 
           onClick={() => handleOpenModal('create')}
-          className='mt-6 md:mt-0 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs transition-all active:scale-95 shadow-xl shadow-indigo-200'
+          className='w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 md:py-3 rounded-2xl font-black uppercase tracking-widest text-xs transition-all active:scale-95 shadow-xl shadow-indigo-200'
         >
           Add New User
         </button>
       </div>
 
-      {/* Users Table */}
-      <div className='bg-white border border-gray-100 rounded-[24px] overflow-hidden shadow-xl shadow-gray-100/50'>
+      {/* Mobile Card View (Visible on small screens) */}
+      <div className="grid grid-cols-1 gap-4 md:hidden">
+        {users.map((user) => (
+          <div key={user._id} className="bg-gray-50/50 rounded-3xl p-5 border border-gray-100">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white border-2 border-white shadow-md">
+                {user.profileImage ? (
+                  <img src={user.profileImage} alt={user.username} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-indigo-100 text-indigo-600 font-black text-xl">
+                    {user.username?.charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-black text-gray-900 uppercase tracking-tight truncate">{user.username}</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest truncate">{user.email}</p>
+              </div>
+              <span className={`px-3 py-1 text-[8px] font-black uppercase tracking-widest rounded-full ${
+                user.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'
+              }`}>
+                {user.role}
+              </span>
+            </div>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => handleOpenModal('edit', user)}
+                className="flex-1 py-3 bg-white text-indigo-600 rounded-xl font-black uppercase tracking-widest text-[10px] border border-indigo-50"
+              >
+                Edit Details
+              </button>
+              <button 
+                onClick={() => setDeleteConfirm(user._id)}
+                className="flex-1 py-3 bg-white text-red-500 rounded-xl font-black uppercase tracking-widest text-[10px] border border-red-50"
+              >
+                Delete User
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Table View (Hidden on small screens) */}
+      <div className='hidden md:block bg-white border border-gray-100 rounded-[24px] overflow-hidden shadow-xl shadow-gray-100/50'>
         <div className='overflow-x-auto'>
           <table className='w-full'>
             <thead className='bg-gray-50/50'>

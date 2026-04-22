@@ -12,7 +12,7 @@ import {
   HiOutlineLogout 
 } from 'react-icons/hi'
 
-const AdminNavigation = () => {
+const AdminNavigation = ({ onClose }) => {
   const [logoutUser] = useLogoutUserMutation();
   const dispatch = useDispatch();
 
@@ -34,24 +34,31 @@ const AdminNavigation = () => {
   ]
 
   return (
-    <div className="h-full bg-white border-r border-gray-100 flex flex-col shadow-sm">
-      {/* Profile Section */}
+    <div className="h-full bg-white border-r border-gray-100 flex flex-col shadow-2xl">
+      {/* Mobile Close Button & Profile */}
       <div className="p-6">
-        <div className="flex items-center gap-3 p-3 bg-blue-50/50 rounded-2xl border border-blue-100/50">
+        <div className="flex items-center justify-between lg:hidden mb-6">
+          <img src="/Logo.png" alt="Logo" className="h-8 w-auto" />
+          <button onClick={onClose} className="p-2 bg-gray-100 rounded-full text-gray-500">
+            <HiOutlineLogout className="rotate-180" />
+          </button>
+        </div>
+
+        <div className="flex items-center gap-3 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
           <div className="relative">
             <img src={adminImg} alt="Admin" className="w-12 h-12 rounded-xl object-cover shadow-sm" />
             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></div>
           </div>
           <div>
-            <p className="font-bold text-gray-900 text-sm leading-tight">Admin Portal</p>
-            <p className="text-[10px] font-medium text-blue-600 uppercase tracking-wider mt-0.5">System Master</p>
+            <p className="font-black text-gray-900 text-sm leading-tight uppercase tracking-tight">Admin Room</p>
+            <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mt-0.5">Control Center</p>
           </div>
         </div>
       </div>
 
       <div className="flex-1 px-4 py-2 space-y-1 overflow-y-auto">
-        <div className="px-3 mb-4">
-          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">Menu</p>
+        <div className="px-4 mb-4">
+          <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Operations</p>
         </div>
         
         <nav className="space-y-1">
@@ -60,33 +67,35 @@ const AdminNavigation = () => {
               key={item.path}
               to={item.path}
               end={item.end}
+              onClick={onClose}
               className={({ isActive }) => `
-                flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
+                flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 group
                 ${isActive 
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'}
+                  ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-100' 
+                  : 'text-gray-500 hover:bg-indigo-50/50 hover:text-indigo-600'}
               `}
             >
-              <item.icon className={`text-xl transition-transform duration-200 group-hover:scale-110`} />
-              <span className="font-semibold text-sm">{item.name}</span>
+              <item.icon className={`text-xl transition-transform duration-300 group-hover:scale-110`} />
+              <span className="font-black text-xs uppercase tracking-widest">{item.name}</span>
             </NavLink>
           ))}
         </nav>
       </div>
 
       {/* Logout Section */}
-      <div className="p-4 mt-auto">
+      <div className="p-6 mt-auto">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 text-rose-500 font-bold text-sm bg-rose-50 hover:bg-rose-100 rounded-xl transition-all duration-200 active:scale-95 group"
+          className="w-full flex items-center justify-center gap-3 px-6 py-4 text-rose-500 font-black text-[10px] uppercase tracking-[0.2em] bg-rose-50 hover:bg-rose-100 rounded-2xl transition-all duration-300 active:scale-95 group shadow-sm"
         >
           <HiOutlineLogout className="text-xl transition-transform group-hover:-translate-x-1" />
-          <span>Logout Session</span>
+          <span>Exit Session</span>
         </button>
       </div>
     </div>
   )
 }
+
 
 export default AdminNavigation
 

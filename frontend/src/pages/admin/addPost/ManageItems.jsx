@@ -112,8 +112,51 @@ const ManageItems = () => {
           </div>
         </div>
 
-        {/* Table Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        {/* Mobile View Card List */}
+        <div className="grid grid-cols-1 gap-4 md:hidden">
+          {blogs && blogs.length > 0 ? (
+            blogs.map((blog) => (
+              <div key={blog._id} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col gap-4">
+                <div className="flex gap-4">
+                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0">
+                    <img src={blog.coverImg} alt={blog.title} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-gray-900 text-sm line-clamp-2 mb-2 uppercase tracking-tight leading-tight">{blog.title}</h3>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 bg-blue-50 text-blue-700 text-[8px] font-black uppercase tracking-widest rounded-md border border-blue-100">
+                        {blog.category}
+                      </span>
+                      <span className="text-[10px] text-gray-400 font-medium">
+                        {new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between pt-4 border-t border-gray-50 gap-2">
+                   <div className="flex-1">
+                      <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Author</p>
+                      <p className="text-[11px] font-bold text-gray-700 truncate">{blog.author?.username || 'Admin'}</p>
+                   </div>
+                   <div className="flex gap-2">
+                      <button onClick={() => window.open(`/blogs/${blog._id}`, '_blank')} className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl"><HiOutlineEye size={18} /></button>
+                      <Link to={`/dashboard/update-items/${blog._id}`} className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl"><HiOutlinePencilAlt size={18} /></Link>
+                      <button onClick={() => setDeleteConfirm(blog._id)} className="p-2.5 bg-rose-50 text-rose-500 rounded-xl"><HiOutlineTrash size={18} /></button>
+                   </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="bg-white rounded-2xl p-12 text-center border border-gray-100">
+              <HiOutlineSearch className="mx-auto text-4xl text-gray-200 mb-4" />
+              <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">No posts found</p>
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Table View */}
+        <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
@@ -136,22 +179,22 @@ const ManageItems = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm font-semibold text-gray-800 line-clamp-1 max-w-[250px] group-hover:text-blue-600 transition-colors">
+                        <div className="text-sm font-black text-gray-800 line-clamp-1 max-w-[250px] group-hover:text-blue-600 transition-colors uppercase tracking-tight">
                           {blog.title}
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-700 border border-blue-100">
                           {blog.category}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-600">
                         <div className="flex flex-col">
-                          <span className="font-medium">{blog.author?.username || 'Admin'}</span>
-                          <span className="text-[10px] text-gray-400 truncate max-w-[150px]">{blog.author?.email}</span>
+                          <span className="font-bold text-xs uppercase tracking-tight">{blog.author?.username || 'Admin'}</span>
+                          <span className="text-[10px] text-gray-400 truncate max-w-[150px] font-medium">{blog.author?.email}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
+                      <td className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-widest">
                         {new Date(blog.createdAt).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
@@ -204,33 +247,52 @@ const ManageItems = () => {
 
           {/* Pagination */}
           <div className="px-6 py-4 bg-gray-50/30 border-t border-gray-100 flex items-center justify-between">
-            <div className="text-sm text-gray-500">
-              Showing <span className="font-semibold text-gray-900">{blogs?.length || 0}</span> entries
+            <div className="text-xs font-black uppercase tracking-widest text-gray-400">
+              Showing <span className="text-gray-900">{blogs?.length || 0}</span> entries
             </div>
             <div className="flex items-center gap-2">
               <button
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                className="flex items-center gap-1 px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-[10px] font-black uppercase tracking-widest"
               >
-                <HiChevronLeft className="text-lg" />
-                <span>Previous</span>
+                <HiChevronLeft size={16} />
+                <span>Prev</span>
               </button>
               
-              <div className="flex items-center px-4 py-1.5 bg-white border border-gray-200 rounded-lg text-sm font-semibold text-gray-700">
+              <div className="flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-indigo-600">
                 Page {page}
               </div>
 
               <button
                 disabled={!blogs || blogs.length < limit}
                 onClick={() => setPage(page + 1)}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                className="flex items-center gap-1 px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-[10px] font-black uppercase tracking-widest"
               >
                 <span>Next</span>
-                <HiChevronRight className="text-lg" />
+                <HiChevronRight size={16} />
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Mobile Pagination */}
+        <div className="md:hidden flex items-center justify-between bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+           <button
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+            className="p-3 rounded-xl bg-gray-50 text-gray-400 disabled:opacity-30"
+          >
+            <HiChevronLeft size={20} />
+          </button>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600">Page {page}</span>
+          <button
+            disabled={!blogs || blogs.length < limit}
+            onClick={() => setPage(page + 1)}
+            className="p-3 rounded-xl bg-gray-50 text-gray-400 disabled:opacity-30"
+          >
+            <HiChevronRight size={20} />
+          </button>
         </div>
       </div>
 

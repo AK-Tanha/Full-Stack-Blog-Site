@@ -13,8 +13,8 @@ const Blogs = ({ query }) => {
     
     return (
       <div className="mb-24 last:mb-0" key={key}>
-        <div className="flex items-center gap-4 mb-10">
-          <h3 className={`text-3xl font-black uppercase tracking-tight text-gray-900 px-5 py-2 ${themeColor === 'orange' ? 'bg-orange-50 border-orange-600' : 'bg-amber-50 border-amber-500'} border-l-8 shadow-sm`}>
+        <div className="flex items-center gap-4 mb-8 md:mb-10">
+          <h3 className={`text-xl md:text-3xl font-black uppercase tracking-tight text-gray-900 px-4 md:px-5 py-2 ${themeColor === 'orange' ? 'bg-orange-50 border-orange-600' : 'bg-amber-50 border-amber-500'} border-l-8 shadow-sm`}>
             {title}
           </h3>
           <div className="h-[2px] flex-grow bg-gray-100"></div>
@@ -23,7 +23,7 @@ const Blogs = ({ query }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Featured Blog - Left (7 cols) */}
           <div className="lg:col-span-7">
-            <Link to={`/blogs/${featuredBlog._id}`} className="group relative block bg-gray-900 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-700 overflow-hidden h-[450px] lg:h-full min-h-[400px]">
+            <Link to={`/blogs/${featuredBlog._id}`} className="group relative block bg-gray-900 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-700 overflow-hidden h-[350px] md:h-[450px] lg:h-full min-h-[300px] md:min-h-[400px]">
               <img 
                 src={featuredBlog.coverImg} 
                 alt={featuredBlog.title} 
@@ -31,14 +31,14 @@ const Blogs = ({ query }) => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               
-              <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                <span className={`${themeColor === 'orange' ? 'bg-orange-600' : 'bg-amber-500'} text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-6 inline-block text-white shadow-lg`}>
+              <div className="absolute bottom-0 left-0 p-6 md:p-12 w-full">
+                <span className={`${themeColor === 'orange' ? 'bg-orange-600' : 'bg-amber-500'} text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-3 md:px-4 py-1.5 rounded-full mb-4 md:mb-6 inline-block text-white shadow-lg`}>
                   Featured Story
                 </span>
-                <h2 className="text-3xl md:text-4xl font-black leading-tight mb-4 text-white drop-shadow-2xl group-hover:underline decoration-4 underline-offset-8">
+                <h2 className="text-xl md:text-4xl font-black leading-tight mb-3 md:mb-4 text-white drop-shadow-2xl group-hover:underline decoration-2 md:decoration-4 underline-offset-8">
                   {featuredBlog.title}
                 </h2>
-                <p className="text-gray-200 line-clamp-2 text-base md:text-lg max-w-2xl font-medium opacity-90">
+                <p className="text-gray-200 line-clamp-2 text-sm md:text-lg max-w-2xl font-medium opacity-90">
                   {featuredBlog.description || "Deep dive into the latest developments and exclusive insights from the world of combat sports..."}
                 </p>
                 <div className="mt-8 flex items-center gap-4 text-white/60 text-xs font-bold uppercase tracking-widest">
