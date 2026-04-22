@@ -14,6 +14,7 @@ import Contact from "../pages/miniPages/Contact";
 import PrivacyPolicy from "../pages/miniPages/PrivacyPolicy";
 import Login from "../pages/user/Login";
 import Register from "../pages/user/Register";
+import Profile from "../pages/user/Profile";
 import PrivateRoutes from "./PrivateRoutes";
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
         {
             path: "/register",
             element: <Register/>
+        },
+        {
+            path: "/profile",
+            element: <PrivateRoutes><Profile/></PrivateRoutes>
         },
         {
             path: "dashboard",

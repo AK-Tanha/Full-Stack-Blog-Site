@@ -48,20 +48,46 @@ const authApi = createApi({
             providesTags: ["user"]
         }),
 
+        getUserProfile: builder.query({
+            query: () => ({
+                url: "/profile",
+                method: "GET",
+            }),
+            providesTags: ["profile"]
+        }),
+
+        updateUserProfile: builder.mutation({
+            query: (userData) => ({
+                url: "/profile",
+                method: "PUT",
+                body: userData
+            }),
+            invalidatesTags: ["profile"]
+        }),
+
+        createUserByAdmin: builder.mutation({
+            query: (userData) => ({
+                url: "/users",
+                method: "POST",
+                body: userData
+            }),
+            invalidatesTags: ["user"]
+        }),
+
         deleteUser: builder.mutation({
             query: (userId) => ({
                 url: `/users/${userId}`,
                 method: "DELETE"
             }),
+            invalidatesTags: ["user"]
         }),
 
-        UpdateUserRole: builder.mutation({
-            query: ({ userId, role }) => ({
+        updateUserByAdmin: builder.mutation({
+            query: ({ userId, userData }) => ({
                 url: `/users/${userId}`,
                 method: "PUT",
-                body: role,
+                body: userData,
             }),
-            reFetchOnMount: true,
             invalidatesTags: ["user"]
         })
 
@@ -72,6 +98,7 @@ const authApi = createApi({
 
 
 export const { useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation, useGetUsersQuery,
-    useDeleteUserMutation, useUpdateUserRoleMutation } = authApi;
+    useGetUserProfileQuery, useUpdateUserProfileMutation, useCreateUserByAdminMutation,
+    useDeleteUserMutation, useUpdateUserByAdminMutation } = authApi;
 
 export default authApi;

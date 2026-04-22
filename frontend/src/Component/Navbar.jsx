@@ -84,16 +84,36 @@ const Navbar = () => {
           <div className='h-6 w-[1px] bg-gray-200 mx-2'></div>
 
           {user ? (
-            <li className='flex items-center gap-4'>
-              <Link to={user.role === 'admin' ? "/dashboard" : "/profile"} className='flex items-center gap-2 group'>
-                <img src={avatarImg} alt="avatar" className='w-9 h-9 rounded-full border-2 border-transparent group-hover:border-orange-600 transition-all' />
-                <span className='text-sm font-bold text-gray-900'>{user.username}</span>
-              </Link>
-              <button
-                onClick={hanDelLogout}
-                className='text-xs font-black uppercase tracking-wider text-red-500 hover:text-red-700 transition-colors'>
-                Logout
-              </button>
+            <li className='flex items-center gap-6'>
+              <div className='flex items-center gap-3'>
+                <div className='relative group cursor-pointer'>
+                  <img 
+                    src={user.profileImage || avatarImg} 
+                    alt="avatar" 
+                    className='w-10 h-10 rounded-full border-2 border-transparent group-hover:border-orange-600 transition-all object-cover' 
+                  />
+                  <div className='absolute hidden group-hover:block top-full right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-gray-50 overflow-hidden z-[100]'>
+                    <Link to="/profile" className='block px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors'>
+                      My Profile
+                    </Link>
+                    {user.role === 'admin' && (
+                      <Link to="/dashboard" className='block px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors border-t border-gray-50'>
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    <button 
+                      onClick={hanDelLogout}
+                      className='w-full text-left px-6 py-4 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 transition-colors border-t border-gray-50'
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+                <div className='hidden xl:block'>
+                   <p className='text-[10px] font-black text-gray-900 uppercase tracking-tight leading-none mb-1'>{user.username}</p>
+                   <p className='text-[8px] font-bold text-orange-600 uppercase tracking-widest opacity-70'>{user.role}</p>
+                </div>
+              </div>
             </li>
           ) : (
             <li>
@@ -145,15 +165,22 @@ const Navbar = () => {
               {user ? (
                 <div className='flex flex-col gap-6'>
                   <div className='flex items-center gap-4'>
-                    <img src={avatarImg} alt="avatar" className='w-14 h-14 rounded-full border-2 border-orange-600 shadow-md' />
+                    <img src={user.profileImage || avatarImg} alt="avatar" className='w-14 h-14 rounded-full border-2 border-orange-600 shadow-md object-cover' />
                     <div>
                       <p className='font-black text-gray-900 uppercase tracking-tight'>{user.username}</p>
                       <p className='text-xs text-orange-600 font-bold uppercase tracking-widest'>{user.role}</p>
                     </div>
                   </div>
-                  <Link to={user.role === 'admin' ? "/dashboard" : "/profile"} className='w-full py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm text-center shadow-lg' onClick={() => setIsMenuOpen(false)}>
-                    Go to Dashboard
-                  </Link>
+                  <div className="flex flex-col gap-3">
+                    <Link to="/profile" className='w-full py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm text-center shadow-lg' onClick={() => setIsMenuOpen(false)}>
+                      View Profile
+                    </Link>
+                    {user.role === 'admin' && (
+                      <Link to="/dashboard" className='w-full py-4 bg-orange-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm text-center shadow-lg shadow-orange-100' onClick={() => setIsMenuOpen(false)}>
+                        Admin Dashboard
+                      </Link>
+                    )}
+                  </div>
                   <button onClick={hanDelLogout} className='w-full py-4 border-2 border-red-50 text-red-600 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-red-50 transition-colors'>
                     Log Out
                   </button>
