@@ -92,21 +92,24 @@ const Navbar = () => {
                     alt="avatar" 
                     className='w-10 h-10 rounded-full border-2 border-transparent group-hover:border-orange-600 transition-all object-cover' 
                   />
-                  <div className='absolute hidden group-hover:block top-full right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-gray-50 overflow-hidden z-[100]'>
-                    <Link to="/profile" className='block px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors'>
-                      My Profile
-                    </Link>
-                    {user.role === 'admin' && (
-                      <Link to="/dashboard" className='block px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors border-t border-gray-50'>
-                        Admin Dashboard
+                  {/* Dropdown Menu Container with Transparent Bridge */}
+                  <div className='absolute hidden group-hover:block top-full right-0 pt-3 w-48 z-[100]'>
+                    <div className='bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden'>
+                      <Link to="/profile" className='block px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors'>
+                        My Profile
                       </Link>
-                    )}
-                    <button 
-                      onClick={hanDelLogout}
-                      className='w-full text-left px-6 py-4 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 transition-colors border-t border-gray-50'
-                    >
-                      Logout
-                    </button>
+                      {user.role === 'admin' && (
+                        <Link to="/dashboard" className='block px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors border-t border-gray-50'>
+                          Admin Dashboard
+                        </Link>
+                      )}
+                      <button 
+                        onClick={hanDelLogout}
+                        className='w-full text-left px-6 py-4 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 transition-colors border-t border-gray-50'
+                      >
+                        Logout
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div className='hidden xl:block'>

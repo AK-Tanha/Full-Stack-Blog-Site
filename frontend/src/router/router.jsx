@@ -16,74 +16,83 @@ import Login from "../pages/user/Login";
 import Register from "../pages/user/Register";
 import Profile from "../pages/user/Profile";
 import PrivateRoutes from "./PrivateRoutes";
+import UserLayout from "../Component/UserLayout";
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
-    children:[
-        {
+    element: <App />,
+    children: [
+      // Public Site Layout
+      {
+        path: "/",
+        element: <UserLayout />,
+        children: [
+          {
             path: "/",
-            element: <Home/>
-        },
-        {
+            element: <Home />
+          },
+          {
             path: "/about-us",
-            element: <About/>
-        },
-        {
+            element: <About />
+          },
+          {
             path: "/privacy-policy",
-            element: <PrivacyPolicy/>
-        },
-        {
+            element: <PrivacyPolicy />
+          },
+          {
             path: "/contact-us",
-            element: <Contact/>
-        },
-        {
+            element: <Contact />
+          },
+          {
             path: "/blogs/:id",
-            element: <Singleblogs/>
-        },
-        {
+            element: <Singleblogs />
+          },
+          {
             path: "/log-in",
-            element: <Login/>
-        },
-        {
+            element: <Login />
+          },
+          {
             path: "/register",
-            element: <Register/>
-        },
-        {
+            element: <Register />
+          },
+          {
             path: "/profile",
-            element: <PrivateRoutes><Profile/></PrivateRoutes>
-        },
-        {
-            path: "dashboard",
-            element: <PrivateRoutes><AdminLayout/></PrivateRoutes>, //will be protected by admin:private routes
-            children:[
-                {
-                    path: '',
-                    element:<Dashboard/>
-                },
-                {
-                    path:"add-new-post",
-                    element:<AddPost/>
-                },
-                {
-                    path: "add-category",
-                    element: <AddCategory/>
-                },
-                {
-                    path: "update-items/:id",
-                    element: <UpdatePost/>
-                },
-                {
-                    path:"manage-items",
-                    element:<ManageItems/>
-                },
-                {
-                    path:"users",
-                    element:<ManageUser/>
-                },
-
-            ]
-        }
+            element: <PrivateRoutes><Profile /></PrivateRoutes>
+          },
+        ]
+      },
+      // Admin Dashboard Layout
+      {
+        path: "dashboard",
+        element: <PrivateRoutes><AdminLayout /></PrivateRoutes>,
+        children: [
+          {
+            path: '',
+            element: <Dashboard />
+          },
+          {
+            path: "add-new-post",
+            element: <AddPost />
+          },
+          {
+            path: "add-category",
+            element: <AddCategory />
+          },
+          {
+            path: "update-items/:id",
+            element: <UpdatePost />
+          },
+          {
+            path: "manage-items",
+            element: <ManageItems />
+          },
+          {
+            path: "users",
+            element: <ManageUser />
+          },
+        ]
+      }
     ]
   },
 ]);

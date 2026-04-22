@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import adminImg from "../assets/admin.png"
 import { useLogoutUserMutation } from '../redux/features/auth/authAPI'
 import { logout } from '../redux/features/auth/authSlice'
@@ -9,7 +9,8 @@ import {
   HiOutlineTag, 
   HiOutlineCollection, 
   HiOutlineUsers, 
-  HiOutlineLogout 
+  HiOutlineLogout,
+  HiOutlineHome
 } from 'react-icons/hi'
 
 const AdminNavigation = ({ onClose }) => {
@@ -35,23 +36,23 @@ const AdminNavigation = ({ onClose }) => {
 
   return (
     <div className="h-full bg-white border-r border-gray-100 flex flex-col shadow-2xl">
-      {/* Mobile Close Button & Profile */}
+      {/* Brand & Profile Section */}
       <div className="p-6">
-        <div className="flex items-center justify-between lg:hidden mb-6">
-          <img src="/Logo.png" alt="Logo" className="h-8 w-auto" />
-          <button onClick={onClose} className="p-2 bg-gray-100 rounded-full text-gray-500">
+        <div className="flex items-center justify-between mb-8">
+          <img src="/Logo.png" alt="Logo" className="h-8 md:h-10 w-auto" />
+          <button onClick={onClose} className="lg:hidden p-2 bg-gray-100 rounded-full text-gray-500">
             <HiOutlineLogout className="rotate-180" />
           </button>
         </div>
 
         <div className="flex items-center gap-3 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
           <div className="relative">
-            <img src={adminImg} alt="Admin" className="w-12 h-12 rounded-xl object-cover shadow-sm" />
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></div>
+            <img src={adminImg} alt="Admin" className="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover shadow-sm" />
+            <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></div>
           </div>
           <div>
-            <p className="font-black text-gray-900 text-sm leading-tight uppercase tracking-tight">Admin Room</p>
-            <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mt-0.5">Control Center</p>
+            <p className="font-black text-gray-900 text-xs md:text-sm leading-tight uppercase tracking-tight">Admin Room</p>
+            <p className="text-[9px] md:text-[10px] font-bold text-indigo-600 uppercase tracking-widest mt-0.5">Control Center</p>
           </div>
         </div>
       </div>
@@ -80,6 +81,17 @@ const AdminNavigation = ({ onClose }) => {
             </NavLink>
           ))}
         </nav>
+
+        {/* Back to Site Button */}
+        <div className="px-4 mt-8 pt-8 border-t border-gray-100">
+            <Link 
+              to="/" 
+              className="flex items-center gap-3 px-4 py-3.5 text-orange-600 hover:bg-orange-50 rounded-2xl transition-all duration-300 group"
+            >
+              <HiOutlineHome className="text-xl transition-transform group-hover:scale-110" />
+              <span className="font-black text-xs uppercase tracking-widest">Back to Site</span>
+            </Link>
+        </div>
       </div>
 
       {/* Logout Section */}
@@ -95,7 +107,6 @@ const AdminNavigation = ({ onClose }) => {
     </div>
   )
 }
-
 
 export default AdminNavigation
 

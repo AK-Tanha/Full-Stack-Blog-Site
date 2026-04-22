@@ -17,7 +17,7 @@ const AdminLayout = () => {
   return (
     <div className="relative min-h-screen bg-[#F8FAFC]">
       {/* Mobile Header Toggle */}
-      <div className="lg:hidden fixed top-[110px] left-4 z-50">
+      <div className="lg:hidden fixed top-6 left-4 z-50">
         <button 
           onClick={toggleSidebar}
           className="p-3 bg-white shadow-xl rounded-2xl text-gray-900 border border-gray-100 active:scale-95 transition-all"
@@ -28,7 +28,7 @@ const AdminLayout = () => {
 
       {/* Sidebar Navigation */}
       <aside className={`
-        fixed top-0 lg:top-28 bottom-0 left-0 z-40 w-72 transition-transform duration-300 ease-in-out
+        fixed top-0 bottom-0 left-0 z-40 w-72 transition-transform duration-300 ease-in-out
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <AdminNavigation onClose={() => setIsSidebarOpen(false)} />
@@ -44,7 +44,7 @@ const AdminLayout = () => {
 
       {/* Main Content Area */}
       <main className="lg:ml-72 transition-all duration-300">
-        <div className="px-4 py-8 md:p-8 lg:p-10 pt-24 lg:pt-8">
+        <div className="px-4 py-8 md:p-8 lg:p-10 pt-20 lg:pt-10">
           <Outlet />
         </div>
       </main>
