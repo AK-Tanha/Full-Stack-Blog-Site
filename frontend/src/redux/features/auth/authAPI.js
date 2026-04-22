@@ -5,7 +5,14 @@ const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${getBaseUrl()}/api/auth`,
-        credentials: "include"
+        credentials: "include",
+        prepareHeaders: (headers, { getState }) => {
+            const token = getState().auth.token;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`);
+            }
+            return headers;
+        },
     }),
 
     endpoints: (builder) => ({
@@ -33,13 +40,12 @@ const authApi = createApi({
             }),
         }),
 
-        getUser: builder.mutation({
+        getUsers: builder.query({
             query: () => ({
                 url: "/users",
                 method: "GET",
             }),
-            reFetchOnMount: true,
-            invalidatesTags: ["user"]
+            providesTags: ["user"]
         }),
 
         deleteUser: builder.mutation({
@@ -65,7 +71,7 @@ const authApi = createApi({
 })
 
 
-export const { useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation, useGetUserMutation,
+export const { useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation, useGetUsersQuery,
     useDeleteUserMutation, useUpdateUserRoleMutation } = authApi;
 
 export default authApi;

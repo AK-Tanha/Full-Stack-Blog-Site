@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useDeleteUserMutation, useGetUserMutation, useUpdateUserRoleMutation } from '../../../redux/features/auth/authAPI'
+import { useDeleteUserMutation, useGetUsersQuery, useUpdateUserRoleMutation } from '../../../redux/features/auth/authAPI'
 
 const ManageUser = () => {
-  const [getUsers, { data: usersData, isLoading }] = useGetUserMutation()
+  const { data: usersData, isLoading, refetch } = useGetUsersQuery()
   const [deleteUser] = useDeleteUserMutation()
   const [updateUserRole] = useUpdateUserRoleMutation()
   
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [roleChangeConfirm, setRoleChangeConfirm] = useState(null)
-
-  useEffect(() => {
-    getUsers()
-  }, [getUsers])
-  console.log(usersData)
 
   const handleDeleteUser = async (userId) => {
     try {

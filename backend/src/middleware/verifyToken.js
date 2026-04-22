@@ -10,7 +10,7 @@ const verfyToken = (req, res, next)=>{
         }
         const decoded = jwt.verify(token, JWT_SECRET);
         if (!decoded.userId) {
-            res.status(401).send({message: "invalid token provided"});
+            return res.status(401).send({message: "invalid token provided"});
         }
         req.userId = decoded.userId;
         //req.role = decoded.role;
@@ -19,7 +19,7 @@ const verfyToken = (req, res, next)=>{
         next();
 
     } catch (error) {
-        console.error("error varify token", error),
+        console.error("error varify token", error);
         res.status(401).send({message: "invalid token"});
     }
 } 

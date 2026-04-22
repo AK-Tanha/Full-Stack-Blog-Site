@@ -80,13 +80,13 @@ router.post("/log-out", async (req, res) => {
 //get all users
 router.get("/users", verifyToken, isAdmin, async (req,res) => {
     try {
-        const users = await User.find({}, 'id email role username');
+        const users = await User.find({}, '_id email role username');
         res.status(200).send({message:"Users Found sucessfully", users});
     } catch (error) {
         console.error("error fetching user:", error)
         res.status(500).send({ message: "error fetching user",error: error.message })
     }
-}),
+})
 
 //delete a user
 router.delete("/users/:id", verifyToken, isAdmin, async (req,res) => {

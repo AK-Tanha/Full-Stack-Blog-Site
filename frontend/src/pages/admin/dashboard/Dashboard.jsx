@@ -1,17 +1,13 @@
 import React from 'react'
 import Loading from '../../../Component/Loading'
-import { useGetUserMutation } from '../../../redux/features/auth/authAPI'
+import { useGetUsersQuery } from '../../../redux/features/auth/authAPI'
 import { useFetchBlogsQuery } from '../../../redux/features/blogs/blogsApi'
 import { FaFileAlt, FaUsers, FaCrown, FaArrowRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 const Dashboard = () => {
   const { data: blogsData, isLoading: blogsLoading } = useFetchBlogsQuery({ search: '', category: '', location: '' })
-  const [getUsers, { data: usersData }] = useGetUserMutation()
-
-  React.useEffect(() => {
-    getUsers()
-  }, [getUsers])
+  const { data: usersData } = useGetUsersQuery()
 
   const totalBlogs = blogsData?.length || 0
   const totalUsers = usersData?.users?.length || 0
