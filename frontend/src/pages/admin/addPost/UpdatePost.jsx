@@ -156,39 +156,39 @@ const UpdatePost = () => {
   }
 
   return (
-    <div className='max-w-4xl mx-auto bg-white p-10 rounded-[32px] shadow-2xl shadow-gray-200/50 border border-gray-50'>
-      <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 border-b border-gray-50 pb-8'>
+    <div className='max-w-4xl mx-auto bg-white p-5 md:p-10 rounded-2xl md:rounded-[32px] shadow-2xl shadow-gray-200/50 border border-gray-50'>
+      <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 md:mb-12 border-b border-gray-50 pb-6 md:pb-8'>
         <div className="flex items-center gap-4">
-          <h2 className='text-3xl font-black uppercase tracking-tight text-gray-900 px-6 py-2 bg-amber-50 border-amber-500 border-l-8'>
+          <h2 className='text-2xl md:text-3xl font-black uppercase tracking-tight text-gray-900 px-4 md:px-6 py-2 bg-amber-50 border-amber-500 border-l-8'>
             Update Story
           </h2>
         </div>
         <button 
           onClick={() => navigate('/dashboard/manage-items')}
-          className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-orange-600 transition-colors group"
+          className="flex items-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-400 hover:text-orange-600 transition-colors group"
         >
           <FaArrowLeft className="group-hover:-translate-x-2 transition-transform" /> Back to Database
         </button>
       </div>
 
       {error && (
-        <div className='bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl mb-8 flex items-center animate-shake'>
-          <span className="mr-3 text-xl">⚠️</span>
-          <p className="font-bold text-sm uppercase tracking-tight">{error}</p>
+        <div className='bg-red-50 border-l-4 border-red-500 text-red-700 px-4 md:px-6 py-3 md:py-4 rounded-xl mb-8 flex items-center animate-shake'>
+          <span className="mr-3 text-lg md:text-xl">⚠️</span>
+          <p className="font-bold text-[10px] md:text-sm uppercase tracking-tight">{error}</p>
         </div>
       )}
 
       {success && (
-        <div className='bg-green-50 border-l-4 border-green-500 text-green-700 px-6 py-4 rounded-xl mb-8 flex items-center animate-bounce-subtle'>
-          <span className="mr-3 text-xl">✅</span>
-          <p className="font-bold text-sm uppercase tracking-tight">{success}</p>
+        <div className='bg-green-50 border-l-4 border-green-500 text-green-700 px-4 md:px-6 py-3 md:py-4 rounded-xl mb-8 flex items-center animate-bounce-subtle'>
+          <span className="mr-3 text-lg md:text-xl">✅</span>
+          <p className="font-bold text-[10px] md:text-sm uppercase tracking-tight">{success}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className='space-y-8'>
+      <form onSubmit={handleSubmit} className='space-y-6 md:space-y-8'>
         {/* Title */}
         <div>
-          <label className='block text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3'>
+          <label className='block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3'>
             Article Title <span className='text-orange-600'>*</span>
           </label>
           <input
@@ -196,7 +196,7 @@ const UpdatePost = () => {
             name='title'
             value={formData.title}
             onChange={handleChange}
-            className='w-full px-6 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-bold text-xl placeholder:text-gray-300'
+            className='w-full px-4 md:px-6 py-3 md:py-4 bg-gray-50 border border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-bold text-lg md:text-xl placeholder:text-gray-300'
             placeholder='e.g. UFC 300: The Greatest Night in Combat Sports History'
             required
           />
@@ -204,7 +204,7 @@ const UpdatePost = () => {
 
         {/* Description */}
         <div>
-          <label className='block text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3'>
+          <label className='block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3'>
             Short Excerpt / Description
           </label>
           <textarea
@@ -212,22 +212,22 @@ const UpdatePost = () => {
             value={formData.description}
             onChange={handleChange}
             rows="2"
-            className='w-full px-6 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-medium text-gray-600 placeholder:text-gray-300'
+            className='w-full px-4 md:px-6 py-3 md:py-4 bg-gray-50 border border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-medium text-gray-600 placeholder:text-gray-300 text-sm md:text-base'
             placeholder='Brief summary for the homepage grid...'
           />
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8'>
           {/* Category */}
           <div>
-            <label className='block text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3'>
+            <label className='block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3'>
               Category <span className='text-orange-600'>*</span>
             </label>
             <select
               name='category'
               value={formData.category}
               onChange={handleChange}
-              className='w-full px-6 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-bold text-sm uppercase tracking-widest appearance-none cursor-pointer'
+              className='w-full px-4 md:px-6 py-3 md:py-4 bg-gray-50 border border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-bold text-xs md:text-sm uppercase tracking-widest appearance-none cursor-pointer'
               required
             >
               <option value=''>Select a category</option>
@@ -239,7 +239,7 @@ const UpdatePost = () => {
 
           {/* Rating */}
           <div>
-            <label className='block text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3'>
+            <label className='block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3'>
               Story Impact Rating (0-5)
             </label>
             <input
@@ -250,34 +250,34 @@ const UpdatePost = () => {
               min='0'
               max='5'
               step='0.1'
-              className='w-full px-6 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-bold'
+              className='w-full px-4 md:px-6 py-3 md:py-4 bg-gray-50 border border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-bold'
             />
           </div>
         </div>
 
         {/* Cover Image Upload */}
         <div>
-          <label className="block text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
+          <label className="block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3">
             Cover Image <span className='text-orange-600'>*</span>
           </label>
           
           {formData.coverImg ? (
-            <div className="relative group rounded-3xl overflow-hidden border-2 border-orange-100 shadow-xl aspect-video md:aspect-[21/9]">
+            <div className="relative group rounded-2xl md:rounded-3xl overflow-hidden border-2 border-orange-100 shadow-xl aspect-video md:aspect-[21/9]">
               <img src={formData.coverImg} alt="Cover Preview" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                 <button 
                   type="button"
                   onClick={() => setShowFull(true)}
-                  className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all"
+                  className="p-2 md:p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all"
                 >
-                  <HiOutlinePhotograph className="text-2xl" />
+                  <HiOutlinePhotograph className="text-xl md:text-2xl" />
                 </button>
                 <button 
                   type="button"
                   onClick={() => setFormData(prev => ({...prev, coverImg: ''}))}
-                  className="p-3 bg-rose-500/80 backdrop-blur-md rounded-full text-white hover:bg-rose-600 transition-all"
+                  className="p-2 md:p-3 bg-rose-500/80 backdrop-blur-md rounded-full text-white hover:bg-rose-600 transition-all"
                 >
-                  <HiOutlineX className="text-2xl" />
+                  <HiOutlineX className="text-xl md:text-2xl" />
                 </button>
               </div>
             </div>
@@ -293,20 +293,20 @@ const UpdatePost = () => {
               />
               <label
                 htmlFor="coverImageUpload"
-                className={`flex flex-col items-center justify-center w-full aspect-video md:aspect-[21/9] border-4 border-dashed border-gray-100 rounded-[32px] hover:border-orange-200 hover:bg-orange-50/30 transition-all cursor-pointer group ${isUploading ? 'opacity-50 cursor-wait' : ''}`}
+                className={`flex flex-col items-center justify-center w-full aspect-video md:aspect-[21/9] border-4 border-dashed border-gray-100 rounded-2xl md:rounded-[32px] hover:border-orange-200 hover:bg-orange-50/30 transition-all cursor-pointer group ${isUploading ? 'opacity-50 cursor-wait' : ''}`}
               >
                 {isUploading ? (
                   <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin"></div>
-                    <p className="font-black text-gray-400 uppercase tracking-widest text-xs">Uploading Magic...</p>
+                    <div className="w-8 h-8 md:w-12 md:h-12 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin"></div>
+                    <p className="font-black text-gray-400 uppercase tracking-widest text-[10px] md:text-xs">Uploading Magic...</p>
                   </div>
                 ) : (
                   <>
-                    <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <HiOutlineCloudUpload className="text-4xl text-gray-300 group-hover:text-orange-500 transition-colors" />
+                    <div className="w-14 h-14 md:w-20 md:h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <HiOutlineCloudUpload className="text-2xl md:text-4xl text-gray-300 group-hover:text-orange-500 transition-colors" />
                     </div>
-                    <p className="font-black text-gray-900 uppercase tracking-[0.2em] text-sm">Update your visual or Click</p>
-                    <p className="text-xs text-gray-400 mt-2 font-medium tracking-wide">Supports JPG, PNG, WEBP (Max 5MB)</p>
+                    <p className="font-black text-gray-900 uppercase tracking-[0.2em] text-[10px] md:text-sm text-center px-4">Update your visual or Click</p>
+                    <p className="text-[9px] md:text-xs text-gray-400 mt-2 font-medium tracking-wide">Supports JPG, PNG, WEBP (Max 5MB)</p>
                   </>
                 )}
               </label>
@@ -314,15 +314,15 @@ const UpdatePost = () => {
           )}
           
           {showFull && (
-            <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-10 backdrop-blur-lg" onClick={() => setShowFull(false)}>
-              <img src={formData.coverImg} alt="Full Preview" className="max-w-full max-h-full rounded-3xl shadow-2xl animate-in fade-in zoom-in duration-300" />
+            <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-5 md:p-10 backdrop-blur-lg" onClick={() => setShowFull(false)}>
+              <img src={formData.coverImg} alt="Full Preview" className="max-w-full max-h-full rounded-2xl md:rounded-3xl shadow-2xl animate-in fade-in zoom-in duration-300" />
             </div>
           )}
         </div>
 
         {/* Content - React Quill */}
         <div className="pt-4">
-          <label className='block text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3'>
+          <label className='block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3'>
             Article Content <span className='text-orange-600'>*</span>
           </label>
           <div className="quill-container">
@@ -333,24 +333,24 @@ const UpdatePost = () => {
               modules={quillModules}
               formats={quillFormats}
               placeholder="Refine your combat sports masterpiece..."
-              className="bg-white rounded-[24px] overflow-hidden border-2 border-gray-100 focus-within:border-orange-600 transition-colors"
+              className="bg-white rounded-xl md:rounded-[24px] overflow-hidden border-2 border-gray-100 focus-within:border-orange-600 transition-colors"
             />
           </div>
         </div>
 
         {/* Submit Button */}
-        <div className='flex gap-4 pt-10 border-t border-gray-100'>
+        <div className='flex flex-col md:flex-row gap-4 pt-8 md:pt-10 border-t border-gray-100'>
           <button
             type='submit'
             disabled={isUpdating}
-            className='bg-orange-600 text-white px-10 py-4 rounded-2xl hover:bg-orange-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 font-black uppercase tracking-widest text-sm flex items-center justify-center gap-2 shadow-xl shadow-orange-100 hover:shadow-orange-200 active:scale-95'
+            className='w-full md:w-auto bg-orange-600 text-white px-8 md:px-10 py-3 md:py-4 rounded-xl md:rounded-2xl hover:bg-orange-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 font-black uppercase tracking-widest text-[10px] md:text-sm flex items-center justify-center gap-2 shadow-xl shadow-orange-100 hover:shadow-orange-200 active:scale-95'
           >
             {isUpdating ? 'Updating...' : 'Save Changes'}
           </button>
           <button
             type='button'
             onClick={() => navigate('/dashboard/manage-items')}
-            className='bg-gray-100 text-gray-900 px-10 py-4 rounded-2xl hover:bg-gray-200 transition-all duration-300 font-black uppercase tracking-widest text-sm'
+            className='w-full md:w-auto bg-gray-100 text-gray-900 px-8 md:px-10 py-3 md:py-4 rounded-xl md:rounded-2xl hover:bg-gray-200 transition-all duration-300 font-black uppercase tracking-widest text-[10px] md:text-sm'
           >
             Cancel
           </button>
@@ -358,9 +358,43 @@ const UpdatePost = () => {
       </form>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .quill-container .ql-toolbar { border: none !important; border-bottom: 1px solid #f3f4f6 !important; padding: 1rem !important; background: #fafafa; }
-        .quill-container .ql-container { border: none !important; min-height: 400px; font-size: 1.1rem; }
-        .quill-container .ql-editor { padding: 2rem !important; }
+        /* Responsive Toolbar */
+        .quill-container .ql-toolbar { 
+          border: none !important; 
+          border-bottom: 1px solid #f3f4f6 !important; 
+          padding: 0.75rem !important; 
+          background: #fafafa;
+          display: flex;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;  /* IE 10+ */
+        }
+        .quill-container .ql-toolbar::-webkit-scrollbar { display: none; }
+        
+        .quill-container .ql-formats {
+          display: flex;
+          align-items: center;
+          margin-right: 12px !important;
+          flex-shrink: 0;
+        }
+
+        .quill-container .ql-container { 
+          border: none !important; 
+          min-height: 300px; 
+          font-size: 1rem; 
+        }
+        
+        @media (min-width: 768px) {
+          .quill-container .ql-toolbar { flex-wrap: wrap; overflow-x: visible; padding: 1rem !important; }
+          .quill-container .ql-container { min-height: 450px; font-size: 1.1rem; }
+        }
+
+        .quill-container .ql-editor { padding: 1.5rem !important; }
+        @media (min-width: 768px) {
+          .quill-container .ql-editor { padding: 2.5rem !important; }
+        }
+
         .quill-container .ql-editor.ql-blank::before { color: #d1d5db; font-style: normal; }
         .animate-shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake {

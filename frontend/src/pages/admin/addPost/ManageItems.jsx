@@ -42,32 +42,32 @@ const ManageItems = () => {
   )
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#F8FAFC] p-3 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-5 md:space-y-6">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+          <div className="px-1">
+            <h1 className="text-xl md:text-3xl font-black text-gray-900 tracking-tight uppercase">
               Manage Content
             </h1>
-            <p className="text-gray-500 mt-1">Review, edit, and organize your blog posts</p>
+            <p className="text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Review, edit, and organize posts</p>
           </div>
           <Link
             to="/dashboard/add-new-post"
-            className="group flex items-center gap-2 bg-[#1E73BE] hover:bg-[#165a96] text-white px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg active:scale-95"
+            className="w-full md:w-auto group flex items-center justify-center gap-2 bg-[#1E73BE] hover:bg-[#165a96] text-white px-6 py-3.5 md:py-2.5 rounded-xl md:rounded-xl font-black uppercase tracking-widest text-[10px] md:text-sm transition-all duration-300 shadow-md hover:shadow-lg active:scale-95"
           >
-            <HiOutlinePlus className="text-xl group-hover:rotate-90 transition-transform duration-300" />
+            <HiOutlinePlus className="text-lg group-hover:rotate-90 transition-transform duration-300" />
             <span>Add New Post</span>
           </Link>
         </div>
 
         {/* Filters Card */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
             {/* Search */}
             <div className="relative">
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Search Posts</label>
+              <label className="block text-[9px] md:text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Search Posts</label>
               <div className="relative">
                 <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
                 <input
@@ -75,18 +75,18 @@ const ManageItems = () => {
                   placeholder="Search by title..."
                   value={search}
                   onChange={e => { setSearch(e.target.value); setPage(1); }}
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none text-gray-700"
+                  className="w-full pl-10 pr-4 py-3 md:py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none text-xs md:text-sm font-bold text-gray-700"
                 />
               </div>
             </div>
 
             {/* Category Filter */}
             <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Filter Category</label>
+              <label className="block text-[9px] md:text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Filter Category</label>
               <select
                 value={category}
                 onChange={e => { setCategory(e.target.value); setPage(1); }}
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none text-gray-700 appearance-none cursor-pointer"
+                className="w-full px-4 py-3 md:py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none text-xs md:text-sm font-black uppercase tracking-widest text-gray-700 appearance-none cursor-pointer"
               >
                 <option value="">All Categories</option>
                 {categories?.map(cat => (
@@ -97,11 +97,11 @@ const ManageItems = () => {
 
             {/* Items per page */}
             <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Show Entries</label>
+              <label className="block text-[9px] md:text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Show Entries</label>
               <select
                 value={limit}
                 onChange={(e) => { setLimit(Number(e.target.value)); setPage(1) }}
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none text-gray-700 cursor-pointer"
+                className="w-full px-4 py-3 md:py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none text-xs md:text-sm font-black uppercase tracking-widest text-gray-700 cursor-pointer"
               >
                 <option value={5}>5 per page</option>
                 <option value={10}>10 per page</option>
@@ -122,12 +122,12 @@ const ManageItems = () => {
                     <img src={blog.coverImg} alt={blog.title} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-gray-900 text-sm line-clamp-2 mb-2 uppercase tracking-tight leading-tight">{blog.title}</h3>
+                    <h3 className="font-black text-gray-900 text-xs line-clamp-2 mb-2 uppercase tracking-tight leading-tight">{blog.title}</h3>
                     <div className="flex items-center gap-2">
                       <span className="px-2 py-0.5 bg-blue-50 text-blue-700 text-[8px] font-black uppercase tracking-widest rounded-md border border-blue-100">
                         {blog.category}
                       </span>
-                      <span className="text-[10px] text-gray-400 font-medium">
+                      <span className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">
                         {new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </span>
                     </div>
@@ -136,8 +136,8 @@ const ManageItems = () => {
                 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-50 gap-2">
                    <div className="flex-1">
-                      <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Author</p>
-                      <p className="text-[11px] font-bold text-gray-700 truncate">{blog.author?.username || 'Admin'}</p>
+                      <p className="text-[8px] font-black text-gray-300 uppercase tracking-widest">Author</p>
+                      <p className="text-[10px] font-black text-gray-600 uppercase tracking-tight truncate">{blog.author?.username || 'Admin'}</p>
                    </div>
                    <div className="flex gap-2">
                       <button onClick={() => window.open(`/blogs/${blog._id}`, '_blank')} className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl"><HiOutlineEye size={18} /></button>
@@ -149,8 +149,8 @@ const ManageItems = () => {
             ))
           ) : (
             <div className="bg-white rounded-2xl p-12 text-center border border-gray-100">
-              <HiOutlineSearch className="mx-auto text-4xl text-gray-200 mb-4" />
-              <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">No posts found</p>
+              <HiOutlineSearch className="mx-auto text-4xl text-gray-100 mb-4" />
+              <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">No posts found</p>
             </div>
           )}
         </div>
