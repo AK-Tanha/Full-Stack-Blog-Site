@@ -1,7 +1,29 @@
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
+const slides = [
+  {
+    img: "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?q=80&w=2070&auto=format&fit=crop",
+    category: "MMA",
+    title: "UFC 300: The Era of Championship Excellence",
+    description: "Witness the historic night where legends were born and titles were unified in the most anticipated card of the decade."
+  },
+  {
+    img: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=2070&auto=format&fit=crop",
+    category: "BOXING",
+    title: "Heavyweight Unification: The Clash of Titans",
+    description: "The undisputed throne is at stake as the world's two most powerful punchers prepare for a collision course in Riyadh."
+  },
+  {
+    img: "https://images.unsplash.com/photo-1552072805-2a9039d00e57?q=80&w=2070&auto=format&fit=crop",
+    category: "MUAY THAI",
+    title: "The Art of Eight Limbs: Bangkok's New Rising Star",
+    description: "A deep dive into the discipline and grit of the youngest stadium champion to ever grace the Lumpinee stage."
+  }
+];
 
 const Hero = () => {
   return (

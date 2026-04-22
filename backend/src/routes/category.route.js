@@ -1,5 +1,6 @@
 const express = require('express');
 const Category = require('../model/category.model');
+const Blog = require('../model/blog.model');
 const router = express.Router();
 
 // Create a new category
@@ -14,11 +15,24 @@ router.post('/create-category', async (req, res) => {
     }
 });
 
-// Get all categories
+// Get all categories with post counts
 router.get('/', async (req, res) => {
     try {
         const categories = await Category.find();
-        res.status(200).send(categories);
+        
+        // Add post count to each category
+        const categoriesWithCount = await Promise.all(categories.map(async (cat) => {
+            const postCount = await Blog.countDocuments({ category: cat.name });
+            return {
+                ...cat._doc,
+                postCount
+            };
+        }));
+
+        // Sort by postCount descending
+        categoriesWithCount.sort((a, b) => b.postCount - a.postCount);
+
+        res.status(200).send(categoriesWithCount);
     } catch (error) {
         console.error("Error fetching categories", error);
         res.status(500).send({ message: "Failed to fetch categories" });

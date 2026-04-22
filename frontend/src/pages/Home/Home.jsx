@@ -1,24 +1,13 @@
-import { useState } from "react"
+import { useSearchParams } from "react-router-dom"
 import Blogs from "../blogs/Blogs"
-import Searchblogs from "../blogs/Searchblogs"
+import Hero from "./Hero"
 
 const Home = () => {
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('');
-  const [query, setQuery] = useState({ search: "", category: "" });
-
-  const handleSearchChange = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const handleSearch = () => {
-    setQuery({ search, category });
-  };
-
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-    setQuery({ ...query, category: e.target.value });
-  };
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get('search') || "";
+  const category = searchParams.get('category') || "";
+  
+  const query = { search, category };
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen text-gray-900">
@@ -37,18 +26,30 @@ const Home = () => {
       </div>
 
       <div className="container mx-auto px-4 pb-12">
-        {/* Sleek Search Bar - Now Full Width Above Content */}
-        <Searchblogs 
-          search={search}
-          handleSearchChange={handleSearchChange}
-          handleSearch={handleSearch}
-          category={category}
-          handleCategoryChange={handleCategoryChange}
-        />
-
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Main Content Area */}
           <div className="lg:w-3/4">
+            <div className="mb-10">
+              <Hero />
+            </div>
+            
+            <div className="flex items-center justify-between mb-8 border-b border-gray-200 pb-4">
+               <div>
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-gray-900">
+                    {category ? `${category} Stories` : 'Latest Headlines'}
+                  </h3>
+                  {search && (
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">
+                      Showing results for: <span className="text-orange-600">"{search}"</span>
+                    </p>
+                  )}
+               </div>
+               <div className="hidden sm:flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Live Edition</span>
+               </div>
+            </div>
+
             <Blogs query={query} />
           </div>
 
