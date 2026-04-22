@@ -60,9 +60,30 @@ const SingleBlogCard = ({ blog }) => {
 
         {/* Blog Content - Directly rendering HTML from Quill */}
         <div className='max-w-4xl mx-auto pb-16'>
+          {description && (
+            <div className="mb-12 p-8 bg-orange-50/50 rounded-[32px] border-l-8 border-orange-600 shadow-sm">
+              <p className="text-xl md:text-2xl text-gray-800 font-extrabold italic leading-relaxed">
+                {description}
+              </p>
+            </div>
+          )}
+
           <div 
-            dangerouslySetInnerHTML={{ __html: content }} 
-            className='prose prose-lg md:prose-xl max-w-none text-gray-800 leading-relaxed font-medium space-y-4 quill-content' 
+            dangerouslySetInnerHTML={{ 
+              __html: String(content || "")
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&amp;/g, '&')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'")
+                .replace(/&nbsp;/g, ' ')
+                // Super Cleanup: Strip wrapper paragraphs even with whitespace/nbsp
+                .replace(/<p>\s*<(h1|h2|h3|h4|h5|h6|ul|ol|li|blockquote|hr|p)/g, '<$1')
+                .replace(/<\/(h1|h2|h3|h4|h5|h6|ul|ol|li|blockquote|hr|p)>\s*<\/p>/g, '</$1>')
+                // Remove any remaining empty paragraphs
+                .replace(/<p>\s*<\/p>/g, '')
+            }} 
+            className='quill-content ql-editor prose prose-lg md:prose-xl max-w-none text-gray-800 leading-relaxed' 
           />
           
           {/* Article Footer / Rating */}
@@ -75,7 +96,7 @@ const SingleBlogCard = ({ blog }) => {
               </div>
               <div className="h-6 w-[1px] bg-gray-200" />
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-gray-900">{rating || "4.8"}</span>
+                <span className="text-2xl font-black text-gray-900">{rating || "0.0"}</span>
                 <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Article Impact</span>
               </div>
             </div>
@@ -103,11 +124,7 @@ const SingleBlogCard = ({ blog }) => {
         </div>
       </div>
       
-      <style dangerouslySetInnerHTML={{ __html: `
-        .quill-content img { border-radius: 20px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); }
-        .quill-content h1, .quill-content h2, .quill-content h3 { font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; }
-        .quill-content blockquote { border-left: 8px solid #ea580c; background: #fff7ed; padding: 1.5rem 2rem; border-radius: 0 20px 20px 0; font-style: normal; font-weight: 700; color: #9a3412; }
-      `}} />
+
     </div>
   );
 };

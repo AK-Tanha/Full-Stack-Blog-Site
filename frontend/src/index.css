@@ -6,28 +6,103 @@
   color: #1E73BE;
 }
 
-/* EditorJS Styling */
-.editorJsdiv p {
-  margin-bottom: .5rem; /* ← Add paragraph spacing */
+/* Blog & Quill Content Styling */
+.quill-content, .ql-editor {
+  word-wrap: break-word;
 }
 
-.editorJsdiv h2 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 1.5rem 0 1rem;
+/* 1. Aggressive Spacing Cleanup (Fixes double-wrapping) */
+.quill-content p:empty, .ql-editor p:empty,
+.quill-content p:has(br:only-child), .ql-editor p:has(br:only-child) {
+  display: none !important;
 }
 
-.editorJsdiv h3,
-.editorJsdiv h4,
-.editorJsdiv h5 {
-  font-size: 16px;
-  font-weight: 500;
-  margin: 1.25rem 0 0.75rem;
+/* 2. Disable Prose Quotation Marks */
+.prose blockquote p:first-of-type::before,
+.prose blockquote p:last-of-type::after {
+  content: none !important;
 }
 
-.editorJsdiv li {
-  margin-bottom: 10px;
-  list-style-type: disc;
-  margin-left: 25px;
-  padding-left: 10px;
+/* 3. Image Styling */
+.quill-content img, .ql-editor img { 
+  border-radius: 20px !important; 
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1) !important; 
+  margin: 1.5rem auto !important;
+  display: block !important;
+  max-width: 100% !important;
 }
+
+/* 4. High-Impact Headers - Ultra Tight */
+.quill-content h1, .ql-editor h1,
+.quill-content h2, .ql-editor h2,
+.quill-content h3, .ql-editor h3 { 
+  font-weight: 900 !important; 
+  text-transform: uppercase !important; 
+  letter-spacing: -0.03em !important; 
+  margin-top: 1.5rem !important; 
+  margin-bottom: 0.5rem !important; 
+  line-height: 1.1 !important;
+  color: #111827 !important;
+}
+
+/* 5. Body Text - Ultra Tight & Nesting Fix */
+.quill-content p, .ql-editor p { 
+  margin-bottom: 0.5rem !important; 
+  line-height: 1.6 !important; 
+  color: #374151 !important;
+}
+
+/* Remove margins if p is just a wrapper for other elements */
+.quill-content p:has(h1), .ql-editor p:has(h1),
+.quill-content p:has(h2), .ql-editor p:has(h2),
+.quill-content p:has(h3), .ql-editor p:has(h3),
+.quill-content p:has(ul), .ql-editor p:has(ul),
+.quill-content p:has(ol), .ql-editor p:has(ol),
+.quill-content p:has(blockquote), .ql-editor p:has(blockquote) {
+  margin-bottom: 0 !important;
+}
+
+/* 6. Combat Sports Blockquotes */
+.quill-content blockquote, .ql-editor blockquote { 
+  border-left: 8px solid #ea580c !important; 
+  background: #fff7ed !important; 
+  padding: 1.25rem 1.75rem !important; 
+  border-radius: 0 20px 20px 0 !important; 
+  font-style: normal !important; 
+  font-weight: 600 !important; 
+  color: #9a3412 !important; 
+  margin: 1.5rem 0 !important; 
+  font-size: 1.1rem !important;
+}
+
+/* 7. Clean Dividers */
+.quill-content hr, .ql-editor hr {
+  margin: 2rem 0 !important;
+  border: none !important;
+  border-top: 2px solid #f1f5f9 !important;
+}
+
+/* 8. Unified Lists - Ultra Tight */
+.quill-content ul, .ql-editor ul,
+.quill-content ol, .ql-editor ol {
+  margin-bottom: 1rem !important;
+  padding-left: 1.5rem !important;
+}
+
+.quill-content li, .ql-editor li {
+  margin-bottom: 0.25rem !important;
+  padding-left: 0.25rem !important;
+  line-height: 1.5 !important;
+}
+
+.quill-content strong, .ql-editor strong {
+  font-weight: 800 !important;
+  color: #111827 !important;
+}
+
+.quill-content a, .ql-editor a {
+  color: #ea580c !important;
+  text-decoration: underline !important;
+  font-weight: 700 !important;
+}
+
