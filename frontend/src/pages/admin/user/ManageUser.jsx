@@ -14,7 +14,7 @@ const ManageUser = () => {
       await deleteUser(userId).unwrap()
       setDeleteConfirm(null)
       alert('User deleted successfully!')
-      getUsers() // Refresh the list
+      refetch() // Refresh the list
     } catch (err) {
       console.error('Failed to delete user:', err)
       alert('Failed to delete user')
@@ -26,8 +26,9 @@ const ManageUser = () => {
       await updateUserRole({ userId, role: { role: newRole } }).unwrap()
       setRoleChangeConfirm(null)
       alert('User role updated successfully!')
-      getUsers() // Refresh the list
+      refetch() // Refresh the list
     } catch (err) {
+
       console.error('Failed to update user role:', err)
       alert('Failed to update user role')
     }

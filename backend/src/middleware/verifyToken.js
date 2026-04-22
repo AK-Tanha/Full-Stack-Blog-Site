@@ -1,27 +1,39 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET_KEY;
 
-const verfyToken = (req, res, next)=>{
+const verifyToken = (req, res, next) => {
     try {
-        //const token = req.cookies.token;
-        const token = req.headers.authorization?.split(' ')[1] ; //barrier token
-        if (!token) {
-            return res.status(401).send({message: "no token provided"});
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).send({ message: "No Authorization header provided" });
         }
+
+        const token = authHeader.split(' ')[1];
+        if (!token) {
+            return res.status(401).send({ message: "No token provided" });
+        }
+
+        const JWT_SECRET = process.env.JWT_SECRET_KEY;
+        if (!JWT_SECRET) {
+            console.error("JWT_SECRET_KEY is not defined in environment variables");
+            return res.status(500).send({ message: "Internal server error: JWT configuration missing" });
+        }
+
         const decoded = jwt.verify(token, JWT_SECRET);
         if (!decoded.userId) {
-            return res.status(401).send({message: "invalid token provided"});
+            return res.status(401).send({ message: "Invalid token: User ID missing" });
         }
+
         req.userId = decoded.userId;
-        //req.role = decoded.role;
         req.role = decoded.role;
 
         next();
-
     } catch (error) {
-        console.error("error varify token", error);
-        res.status(401).send({message: "invalid token"});
+        console.error("Error verifying token:", error.message);
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).send({ message: "Token has expired" });
+        }
+        res.status(401).send({ message: "Invalid token" });
     }
-} 
+}
 
-module.exports = verfyToken ;
+module.exports = verifyToken;
