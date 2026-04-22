@@ -1,6 +1,24 @@
-import { FaUserCircle, FaClock, FaStar, FaRegStar } from "react-icons/fa";
+import { FaUserCircle, FaClock, FaStar, FaRegStar,FaFacebook,FaTwitter,FaInstagram } from "react-icons/fa";
 import { formatDate } from "../../../utility/DateFormat";
 
+
+const socialICONS= [
+  {
+    name: "Facebook",
+    icon: <FaFacebook />,
+    color: "hover:bg-[#1877F2] hover:shadow-[#1877F2]/30"
+  },
+  {
+    name: "Twitter",
+    icon: <FaTwitter />,
+    color: "hover:bg-[#1DA1F2] hover:shadow-[#1DA1F2]/30"
+  },
+  {
+    name: "Instagram",
+    icon: <FaInstagram />,
+    color: "hover:bg-[#E4405F] hover:shadow-[#E4405F]/30"
+  },
+]
 
 const SingleBlogCard = ({ blog }) => {
   const { title, description, content, coverImg, category, rating, author, createdAt } = blog || {};
@@ -62,12 +80,21 @@ const SingleBlogCard = ({ blog }) => {
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-black uppercase tracking-widest text-gray-400">Share This Story:</span>
-              <div className="flex gap-2">
-                {['FB', 'TW', 'IN'].map(social => (
-                  <button key={social} className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-black hover:bg-orange-600 hover:text-white transition-all shadow-sm">
-                    {social}
+            <div className="flex items-center gap-4">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Share Story</span>
+              <div className="flex gap-3">
+                {socialICONS.map(social => (
+                  <button 
+                    key={social.name} 
+                    onClick={() => {
+                      const url = window.location.href;
+                      navigator.clipboard.writeText(url);
+                      alert("Link copied to clipboard!");
+                    }}
+                    className={`w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-xl text-gray-400 hover:text-white transition-all duration-300 shadow-sm hover:-translate-y-1 active:scale-90 ${social.color}`}
+                    title={`Copy link for ${social.name}`}
+                  >
+                    {social.icon}
                   </button>
                 ))}
               </div>
