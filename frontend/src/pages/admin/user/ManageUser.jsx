@@ -5,12 +5,14 @@ import {
   useUpdateUserByAdminMutation, 
   useCreateUserByAdminMutation 
 } from '../../../redux/features/auth/authAPI'
+import { useUploadImageMutation } from '../../../redux/features/blogs/blogsApi'
 
 const ManageUser = () => {
   const { data: usersData, isLoading, refetch } = useGetUsersQuery()
   const [deleteUser] = useDeleteUserMutation()
   const [updateUser] = useUpdateUserByAdminMutation()
   const [createUser] = useCreateUserByAdminMutation()
+  const [uploadImageMutation, { isLoading: isUploading }] = useUploadImageMutation()
   
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [userModal, setUserModal] = useState({ isOpen: false, type: 'create', user: null })
@@ -24,7 +26,6 @@ const ManageUser = () => {
   })
   
   const [imageFile, setImageFile] = useState(null)
-  const [isUploading, setIsUploading] = useState(false)
 
   const handleOpenModal = (type, user = null) => {
     if (type === 'edit' && user) {
@@ -55,33 +56,18 @@ const ManageUser = () => {
     }
   }
 
-  const uploadImage = async () => {
-    if (!imageFile) return formData.profileImage
-    
-    setIsUploading(true)
-    const uploadData = new FormData()
-    uploadData.append('image', imageFile)
-    
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, {
-        method: 'POST',
-        body: uploadData
-      })
-      const data = await response.json()
-      setIsUploading(false)
-      return data.url
-    } catch (err) {
-      console.error('Image upload failed:', err)
-      setIsUploading(false)
-      alert('Failed to upload image')
-      return formData.profileImage
-    }
-  }
-
-  const handleSubmit = async (e) => {
+  const handleUploadAndSubmit = async (e) => {
     e.preventDefault()
     try {
-      const profileImageUrl = await uploadImage()
+      let profileImageUrl = formData.profileImage
+
+      if (imageFile) {
+        const uploadData = new FormData()
+        uploadData.append('image', imageFile)
+        const uploadResponse = await uploadImageMutation(uploadData).unwrap()
+        profileImageUrl = uploadResponse.url
+      }
+      
       const finalData = { ...formData, profileImage: profileImageUrl }
       
       if (userModal.type === 'create') {
@@ -257,7 +243,7 @@ const ManageUser = () => {
               {userModal.type === 'create' ? 'Onboard New User' : 'Revise User Profile'}
             </h3>
             
-            <form onSubmit={handleSubmit} className='space-y-6 relative z-10'>
+            <form onSubmit={handleUploadAndSubmit} className='space-y-6 relative z-10'>
               <div className='flex justify-center mb-8'>
                 <div className='relative group'>
                   <div className='w-28 h-28 rounded-[32px] overflow-hidden bg-indigo-50 border-4 border-white shadow-xl flex items-center justify-center'>
