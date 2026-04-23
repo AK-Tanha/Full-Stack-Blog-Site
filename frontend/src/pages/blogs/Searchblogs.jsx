@@ -32,7 +32,7 @@ const Searchblogs = ({ search, handleSearchChange, handleSearch, category, handl
           <select
             value={category}
             onChange={handleCategoryChange}
-            className="w-full bg-transparent text-gray-700 font-black text-[10px] md:text-sm uppercase tracking-widest focus:outline-none appearance-none cursor-pointer pr-8"
+            className="w-full bg-transparent text-gray-700 font-outfit font-black text-[10px] md:text-sm uppercase tracking-widest focus:outline-none appearance-none cursor-pointer pr-8"
             style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%236b7280\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0 center', backgroundSize: '1rem' }}
           >
             <option value="">Categories</option>
@@ -45,7 +45,7 @@ const Searchblogs = ({ search, handleSearchChange, handleSearch, category, handl
         {/* Action Button */}
         <button
           onClick={handleSearch}
-          className="bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest px-8 md:px-10 py-5 md:py-4 transition-all active:scale-95 text-xs md:text-sm"
+          className="bg-orange-600 hover:bg-orange-700 text-white font-outfit font-black uppercase tracking-widest px-8 md:px-10 py-5 md:py-4 transition-all active:scale-95 text-xs md:text-sm"
         >
           Search
         </button>

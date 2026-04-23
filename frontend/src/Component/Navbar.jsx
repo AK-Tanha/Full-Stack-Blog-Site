@@ -108,7 +108,7 @@ const Navbar = () => {
               <FaYoutube className='hover:text-red-600 cursor-pointer transition-all text-xs' />
             </div>
             {!user && (
-              <Link to="/log-in" className='text-[10px] font-black uppercase tracking-widest text-gray-900 hover:text-orange-600 transition-colors'>
+              <Link to="/log-in" className='text-[10px] font-outfit font-black uppercase tracking-widest text-gray-900 hover:text-orange-600 transition-colors'>
                 Member Sign In
               </Link>
             )}
@@ -125,7 +125,7 @@ const Navbar = () => {
 
           <Link to="/" className='flex flex-col items-center group' onClick={() => handleCategoryChange('')}>
             <img src="/Logo.png" alt="Logo" className='h-12 md:h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-105' />
-            <span className='text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-gray-400 mt-2 text-center'>Combat Sports Authority</span>
+            <span className='text-[10px] md:text-xs font-outfit font-black uppercase tracking-[0.4em] text-gray-400 mt-2 text-center'>Combat Sports Authority</span>
           </Link>
 
           {/* Search & Profile Area */}
@@ -185,7 +185,7 @@ const Navbar = () => {
           {/* Desktop Nav Items */}
           <ul className='hidden lg:flex items-center gap-10'>
             <li>
-              <button onClick={() => handleCategoryChange('')} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${!searchParams.get('category') ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}>
+              <button onClick={() => handleCategoryChange('')} className={`text-[11px] font-outfit font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${!searchParams.get('category') ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}>
                 News
               </button>
             </li>
@@ -194,7 +194,7 @@ const Navbar = () => {
               <li key={cat._id}>
                 <button 
                   onClick={() => handleCategoryChange(cat.name)} 
-                  className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${searchParams.get('category') === cat.name ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}
+                  className={`text-[11px] font-outfit font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${searchParams.get('category') === cat.name ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}
                 >
                   {cat.name}
                 </button>
@@ -204,7 +204,7 @@ const Navbar = () => {
             {/* MORE DROPDOWN (Overflow Categories Only) */}
             {moreCategories.length > 0 && (
                <li className='relative group'>
-                  <button className={`text-[11px] font-black uppercase tracking-[0.2em] py-2 flex items-center gap-1 transition-all ${moreCategories.some(c => searchParams.get('category') === c.name) ? 'text-orange-600' : 'text-gray-900 hover:text-orange-600'}`}>
+                  <button className={`text-[11px] font-outfit font-black uppercase tracking-[0.2em] py-2 flex items-center gap-1 transition-all ${moreCategories.some(c => searchParams.get('category') === c.name) ? 'text-orange-600' : 'text-gray-900 hover:text-orange-600'}`}>
                     More
                     <svg className='w-3 h-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='3' d='M19 9l-7 7-7-7'></path></svg>
                   </button>
@@ -219,12 +219,12 @@ const Navbar = () => {
             )}
 
             <li>
-              <NavLink to="/about-us" className={({ isActive }) => `text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${isActive ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}>
+              <NavLink to="/about-us" className={({ isActive }) => `text-[11px] font-outfit font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${isActive ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}>
                 About
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contact-us" className={({ isActive }) => `text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${isActive ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}>
+              <NavLink to="/contact-us" className={({ isActive }) => `text-[11px] font-outfit font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${isActive ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}>
                 Contact
               </NavLink>
             </li>

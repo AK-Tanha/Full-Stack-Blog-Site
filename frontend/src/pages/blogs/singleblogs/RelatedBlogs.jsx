@@ -28,7 +28,7 @@ const RelatedBlogs = () => {
                 />
               </div>
               <div className='flex-1 min-w-0'>
-                <h4 className='font-black text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2 mb-2 leading-[1.3] text-sm uppercase tracking-tight'>
+                <h4 className='font-outfit font-black text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2 mb-2 leading-[1.3] text-sm uppercase tracking-tight'>
                   {blog?.title}
                 </h4>
                 <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">

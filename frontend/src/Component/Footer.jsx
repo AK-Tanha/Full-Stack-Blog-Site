@@ -47,7 +47,7 @@ const Footer = () => {
             <Link
               key={item}
               to="/"
-              className="text-xs font-bold uppercase tracking-[0.15em] text-gray-400 hover:text-gray-900 transition-colors"
+              className="text-xs font-outfit font-bold uppercase tracking-[0.15em] text-gray-400 hover:text-gray-900 transition-colors"
             >
               {item}
             </Link>

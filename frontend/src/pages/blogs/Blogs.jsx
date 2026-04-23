@@ -14,7 +14,7 @@ const Blogs = ({ query }) => {
     return (
       <div className="mb-24 last:mb-0" key={key}>
         <div className="flex items-center gap-4 mb-8 md:mb-10">
-          <h3 className={`text-xl md:text-3xl font-black uppercase tracking-tight text-gray-900 px-4 md:px-5 py-2 ${themeColor === 'orange' ? 'bg-orange-50 border-orange-600' : 'bg-amber-50 border-amber-500'} border-l-8 shadow-sm`}>
+          <h3 className={`text-xl md:text-3xl font-outfit font-black uppercase tracking-tight text-gray-900 px-4 md:px-5 py-2 ${themeColor === 'orange' ? 'bg-orange-50 border-orange-600' : 'bg-amber-50 border-amber-500'} border-l-8 shadow-sm`}>
             {title}
           </h3>
           <div className="h-[2px] flex-grow bg-gray-100"></div>
@@ -32,10 +32,10 @@ const Blogs = ({ query }) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               
               <div className="absolute bottom-0 left-0 p-6 md:p-12 w-full">
-                <span className={`${themeColor === 'orange' ? 'bg-orange-600' : 'bg-amber-500'} text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-3 md:px-4 py-1.5 rounded-full mb-4 md:mb-6 inline-block text-white shadow-lg`}>
+                <span className={`${themeColor === 'orange' ? 'bg-orange-600' : 'bg-amber-500'} text-[9px] md:text-[10px] font-outfit font-black uppercase tracking-[0.2em] px-3 md:px-4 py-1.5 rounded-full mb-4 md:mb-6 inline-block text-white shadow-lg`}>
                   Featured Story
                 </span>
-                <h2 className="text-xl md:text-4xl font-black leading-tight mb-3 md:mb-4 text-white drop-shadow-2xl group-hover:underline decoration-2 md:decoration-4 underline-offset-8">
+                <h2 className="text-xl md:text-4xl font-outfit font-black leading-tight mb-3 md:mb-4 text-white drop-shadow-2xl group-hover:underline decoration-2 md:decoration-4 underline-offset-8">
                   {featuredBlog.title}
                 </h2>
                 <p className="text-gray-200 line-clamp-2 text-sm md:text-lg max-w-2xl font-medium opacity-90">
@@ -58,10 +58,10 @@ const Blogs = ({ query }) => {
                   <img src={blog.coverImg} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 </div>
                 <div className="flex flex-col justify-center py-1">
-                  <span className={`text-[10px] font-black uppercase tracking-[0.15em] ${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} mb-2`}>
+                  <span className={`text-[10px] font-outfit font-black uppercase tracking-[0.15em] ${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} mb-2`}>
                     {blog.category || "General"}
                   </span>
-                  <h4 className={`text-lg font-bold text-gray-900 line-clamp-2 leading-tight group-hover:${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} transition-colors duration-300`}>
+                  <h4 className={`text-lg font-outfit font-bold text-gray-900 line-clamp-2 leading-tight group-hover:${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} transition-colors duration-300`}>
                     {blog.title}
                   </h4>
                   <div className="mt-3 flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest">

@@ -11,6 +11,10 @@ module.exports = {
         primary: '#222222',
         accent: '34495E',
       },
+      fontFamily: {
+        sans: ['Inter', 'Hind Siliguri', 'system-ui', 'sans-serif'],
+        outfit: ['Outfit', 'Hind Siliguri', 'sans-serif'],
+      },
       typography: {
         DEFAULT: {
           css: {

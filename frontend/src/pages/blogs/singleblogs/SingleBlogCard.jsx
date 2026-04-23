@@ -34,7 +34,7 @@ const SingleBlogCard = ({ blog }) => {
         {/* Article Header Info - Tightened Spacing */}
         <div className="max-w-4xl mb-8">
           {category && (
-            <span className="bg-orange-600 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-4 md:px-5 py-2 rounded-full mb-4 inline-block shadow-lg">
+            <span className="bg-orange-600 text-white text-[9px] md:text-[10px] font-outfit font-black uppercase tracking-[0.2em] px-4 md:px-5 py-2 rounded-full mb-4 inline-block shadow-lg">
               {category}
             </span>
           )}
@@ -49,7 +49,7 @@ const SingleBlogCard = ({ blog }) => {
               ) : (
                 <FaUserCircle className="text-orange-600 w-5 h-5" />
               )}
-              <span className="text-gray-900 font-black">By {author?.username || "Combat Staff"}</span>
+              <span className="text-gray-900 font-outfit font-black">By {author?.username || "Combat Staff"}</span>
             </div>
             <div className="flex items-center gap-2">
               <FaClock className="text-gray-400 w-4 h-4" />
@@ -100,13 +100,13 @@ const SingleBlogCard = ({ blog }) => {
               </div>
               <div className="h-6 w-[1px] bg-gray-200" />
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-gray-900">{rating || "0.0"}</span>
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Article Impact</span>
+                <span className="text-2xl font-outfit font-black text-gray-900">{rating || "0.0"}</span>
+                <span className="text-xs font-outfit font-bold text-gray-400 uppercase tracking-widest">Article Impact</span>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Share Story</span>
+              <span className="text-[10px] font-outfit font-black uppercase tracking-[0.2em] text-gray-400">Share Story</span>
               <div className="flex gap-3">
                 {socialICONS.map(social => (
                   <button 

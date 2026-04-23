@@ -57,16 +57,16 @@ const Hero = () => {
               
               {/* Content */}
               <div className='absolute bottom-0 left-0 p-6 md:p-12 w-full md:w-3/4 text-white'>
-                <span className='inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest uppercase bg-blue-600 rounded-full'>
+                <span className='inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest uppercase bg-blue-600 rounded-full font-outfit'>
                   {slide.category}
                 </span>
-                <h2 className='text-3xl md:text-5xl font-extrabold mb-4 leading-tight drop-shadow-lg'>
+                <h2 className='text-3xl md:text-5xl font-outfit font-black mb-4 leading-tight drop-shadow-lg'>
                   {slide.title}
                 </h2>
                 <p className='text-lg md:text-xl text-gray-200 mb-6 line-clamp-2 max-w-2xl'>
                   {slide.description}
                 </p>
-                <button className='px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-blue-600 hover:text-white transition-colors duration-300 transform hover:-translate-y-1'>
+                <button className='px-6 py-3 bg-white text-black font-outfit font-bold rounded-lg hover:bg-orange-600 hover:text-white transition-colors duration-300 transform hover:-translate-y-1'>
                   Read More
                 </button>
               </div>
