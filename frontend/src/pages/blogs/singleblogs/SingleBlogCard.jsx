@@ -78,8 +78,8 @@ const SingleBlogCard = ({ blog }) => {
                 .replace(/&#39;/g, "'")
                 .replace(/&nbsp;/g, ' ')
                 // Super Cleanup: Strip wrapper paragraphs even with whitespace/nbsp
-                .replace(/<p>\s*<(h1|h2|h3|h4|h5|h6|ul|ol|li|blockquote|hr|p)/g, '<$1')
-                .replace(/<\/(h1|h2|h3|h4|h5|h6|ul|ol|li|blockquote|hr|p)>\s*<\/p>/g, '</$1>')
+                .replace(/<p>\s*<(h1|h2|h3|h4|h5|h6|ul|ol|li|blockquote|hr|p|iframe|video)/g, '<$1')
+                .replace(/<\/(h1|h2|h3|h4|h5|h6|ul|ol|li|blockquote|hr|p|iframe|video)>\s*<\/p>/g, '</$1>')
                 // Remove any remaining empty paragraphs
                 .replace(/<p>\s*<\/p>/g, '')
             }} 

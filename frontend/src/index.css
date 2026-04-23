@@ -106,3 +106,15 @@
   font-weight: 700 !important;
 }
 
+/* 9. Responsive Videos & Iframes */
+.quill-content iframe, .ql-editor iframe,
+.quill-content video, .ql-editor video {
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1) !important;
+  margin: 2.5rem 0 !important;
+  height: auto !important;
+  border: none !important;
+}
+
