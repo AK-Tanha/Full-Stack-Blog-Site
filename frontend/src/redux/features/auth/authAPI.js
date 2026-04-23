@@ -14,7 +14,7 @@ const authApi = createApi({
             return headers;
         },
     }),
-
+    tagTypes: ['user', 'profile'],
     endpoints: (builder) => ({
 
         registerUser: builder.mutation({

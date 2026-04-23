@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useGetUserProfileQuery, useUpdateUserProfileMutation } from '../../redux/features/auth/authAPI'
+import { useUploadImageMutation } from '../../redux/features/blogs/blogsApi'
 import { setUser } from '../../redux/features/auth/authSlice'
 import Loading from '../../Component/Loading'
 
@@ -8,12 +9,14 @@ const Profile = () => {
   const { user: authUser } = useSelector((state) => state.auth)
   const { data: profileData, isLoading, refetch } = useGetUserProfileQuery()
   const [updateProfile, { isLoading: isUpdating }] = useUpdateUserProfileMutation()
+  const [uploadImageMutation] = useUploadImageMutation()
   const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    profileImage: ''
+    profileImage: '',
+    password: ''
   })
   const [imageFile, setImageFile] = useState(null)
   const [isUploading, setIsUploading] = useState(false)
@@ -40,17 +43,12 @@ const Profile = () => {
     if (!imageFile) return formData.profileImage
     
     setIsUploading(true)
-    const uploadData = new FormData()
-    uploadData.append('image', imageFile)
-    
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, {
-        method: 'POST',
-        body: uploadData
-      })
-      const data = await response.json()
+      const uploadData = new FormData()
+      uploadData.append('image', imageFile)
+      const uploadResponse = await uploadImageMutation(uploadData).unwrap()
       setIsUploading(false)
-      return data.url
+      return uploadResponse.url
     } catch (err) {
       console.error('Image upload failed:', err)
       setIsUploading(false)
@@ -64,16 +62,25 @@ const Profile = () => {
     
     try {
       const profileImageUrl = await uploadImage()
-      const updatedUser = await updateProfile({ 
+      
+      const payload = { 
         username: formData.username, 
         profileImage: profileImageUrl 
-      }).unwrap()
+      }
+      
+      if (formData.password) {
+        payload.password = formData.password
+      }
+
+      const updatedUser = await updateProfile(payload).unwrap()
       
       // Update local state and Redux
       dispatch(setUser({ user: updatedUser.user, token: localStorage.getItem('token') }))
+      setFormData(prev => ({ ...prev, password: '' }))
       setMessage({ type: 'success', text: 'Profile updated successfully!' })
       refetch()
     } catch (err) {
+      console.error('Profile update error:', err)
       setMessage({ type: 'error', text: err.data?.message || 'Failed to update profile' })
     }
   }
@@ -133,7 +140,7 @@ const Profile = () => {
             <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
               <div className="lg:col-span-2">
                 <form onSubmit={handleSubmit} className="space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Display Name</label>
                       <input
@@ -152,6 +159,16 @@ const Profile = () => {
                         disabled
                         className="w-full px-6 py-4 bg-gray-50/50 border border-gray-100 rounded-[20px] font-bold text-gray-400 cursor-not-allowed"
                         placeholder="Email cannot be changed"
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">New Password</label>
+                      <input
+                        type="password"
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-[20px] focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-bold text-gray-700"
+                        placeholder="Leave blank to keep current"
                       />
                     </div>
                   </div>

@@ -149,8 +149,17 @@ router.put("/users/:id", verifyToken, isAdmin, async (req, res) => {
 // User: Update own profile
 router.put("/profile", verifyToken, async (req, res) => {
     try {
-        const { username, profileImage } = req.body;
-        const user = await User.findByIdAndUpdate(req.userId, { username, profileImage }, { new: true });
+        const { username, profileImage, password } = req.body;
+        
+        const updateData = { username, profileImage };
+        
+        // Handle password update if provided
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(password, salt);
+        }
+
+        const user = await User.findByIdAndUpdate(req.userId, updateData, { new: true }).select('-password');
         if (!user) {
             return res.status(404).send({ message: "User not found" });
         }
