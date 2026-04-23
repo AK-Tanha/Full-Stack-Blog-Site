@@ -44,8 +44,12 @@ const SingleBlogCard = ({ blog }) => {
           
           <div className='flex flex-wrap items-center gap-6 text-gray-500 text-xs font-bold uppercase tracking-widest border-y border-gray-100 py-5'>
             <div className="flex items-center gap-2">
-              <FaUserCircle className="text-orange-600 w-4 h-4" />
-              <span className="text-gray-900">By {author?.username || "Combat Staff"}</span>
+              {author?.profileImage ? (
+                <img src={author.profileImage} alt={author.username} className="w-6 h-6 rounded-full object-cover border border-orange-100 shadow-sm" />
+              ) : (
+                <FaUserCircle className="text-orange-600 w-5 h-5" />
+              )}
+              <span className="text-gray-900 font-black">By {author?.username || "Combat Staff"}</span>
             </div>
             <div className="flex items-center gap-2">
               <FaClock className="text-gray-400 w-4 h-4" />

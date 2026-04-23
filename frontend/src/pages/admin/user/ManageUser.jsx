@@ -108,6 +108,8 @@ const ManageUser = () => {
 
   const users = usersData?.users || []
 
+  console.log(users)
+
   return (
     <div className='max-w-7xl mx-auto bg-white p-4 md:p-8 rounded-[24px] md:rounded-[32px] shadow-2xl shadow-gray-200/50 border border-gray-100'>
       <div className='flex flex-col md:flex-row justify-between items-center mb-8 md:mb-10 pb-6 border-b border-gray-100 gap-6'>

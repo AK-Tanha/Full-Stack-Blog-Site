@@ -4,6 +4,7 @@ const router = express.Router();
 const verifyToken = require('../middleware/verifyToken');
 const isAdmin = require('../middleware/isAdmin');
 const Comment = require('../model/comment.model');
+const User = require('../model/user.model');
 
 
 //create a blog
@@ -55,7 +56,7 @@ router.get('/', async (req, res) => {
             }
         }
 
-        const posts = await Blog.find(query).populate('author', 'email').sort({ createdAt: -1 });
+        const posts = await Blog.find(query).populate('author', 'username email profileImage').sort({ createdAt: -1 });
         res.status(200).send(posts)
     } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -69,13 +70,16 @@ router.get("/:id",async (req, res) => {
     try {
         //console.log(req.params.id)
         const postId = req.params.id
-        const post = await Blog.findById(postId);
-
+        const post = await Blog.findById(postId).populate('author', 'username email profileImage').lean();
         if (!post) {
             return res.status(404).send({ message: "post not found" })
         }
 
-        const comments = await Comment.find({postId: postId}).populate("user", "username email")
+        const comments = await Comment.find({ postId }).populate({
+            path: 'user',
+            select: 'username email profileImage'
+        }).lean();
+        
         res.status(200).send({
             post, comments
         })

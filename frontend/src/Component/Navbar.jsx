@@ -5,8 +5,9 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import avatarImg from "../assets/commentor.png"
 import { useLogoutUserMutation } from '../../src/redux/features/auth/authAPI';
-import { logout } from '../../src/redux/features/auth/authSlice'
+import { logout, setUser } from '../../src/redux/features/auth/authSlice'
 import { useFetchCategoriesQuery } from '../../src/redux/features/category/categoryApi';
+import { useGetUserProfileQuery } from '../../src/redux/features/auth/authAPI';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,12 +19,22 @@ const Navbar = () => {
   const [searchInput, setSearchInput] = useState(searchParams.get('search') || "");
   const navigate = useNavigate();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user: authUser } = useSelector((state) => state.auth);
+  const { data: profileData } = useGetUserProfileQuery(undefined, { skip: !authUser });
   const { data: categories } = useFetchCategoriesQuery();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  
+  const user = profileData?.user || authUser;
 
   const [logOutUser] = useLogoutUserMutation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (profileData?.user) {
+      // Keep Redux store in sync with fresh profile data
+      dispatch(setUser({ user: profileData.user, token: localStorage.getItem('token') }));
+    }
+  }, [profileData, dispatch]);
 
   useEffect(() => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -143,7 +154,7 @@ const Navbar = () => {
 
             {user && (
                <div className={`relative group transition-all duration-300 ${isSearchOpen && window.innerWidth < 640 ? 'hidden' : 'block'}`}>
-                  <img src={user.profileImage || avatarImg} alt="user" className='w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-white ring-1 ring-gray-100 group-hover:ring-orange-600 transition-all cursor-pointer object-cover shadow-sm' />
+                  <img src={user?.profileImage || avatarImg} alt="user" className='w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-white ring-1 ring-gray-100 group-hover:ring-orange-600 transition-all cursor-pointer object-cover shadow-sm' />
                   <div className='absolute hidden group-hover:block top-full right-0 pt-3 w-52 z-[100]'>
                     <div className='bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden'>
                       <div className='px-6 py-4 bg-gray-50 border-b border-gray-100'>
@@ -225,7 +236,7 @@ const Navbar = () => {
                 <IoSearchOutline size={20} />
               </button>
               {user ? (
-                <Link to="/profile"><img src={user.profileImage || avatarImg} alt="user" className='w-8 h-8 rounded-full border border-gray-100 object-cover' /></Link>
+                <Link to="/profile"><img src={user?.profileImage || avatarImg} alt="user" className='w-8 h-8 rounded-full border border-gray-100 object-cover' /></Link>
               ) : (
                 <Link to="/log-in" className='text-[9px] font-black uppercase tracking-widest text-gray-900 hover:text-orange-600 transition-colors'>Sign In</Link>
               )}
@@ -256,8 +267,8 @@ const Navbar = () => {
               {user ? (
                 <div className='flex flex-col gap-4'>
                   <div className='flex items-center gap-4 mb-4'>
-                    <img src={user.profileImage || avatarImg} alt="avatar" className='w-14 h-14 rounded-full border-2 border-orange-600 object-cover shadow-md' />
-                    <div><p className='font-black text-gray-900 uppercase text-sm tracking-tight'>{user.username}</p><p className='text-[10px] text-orange-600 font-bold uppercase tracking-widest'>{user.role}</p></div>
+                    <img src={user?.profileImage || avatarImg} alt="avatar" className='w-14 h-14 rounded-full border-2 border-orange-600 object-cover shadow-md' />
+                    <div><p className='font-black text-gray-900 uppercase text-sm tracking-tight'>{user?.username}</p><p className='text-[10px] text-orange-600 font-bold uppercase tracking-widest'>{user?.role}</p></div>
                   </div>
                   <Link to="/profile" onClick={() => setIsMenuOpen(false)} className='w-full py-4 bg-gray-900 text-white rounded-xl font-black uppercase tracking-widest text-[10px] text-center'>View Profile</Link>
                   <button onClick={hanDelLogout} className='w-full py-4 border border-red-100 text-red-600 rounded-xl font-black uppercase tracking-widest text-[10px]'>Sign Out</button>
@@ -274,3 +285,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+ 
+

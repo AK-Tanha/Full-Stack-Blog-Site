@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../model/user.model');
+const bcrypt = require('bcrypt');
 const generateToken = require('../middleware/generateToken');
 const verifyToken = require('../middleware/verifyToken');
 const isAdmin = require('../middleware/isAdmin');
@@ -54,7 +55,8 @@ router.post("/log-in", async (req,res) => {
                 _id: user._id,
                 email: user.email,
                 username: user.username,
-                role: user.role
+                role: user.role,
+                profileImage: user.profileImage
             }
         })
 
@@ -123,8 +125,17 @@ router.post("/users", verifyToken, isAdmin, async (req, res) => {
 router.put("/users/:id", verifyToken, isAdmin, async (req, res) => {
     try {
         const { id } = req.params;
-        const { role, username, email, profileImage } = req.body;
-        const user = await User.findByIdAndUpdate(id, { role, username, email, profileImage }, { new: true });
+        const { role, username, email, profileImage, password } = req.body;
+        
+        const updateData = { role, username, email, profileImage };
+        
+        // Handle password update if provided
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(password, salt);
+        }
+
+        const user = await User.findByIdAndUpdate(id, updateData, { new: true });
         if (!user) {
             return res.status(404).send({ message: "User not found" });
         }

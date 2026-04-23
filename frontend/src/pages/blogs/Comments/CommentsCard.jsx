@@ -59,11 +59,12 @@ const CommentsCard = ({ comments }) => {
 
               return (
                 <div key={comment._id || index} className='group flex items-start gap-6 p-6 bg-white rounded-3xl border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-300'>
-                  <div className="w-14 h-14 flex-shrink-0">
+                  <div className="w-14 h-14 flex-shrink-0 bg-gray-100 rounded-2xl overflow-hidden shadow-md ring-4 ring-white">
                     <img
                       src={comment?.user?.profileImage || UserImg}
-                      alt="User avatar"
-                      className='w-full h-full rounded-2xl object-cover shadow-md ring-4 ring-gray-50'
+                      alt={comment?.user?.username || "User"}
+                      className='w-full h-full object-cover'
+                      onError={(e) => { e.target.src = UserImg }}
                     />
                   </div>
                   
