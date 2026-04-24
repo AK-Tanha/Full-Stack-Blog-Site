@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useFetchBlogsByIDQuery } from '../../../redux/features/blogs/blogsApi';
+import { useTranslation } from 'react-i18next';
 import CommentsCard from '../Comments/CommentsCard';
 import RelatedBlogs from './RelatedBlogs';
 import SingleBlogCard from './SingleBlogCard';
@@ -8,6 +9,7 @@ import Loading from '../../../Component/Loading';
 const Singleblogs = () => {
   const { id } = useParams(); 
   const { data: blog, error, isLoading } = useFetchBlogsByIDQuery(id); 
+  const { t } = useTranslation();
 
   return (
     <div className="bg-gray-50 min-h-screen pt-12 pb-24">
@@ -20,8 +22,8 @@ const Singleblogs = () => {
 
         {error && (
           <div className="bg-orange-50 text-orange-600 p-10 rounded-3xl border border-orange-100 text-center shadow-inner max-w-2xl mx-auto">
-            <p className="font-black text-2xl mb-4 uppercase tracking-tighter">Something went wrong</p>
-            <p className="text-sm font-medium opacity-80">{error?.data?.message || "We couldn't load this article. Please try again later."}</p>
+            <p className="font-black text-2xl mb-4 uppercase tracking-tighter">{t('somethingWentWrong')}</p>
+            <p className="text-sm font-medium opacity-80">{error?.data?.message || t('errorLoadingArticle')}</p>
           </div>
         )}
 
@@ -37,7 +39,7 @@ const Singleblogs = () => {
               <div className="mt-16">
                 <div className="flex items-center gap-4 mb-10">
                   <h3 className="text-2xl font-black uppercase tracking-tight text-gray-900 px-5 py-2 bg-orange-50 border-orange-600 border-l-8 shadow-sm">
-                    Reader Comments
+                    {t('readerComments')}
                   </h3>
                   <div className="h-[2px] flex-grow bg-gray-100"></div>
                 </div>
@@ -51,7 +53,7 @@ const Singleblogs = () => {
                 <div className="bg-white rounded-[32px] p-8 border border-gray-100 shadow-xl shadow-gray-200/40">
                   <div className="flex items-center gap-4 mb-8">
                     <h3 className="text-xl font-black uppercase tracking-tight text-gray-900 px-4 py-1.5 bg-amber-50 border-amber-500 border-l-4">
-                      Related News
+                      {t('relatedNews')}
                     </h3>
                     <div className="h-[1px] flex-grow bg-gray-100"></div>
                   </div>
@@ -61,11 +63,11 @@ const Singleblogs = () => {
                 {/* Newsletter Sidebar Block */}
                 <div className="bg-gray-900 rounded-[32px] p-8 text-white relative overflow-hidden group shadow-2xl">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-orange-600/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-orange-600/40 transition-colors" />
-                  <h4 className="text-xl font-black uppercase tracking-tighter mb-4 relative z-10">Get the Latest Headlines</h4>
-                  <p className="text-gray-400 text-sm mb-6 relative z-10 font-medium">Join 50,000+ fans getting daily fight updates in their inbox.</p>
+                  <h4 className="text-xl font-black uppercase tracking-tighter mb-4 relative z-10">{t('getHeadlines')}</h4>
+                  <p className="text-gray-400 text-sm mb-6 relative z-10 font-medium">{t('newsletterDesc')}</p>
                   <div className="relative z-10 space-y-3">
-                    <input type="email" placeholder="Enter your email" className="w-full bg-white/10 border border-white/10 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-orange-500 transition-colors" />
-                    <button className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl shadow-lg shadow-orange-900/20 transition-all active:scale-95">Subscribe</button>
+                    <input type="email" placeholder={t('enterEmail')} className="w-full bg-white/10 border border-white/10 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-orange-500 transition-colors" />
+                    <button className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl shadow-lg shadow-orange-900/20 transition-all active:scale-95">{t('subscribe')}</button>
                   </div>
                 </div>
               </div>

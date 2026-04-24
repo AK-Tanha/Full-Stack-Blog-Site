@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   FaFacebookF,
   FaTwitter,
@@ -8,6 +9,8 @@ import {
 } from "react-icons/fa";
 
 const Footer = () => {
+  const { t, i18n } = useTranslation();
+
   return (
     <footer className="bg-white text-gray-500 py-12 border-t border-gray-100">
       <div className="container mx-auto px-6 max-w-7xl">
@@ -22,7 +25,10 @@ const Footer = () => {
               />
             </Link>
             <p className="text-sm leading-relaxed max-w-sm text-gray-500">
-              Bangladesh's premier destination for combat sports news, event coverage, and fighter profiles.
+              {i18n.language === 'en' 
+                ? "Bangladesh's premier destination for combat sports news, event coverage, and fighter profiles."
+                : "কমব্যাট স্পোর্টস নিউজ, ইভেন্ট কভারেজ এবং ফাইটার প্রোফাইলের জন্য বাংলাদেশের প্রধান গন্তব্য।"
+              }
             </p>
             <div className="flex gap-5">
               {[FaFacebookF, FaTwitter, FaInstagram, FaYoutube].map((Icon, i) => (
@@ -43,7 +49,7 @@ const Footer = () => {
 
         {/* Navigation */}
         <div className="flex flex-wrap gap-x-8 gap-y-4 pt-10 border-t border-gray-100">
-          {["Home", "News", "Rankings", "Events", "About", "Contact"].map((item) => (
+          {[t('news'), t('about'), t('contact')].map((item) => (
             <Link
               key={item}
               to="/"
@@ -56,10 +62,10 @@ const Footer = () => {
 
         {/* Legal */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-10 text-[11px] uppercase tracking-[0.2em] text-gray-400">
-          <p>© {new Date().getFullYear()} Combat Corner. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Combat Corner. {t('allRightsReserved')}</p>
           <div className="flex gap-8">
-            <Link to="/" className="hover:text-gray-900 transition-colors">Privacy Policy</Link>
-            <Link to="/" className="hover:text-gray-900 transition-colors">Terms of Service</Link>
+            <Link to="/" className="hover:text-gray-900 transition-colors">{t('privacyPolicy')}</Link>
+            <Link to="/" className="hover:text-gray-900 transition-colors">{t('termsOfService')}</Link>
           </div>
         </div>
       </div>

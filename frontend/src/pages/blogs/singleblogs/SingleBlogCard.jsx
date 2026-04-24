@@ -1,6 +1,6 @@
 import { FaUserCircle, FaClock, FaStar, FaRegStar,FaFacebook,FaTwitter,FaInstagram } from "react-icons/fa";
 import { formatDate } from "../../../utility/DateFormat";
-
+import { useTranslation } from "react-i18next";
 
 const socialICONS= [
   {
@@ -22,6 +22,7 @@ const socialICONS= [
 
 const SingleBlogCard = ({ blog }) => {
   const { title, description, content, coverImg, category, rating, author, createdAt } = blog || {};
+  const { t } = useTranslation();
 
   return (
     <div className='bg-white'>
@@ -49,7 +50,7 @@ const SingleBlogCard = ({ blog }) => {
               ) : (
                 <FaUserCircle className="text-orange-600 w-5 h-5" />
               )}
-              <span className="text-gray-900 font-outfit font-black">By {author?.username || "Combat Staff"}</span>
+              <span className="text-gray-900 font-outfit font-black">{t('by')} {author?.username || t('combatStaff')}</span>
             </div>
             <div className="flex items-center gap-2">
               <FaClock className="text-gray-400 w-4 h-4" />
@@ -57,7 +58,7 @@ const SingleBlogCard = ({ blog }) => {
             </div>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-orange-600 rounded-full" />
-              <span>12 Min Read</span>
+              <span>12 {t('minRead')}</span>
             </div>
           </div>
         </div>
@@ -101,12 +102,12 @@ const SingleBlogCard = ({ blog }) => {
               <div className="h-6 w-[1px] bg-gray-200" />
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-outfit font-black text-gray-900">{rating || "0.0"}</span>
-                <span className="text-xs font-outfit font-bold text-gray-400 uppercase tracking-widest">Article Impact</span>
+                <span className="text-xs font-outfit font-bold text-gray-400 uppercase tracking-widest">{t('articleImpact')}</span>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-[10px] font-outfit font-black uppercase tracking-[0.2em] text-gray-400">Share Story</span>
+              <span className="text-[10px] font-outfit font-black uppercase tracking-[0.2em] text-gray-400">{t('shareStory')}</span>
               <div className="flex gap-3">
                 {socialICONS.map(social => (
                   <button 
@@ -114,7 +115,7 @@ const SingleBlogCard = ({ blog }) => {
                     onClick={() => {
                       const url = window.location.href;
                       navigator.clipboard.writeText(url);
-                      alert("Link copied to clipboard!");
+                      alert(t('linkCopied'));
                     }}
                     className={`w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-xl text-gray-400 hover:text-white transition-all duration-300 shadow-sm hover:-translate-y-1 active:scale-90 ${social.color}`}
                     title={`Copy link for ${social.name}`}

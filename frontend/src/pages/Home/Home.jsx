@@ -1,11 +1,13 @@
 import { useSearchParams } from "react-router-dom"
 import Blogs from "../blogs/Blogs"
 import Hero from "./Hero"
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const [searchParams] = useSearchParams();
   const search = searchParams.get('search') || "";
   const category = searchParams.get('category') || "";
+  const { t } = useTranslation();
   
   const query = { search, category };
 
@@ -15,11 +17,11 @@ const Home = () => {
       <div className="bg-white border-b border-gray-200 py-3 mb-6">
         <div className="container mx-auto px-4 flex items-center gap-4">
           <span className="bg-red-600 text-white px-3 py-1 rounded text-xs font-bold uppercase whitespace-nowrap animate-pulse">
-            Breaking News
+            {t('breakingNews')}
           </span>
           <div className="overflow-hidden whitespace-nowrap">
             <p className="inline-block animate-marquee hover:pause-marquee cursor-pointer text-sm font-medium">
-              • New MMA gym opens in Dhaka with international coaches • Bangladesh Boxing Federation announces national trials • Fighter "The Tiger" secures contract with global promotion • Upcoming Combat Night tickets now on sale!
+              {t('breakingNewsText')}
             </p>
           </div>
         </div>
@@ -36,17 +38,17 @@ const Home = () => {
             <div className="flex items-center justify-between mb-8 border-b border-gray-200 pb-4">
                <div>
                   <h3 className="text-2xl font-black uppercase tracking-tight text-gray-900">
-                    {category ? `${category} Stories` : 'Latest Headlines'}
+                    {category ? `${category} ${t('stories')}` : t('latestHeadlines')}
                   </h3>
                   {search && (
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">
-                      Showing results for: <span className="text-orange-600">"{search}"</span>
+                      {t('showingResultsFor')} <span className="text-orange-600">"{search}"</span>
                     </p>
                   )}
                </div>
                <div className="hidden sm:flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Live Edition</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{t('liveEdition')}</span>
                </div>
             </div>
 
@@ -57,7 +59,7 @@ const Home = () => {
           <div className="lg:w-1/4">
             <div className="sticky top-24">
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
-                <h4 className="text-xl font-bold mb-6 border-b-2 border-gray-100 pb-2">Trending Topics</h4>
+                <h4 className="text-xl font-bold mb-6 border-b-2 border-gray-100 pb-2">{t('trendingTopics')}</h4>
                 <ul className="space-y-4">
                   {[
                     { tag: "#MMA_Bangladesh", count: "1.2k posts" },
@@ -76,15 +78,15 @@ const Home = () => {
 
               <div className="bg-blue-900 text-white p-8 rounded-2xl shadow-xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
-                <h4 className="text-2xl font-black mb-4 relative z-10">Join the Community</h4>
-                <p className="text-blue-100 mb-6 relative z-10">Get the latest updates and exclusive content delivered to your inbox.</p>
+                <h4 className="text-2xl font-black mb-4 relative z-10">{t('joinCommunity')}</h4>
+                <p className="text-blue-100 mb-6 relative z-10">{t('newsletterDesc')}</p>
                 <input 
                   type="email" 
-                  placeholder="Your email" 
+                  placeholder={t('yourEmail')} 
                   className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder:text-white/60 mb-4 focus:outline-none focus:ring-2 focus:ring-white/50"
                 />
                 <button className="w-full py-3 bg-white text-blue-900 font-bold rounded-lg hover:bg-blue-50 transition-colors">
-                  Subscribe
+                  {t('subscribe')}
                 </button>
               </div>
             </div>

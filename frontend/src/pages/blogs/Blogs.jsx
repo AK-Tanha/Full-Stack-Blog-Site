@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import Loading from '../../Component/Loading';
 import { useFetchBlogsQuery } from '../../redux/features/blogs/blogsApi';
+import { useTranslation } from 'react-i18next';
 
 const Blogs = ({ query }) => {
   const { data: blogs = [], error, isLoading } = useFetchBlogsQuery(query);
+  const { t, i18n } = useTranslation();
 
   const renderBlogSection = (title, sectionBlogs, themeColor = 'orange', key) => {
     if (!sectionBlogs || sectionBlogs.length === 0) return null;
@@ -33,18 +35,18 @@ const Blogs = ({ query }) => {
               
               <div className="absolute bottom-0 left-0 p-6 md:p-12 w-full">
                 <span className={`${themeColor === 'orange' ? 'bg-orange-600' : 'bg-amber-500'} text-[9px] md:text-[10px] font-outfit font-black uppercase tracking-[0.2em] px-3 md:px-4 py-1.5 rounded-full mb-4 md:mb-6 inline-block text-white shadow-lg`}>
-                  Featured Story
+                  {t('featuredStory')}
                 </span>
                 <h2 className="text-xl md:text-4xl font-outfit font-black leading-tight mb-3 md:mb-4 text-white drop-shadow-2xl group-hover:underline decoration-2 md:decoration-4 underline-offset-8">
                   {featuredBlog.title}
                 </h2>
                 <p className="text-gray-200 line-clamp-2 text-sm md:text-lg max-w-2xl font-medium opacity-90">
-                  {featuredBlog.description || "Deep dive into the latest developments and exclusive insights from the world of combat sports..."}
+                  {featuredBlog.description || t('newsletterDesc')}
                 </p>
                 <div className="mt-8 flex items-center gap-4 text-white/60 text-xs font-bold uppercase tracking-widest">
-                  <span>{new Date(featuredBlog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                  <span>{new Date(featuredBlog.createdAt).toLocaleDateString(i18n.language === 'bn' ? 'bn-BD' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                   <span className="w-1.5 h-1.5 bg-white/40 rounded-full" />
-                  <span>8 min read</span>
+                  <span>8 {t('minRead')}</span>
                 </div>
               </div>
             </Link>
@@ -59,21 +61,21 @@ const Blogs = ({ query }) => {
                 </div>
                 <div className="flex flex-col justify-center py-1">
                   <span className={`text-[10px] font-outfit font-black uppercase tracking-[0.15em] ${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} mb-2`}>
-                    {blog.category || "General"}
+                    {blog.category || t('general')}
                   </span>
                   <h4 className={`text-lg font-outfit font-bold text-gray-900 line-clamp-2 leading-tight group-hover:${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} transition-colors duration-300`}>
                     {blog.title}
                   </h4>
                   <div className="mt-3 flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                    <span>{new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                    <span>{new Date(blog.createdAt).toLocaleDateString(i18n.language === 'bn' ? 'bn-BD' : 'en-US', { month: 'short', day: 'numeric' })}</span>
                     <span className="w-1 h-1 bg-gray-300 rounded-full" />
-                    <span>4 min read</span>
+                    <span>4 {t('minRead')}</span>
                   </div>
                 </div>
               </Link>
             )) : (
               <div className="h-full flex items-center justify-center border-2 border-dashed border-gray-100 rounded-3xl p-10 text-center">
-                <p className="text-gray-400 font-medium italic">More stories coming soon to this section...</p>
+                <p className="text-gray-400 font-medium italic">{t('moreStoriesSoon')}</p>
               </div>
             )}
           </div>
@@ -83,7 +85,7 @@ const Blogs = ({ query }) => {
   };
 
   const groupedBlogs = blogs.slice(3).reduce((acc, blog) => {
-    const cat = blog.category || "General";
+    const cat = blog.category || t('general');
     if (!acc[cat]) acc[cat] = [];
     acc[cat].push(blog);
     return acc;
@@ -95,19 +97,19 @@ const Blogs = ({ query }) => {
       {isLoading && <Loading />}
       {error && (
         <div className="bg-orange-50 text-orange-600 p-8 rounded-2xl border border-orange-100 text-center shadow-inner">
-          <p className="font-bold text-lg mb-2">Oops! Something went wrong.</p>
-          <p className="text-sm opacity-80">{error?.data?.message || error?.error || "An error occurred while fetching blogs."}</p>
+          <p className="font-bold text-lg mb-2">{t('oopsSomethingWentWrong')}</p>
+          <p className="text-sm opacity-80">{error?.data?.message || error?.error || t('errorFetchingBlogs')}</p>
         </div>
       )}
       {!isLoading && blogs.length === 0 && (
         <div className="bg-gray-50 text-gray-500 p-20 rounded-3xl border border-gray-200 text-center shadow-inner">
-          <p className="text-2xl font-black uppercase tracking-tighter mb-4">No Stories Found</p>
-          <p className="text-lg font-medium opacity-60">Try adjusting your filters or check back later for new updates.</p>
+          <p className="text-2xl font-black uppercase tracking-tighter mb-4">{t('noStoriesFound')}</p>
+          <p className="text-lg font-medium opacity-60">{t('adjustFilters')}</p>
         </div>
       )}
 
       {/* Latest Blogs Section */}
-      {!isLoading && blogs.length > 0 && renderBlogSection("Latest Stories", blogs.slice(0, 5), 'orange')}
+      {!isLoading && blogs.length > 0 && renderBlogSection(t('latestStories'), blogs.slice(0, 5), 'orange')}
 
       {/* Category-wise Blog Sections */}
       {!isLoading && Object.entries(groupedBlogs).map(([catName, catBlogs]) => (
