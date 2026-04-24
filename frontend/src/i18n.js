@@ -60,7 +60,20 @@ const resources = {
       oopsSomethingWentWrong: "Oops! Something went wrong.",
       errorFetchingBlogs: "An error occurred while fetching blogs.",
       noStoriesFound: "No Stories Found",
-      adjustFilters: "Try adjusting your filters or check back later for new updates."
+      adjustFilters: "Try adjusting your filters or check back later for new updates.",
+      explore: "Explore",
+      categories: "Categories",
+      getInTouch: "Get in Touch",
+      loginTitle: "Journalist Login",
+      registerTitle: "Create Account",
+      emailPlaceholder: "Email Address",
+      passwordPlaceholder: "Password",
+      usernamePlaceholder: "Username",
+      loginButton: "Sign In",
+      registerButton: "Sign Up",
+      noAccount: "Don't have an account?",
+      alreadyHaveAccount: "Already have an account?",
+      backToHome: "Back to Home"
     }
   },
   bn: {
@@ -120,7 +133,20 @@ const resources = {
       oopsSomethingWentWrong: "উফ! কিছু ভুল হয়েছে।",
       errorFetchingBlogs: "ব্লগ আনার সময় একটি ত্রুটি ঘটেছে।",
       noStoriesFound: "কোন গল্প পাওয়া যায়নি",
-      adjustFilters: "আপনার ফিল্টার সামঞ্জস্য করার চেষ্টা করুন বা নতুন আপডেটের জন্য পরে আবার দেখুন।"
+      adjustFilters: "আপনার ফিল্টার সামঞ্জস্য করার চেষ্টা করুন বা নতুন আপডেটের জন্য পরে আবার দেখুন।",
+      explore: "অন্বেষণ করুন",
+      categories: "বিভাগসমূহ",
+      getInTouch: "যোগাযোগ করুন",
+      loginTitle: "সাংবাদিক লগইন",
+      registerTitle: "অ্যাকাউন্ট তৈরি করুন",
+      emailPlaceholder: "ইমেল ঠিকানা",
+      passwordPlaceholder: "পাসওয়ার্ড",
+      usernamePlaceholder: "ইউজার নেম",
+      loginButton: "লগইন করুন",
+      registerButton: "সাইন আপ করুন",
+      noAccount: "অ্যাকাউন্ট নেই?",
+      alreadyHaveAccount: "ইতিমধ্যেই অ্যাকাউন্ট আছে?",
+      backToHome: "হোমে ফিরে যান"
     }
   }
 };

@@ -23,77 +23,88 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      // Public Site Layout
+      // 1. Auth Pages (Separate Minimal Layout)
+      {
+        path: "/log-in",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+
+      // 2. Public Site Layout (With Navbar & Footer)
       {
         path: "/",
         element: <UserLayout />,
         children: [
           {
             path: "/",
-            element: <Home />
+            element: <Home />,
           },
           {
             path: "/about-us",
-            element: <About />
+            element: <About />,
           },
           {
             path: "/privacy-policy",
-            element: <PrivacyPolicy />
+            element: <PrivacyPolicy />,
           },
           {
             path: "/contact-us",
-            element: <Contact />
+            element: <Contact />,
           },
           {
             path: "/blogs/:id",
-            element: <Singleblogs />
-          },
-          {
-            path: "/log-in",
-            element: <Login />
-          },
-          {
-            path: "/register",
-            element: <Register />
+            element: <Singleblogs />,
           },
           {
             path: "/profile",
-            element: <PrivateRoutes><Profile /></PrivateRoutes>
+            element: (
+              <PrivateRoutes>
+                <Profile />
+              </PrivateRoutes>
+            ),
           },
-        ]
+        ],
       },
-      // Admin Dashboard Layout
+
+      // 3. Admin Dashboard Layout
       {
         path: "dashboard",
-        element: <PrivateRoutes><AdminLayout /></PrivateRoutes>,
+        element: (
+          <PrivateRoutes>
+            <AdminLayout />
+          </PrivateRoutes>
+        ),
         children: [
           {
-            path: '',
-            element: <Dashboard />
+            path: "",
+            element: <Dashboard />,
           },
           {
             path: "add-new-post",
-            element: <AddPost />
+            element: <AddPost />,
           },
           {
             path: "add-category",
-            element: <AddCategory />
+            element: <AddCategory />,
           },
           {
             path: "update-items/:id",
-            element: <UpdatePost />
+            element: <UpdatePost />,
           },
           {
             path: "manage-items",
-            element: <ManageItems />
+            element: <ManageItems />,
           },
           {
             path: "users",
-            element: <ManageUser />
+            element: <ManageUser />,
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
 ]);
 

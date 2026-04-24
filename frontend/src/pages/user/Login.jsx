@@ -1,82 +1,127 @@
-/* eslint-disable react/no-unescaped-entities */
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import Loading from '../../Component/Loading';
-import { useLoginUserMutation } from '../../redux/features/auth/authAPI';
-import { setUser } from '../../redux/features/auth/authSlice';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Loading from "../../Component/Loading";
+import { useLoginUserMutation } from "../../redux/features/auth/authAPI";
+import { setUser } from "../../redux/features/auth/authSlice";
+import { useTranslation } from "react-i18next";
+import { IoArrowBackOutline } from "react-icons/io5";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [password, setPassword] = useState('');
+  const { t } = useTranslation();
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
   const [loginUser, { isLoading: loginLoading }] = useLoginUserMutation();
-
   const navigate = useNavigate();
-    // console.log("Loging user Api", loginUser);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    const data = {
-        email,
-        password, 
-      }
-    
+    const data = { email, password };
+
     try {
-      const response= await loginUser(data).unwrap();
-      console.log(response)
+      const response = await loginUser(data).unwrap();
       const { token, user } = response;
-      
-      dispatch(setUser({ user, token }))
-      alert('Login successful');
-      navigate('/');
-      
+      dispatch(setUser({ user, token }));
+      navigate("/");
     } catch (err) {
       setMessage("Please provide a valid email and password!");
     }
   };
 
-
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-indigo-100 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10">
-        <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Please login</h2>
-        <form onSubmit={handleLogin} className="space-y-6">
-          <input
-            type="text"
-            value={email}
-            className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
+    <div className="min-h-screen bg-[#fcfcfc] font-outfit relative flex flex-col">
+      {/* Top Navigation - Mobile First */}
+      <div className="p-4 md:p-8 flex justify-between items-center z-50">
+        <Link
+          to="/"
+          className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-100 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-orange-600 hover:border-orange-100 hover:shadow-lg transition-all group"
+        >
+          <IoArrowBackOutline
+            className="group-hover:-translate-x-1 transition-transform"
+            size={14}
           />
+          <span className="hidden sm:inline">{t("backToHome")}</span>
+        </Link>
+        <img src="/Logo.png" alt="Logo" className="h-6 md:h-8 block md:hidden" />
+      </div>
 
-          <input
-            type="password"
-            value={password}
-            className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
-          {message && <p className="text-red-500 text-center text-sm">{message}</p>}
-          <button
-            type="submit"
-            disabled={loginLoading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition duration-300 flex items-center justify-center"
-          >
-            {loginLoading ? <Loading isSmall={true} /> : 'Login'}
-          </button>
-        </form>
+      <div className="flex-grow flex items-center justify-center px-4 pb-12">
+        <div className="w-full max-w-[440px] relative z-10">
+          <div className="bg-white rounded-[2.5rem] md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-gray-50 p-8 md:p-12">
+            <div className="text-center mb-10">
+              <img src="/Logo.png" alt="Logo" className="h-8 md:h-10 mx-auto mb-6 hidden md:block" />
+              <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-gray-900 mb-2">
+                {t("loginTitle")}
+              </h2>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
+                {t("combatSportsAuthority")}
+              </p>
+            </div>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-indigo-600 hover:underline">
-            Register here
-          </Link>
-        </p>
+            <form onSubmit={handleLogin} className="space-y-4 md:space-y-5">
+              <div className="space-y-1.5">
+                <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
+                  {t("emailPlaceholder")}
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  className="w-full px-6 py-4 md:py-4.5 bg-gray-50/50 border border-transparent rounded-2xl focus:ring-4 focus:ring-orange-600/5 focus:bg-white focus:border-orange-600/10 transition-all outline-none text-sm font-bold text-gray-900 placeholder:text-gray-200"
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="email@example.com"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
+                  {t("passwordPlaceholder")}
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  className="w-full px-6 py-4 md:py-4.5 bg-gray-50/50 border border-transparent rounded-2xl focus:ring-4 focus:ring-orange-600/5 focus:bg-white focus:border-orange-600/10 transition-all outline-none text-sm font-bold text-gray-900 placeholder:text-gray-200"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+
+              {message && (
+                <div className="bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest py-3 px-4 rounded-xl text-center border border-red-100">
+                  {message}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loginLoading}
+                className="w-full bg-gray-900 hover:bg-orange-600 text-white py-4.5 md:py-5 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-xl shadow-gray-200 hover:shadow-orange-200 mt-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              >
+                {loginLoading ? <Loading isSmall={true} /> : t("loginButton")}
+              </button>
+            </form>
+
+            <div className="mt-8 pt-6 border-t border-gray-50 text-center">
+              <p className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-relaxed">
+                {t("noAccount")}{" "}
+                <Link
+                  to="/register"
+                  className="text-orange-600 hover:text-gray-900 transition-colors block sm:inline mt-1 sm:mt-0"
+                >
+                  {t("registerButton")}
+                </Link>
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-8 text-center text-[10px] font-black uppercase tracking-[0.3em] text-gray-300">
+            © {new Date().getFullYear()} Combat Corner
+          </p>
+        </div>
       </div>
     </div>
   );
