@@ -1,6 +1,7 @@
 import { FaUserCircle, FaClock, FaStar, FaRegStar,FaFacebook,FaTwitter,FaInstagram } from "react-icons/fa";
 import { formatDate } from "../../../utility/DateFormat";
 import { useTranslation } from "react-i18next";
+import i18n from "../../../i18n";
 
 const socialICONS= [
   {
@@ -40,7 +41,7 @@ const SingleBlogCard = ({ blog }) => {
             </span>
           )}
           <h1 className='text-2xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 md:mb-6 leading-[1.1] tracking-tight'>
-            {title}
+            {i18n.language === 'bn' ? (blog.title_bn || title) : title}
           </h1>
           
           <div className='flex flex-wrap items-center gap-6 text-gray-500 text-xs font-bold uppercase tracking-widest border-y border-gray-100 py-5'>
@@ -65,17 +66,17 @@ const SingleBlogCard = ({ blog }) => {
 
         {/* Blog Content - Directly rendering HTML from Quill */}
         <div className='max-w-4xl mx-auto pb-16'>
-          {description && (
+          {(description || (i18n.language === 'bn' && blog.description_bn)) && (
             <div className="mb-12 p-8 bg-orange-50/50 rounded-[32px] border-l-8 border-orange-600 shadow-sm">
               <p className="text-xl md:text-2xl text-gray-800 font-extrabold italic leading-relaxed">
-                {description}
+                {i18n.language === 'bn' ? (blog.description_bn || description) : description}
               </p>
             </div>
           )}
 
           <div 
             dangerouslySetInnerHTML={{ 
-              __html: String(content || "")
+              __html: String((i18n.language === 'bn' ? (blog.content_bn || content) : content) || "")
                 .replace(/&lt;/g, '<')
                 .replace(/&gt;/g, '>')
                 .replace(/&amp;/g, '&')

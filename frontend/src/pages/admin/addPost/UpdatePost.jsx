@@ -22,13 +22,17 @@ const UpdatePost = () => {
 
   const [formData, setFormData] = useState({
     title: '',
+    title_bn: '',
     category: '',
     description: '',
+    description_bn: '',
     coverImg: '',
     rating: 0,
-    content: ''
+    content: '',
+    content_bn: ''
   })
 
+  const [activeLang, setActiveLang] = useState('en')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
@@ -59,24 +63,28 @@ const UpdatePost = () => {
       const actualPost = Array.isArray(post) ? post[0] : post;
 
       if (actualPost && (actualPost.title || actualPost._id)) {
-        let initialContent = ''
-        if (typeof actualPost.content === 'string') {
-          initialContent = actualPost.content
-        } else if (actualPost.content && typeof actualPost.content === 'object' && Array.isArray(actualPost.content.blocks)) {
-          initialContent = actualPost.content.blocks.map(block => {
-            if (block.type === 'paragraph') return `<p>${block.data.text}</p>`;
-            if (block.type === 'header') return `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
-            return `<p>${block.data.text || ''}</p>`;
-          }).join('')
+        const getInitialContent = (content) => {
+          if (typeof content === 'string') return content;
+          if (content && typeof content === 'object' && Array.isArray(content.blocks)) {
+            return content.blocks.map(block => {
+              if (block.type === 'paragraph') return `<p>${block.data.text}</p>`;
+              if (block.type === 'header') return `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+              return `<p>${block.data.text || ''}</p>`;
+            }).join('')
+          }
+          return '';
         }
 
         setFormData({
           title: actualPost.title || '',
+          title_bn: actualPost.title_bn || '',
           category: actualPost.category || '',
           description: actualPost.description || '',
+          description_bn: actualPost.description_bn || '',
           coverImg: actualPost.coverImg || '',
           rating: actualPost.rating || 0,
-          content: initialContent || ''
+          content: getInitialContent(actualPost.content),
+          content_bn: getInitialContent(actualPost.content_bn)
         });
         setHasInitialized(true);
       }
@@ -114,7 +122,7 @@ const UpdatePost = () => {
   const handleContentChange = (value) => {
     setFormData(prev => ({
       ...prev,
-      content: value
+      [activeLang === 'en' ? 'content' : 'content_bn']: value
     }))
   }
 
@@ -124,7 +132,7 @@ const UpdatePost = () => {
     setSuccess('')
 
     if (!formData.title || !formData.content || formData.content === '<p><br></p>' || !formData.category) {
-      setError('Please fill in all required fields (Title, Category, and Content)')
+      setError('Please fill in all required fields (Title, Category, and Content in English)')
       return
     }
 
@@ -185,35 +193,52 @@ const UpdatePost = () => {
         </div>
       )}
 
+      <div className="flex gap-4 mb-8 p-1 bg-gray-100 rounded-2xl w-fit">
+        <button
+          type="button"
+          onClick={() => setActiveLang('en')}
+          className={`px-6 py-2 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all ${activeLang === 'en' ? 'bg-white text-orange-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+        >
+          English
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveLang('bn')}
+          className={`px-6 py-2 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all ${activeLang === 'bn' ? 'bg-white text-orange-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+        >
+          Bangla
+        </button>
+      </div>
+
       <form onSubmit={handleSubmit} className='space-y-6 md:space-y-8'>
         {/* Title */}
         <div>
           <label className='block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3'>
-            Article Title <span className='text-orange-600'>*</span>
+            Article Title ({activeLang === 'en' ? 'English' : 'Bangla'}) {activeLang === 'en' && <span className='text-orange-600'>*</span>}
           </label>
           <input
             type='text'
-            name='title'
-            value={formData.title}
+            name={activeLang === 'en' ? 'title' : 'title_bn'}
+            value={activeLang === 'en' ? formData.title : formData.title_bn}
             onChange={handleChange}
             className='w-full px-4 md:px-6 py-3 md:py-4 bg-gray-50 border border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-bold text-lg md:text-xl placeholder:text-gray-300'
-            placeholder='e.g. UFC 300: The Greatest Night in Combat Sports History'
-            required
+            placeholder={activeLang === 'en' ? 'e.g. UFC 300: The Greatest Night...' : 'উদা: ইউএফসি ৩০০: কমব্যাট স্পোর্টস ইতিহাসের সেরা রাত...'}
+            required={activeLang === 'en'}
           />
         </div>
 
         {/* Description */}
         <div>
           <label className='block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3'>
-            Short Excerpt / Description
+            Short Excerpt / Description ({activeLang === 'en' ? 'English' : 'Bangla'})
           </label>
           <textarea
-            name='description'
-            value={formData.description}
+            name={activeLang === 'en' ? 'description' : 'description_bn'}
+            value={activeLang === 'en' ? formData.description : formData.description_bn}
             onChange={handleChange}
             rows="2"
             className='w-full px-4 md:px-6 py-3 md:py-4 bg-gray-50 border border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-medium text-gray-600 placeholder:text-gray-300 text-sm md:text-base'
-            placeholder='Brief summary for the homepage grid...'
+            placeholder={activeLang === 'en' ? 'Brief summary for the homepage grid...' : 'হোমপেজ গ্রিডের জন্য সংক্ষিপ্ত সারসংক্ষেপ...'}
           />
         </div>
 
@@ -323,16 +348,17 @@ const UpdatePost = () => {
         {/* Content - React Quill */}
         <div className="pt-4">
           <label className='block text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-2 md:mb-3'>
-            Article Content <span className='text-orange-600'>*</span>
+            Article Content ({activeLang === 'en' ? 'English' : 'Bangla'}) {activeLang === 'en' && <span className='text-orange-600'>*</span>}
           </label>
           <div className="quill-container">
             <ReactQuill 
               theme="snow"
-              value={formData.content}
+              key={activeLang}
+              value={activeLang === 'en' ? formData.content : formData.content_bn}
               onChange={handleContentChange}
               modules={quillModules}
               formats={quillFormats}
-              placeholder="Refine your combat sports masterpiece..."
+              placeholder={activeLang === 'en' ? "Refine your combat sports masterpiece..." : "আপনার কমব্যাট স্পোর্টস মাস্টারপিস সংশোধন করুন..."}
               className="bg-white rounded-xl md:rounded-[24px] overflow-hidden border-2 border-gray-100 focus-within:border-orange-600 transition-colors"
             />
           </div>

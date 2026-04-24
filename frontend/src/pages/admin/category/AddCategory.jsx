@@ -1,11 +1,17 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAddCategoryMutation, useDeleteCategoryMutation, useFetchCategoriesQuery } from '../../../redux/features/category/categoryApi'
+import { useAddCategoryMutation, useDeleteCategoryMutation, useFetchCategoriesQuery, useUpdateCategoryMutation } from '../../../redux/features/category/categoryApi'
+import { useTranslation } from 'react-i18next'
 
 const AddCategory = () => {
+    const { t, i18n } = useTranslation()
     const [name, setName] = useState('')
+    const [name_bn, setNameBn] = useState('')
+    const [editingId, setEditingId] = useState(null)
     const [message, setMessage] = useState('')
+    
     const [addCategory, { isLoading: isAdding }] = useAddCategoryMutation()
+    const [updateCategory, { isLoading: isUpdating }] = useUpdateCategoryMutation()
     const { data: categories, isLoading: isFetching } = useFetchCategoriesQuery()
     const [deleteCategory] = useDeleteCategoryMutation()
     const navigate = useNavigate()
@@ -13,17 +19,38 @@ const AddCategory = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if(!name) {
-            setMessage('Please enter a category name')
+            setMessage('Please enter a category name in English')
             return
         }
 
         try {
-            await addCategory({ name }).unwrap()
-            setMessage('Category added successfully')
+            if (editingId) {
+                await updateCategory({ id: editingId, name, name_bn }).unwrap()
+                setMessage('Category updated successfully')
+                setEditingId(null)
+            } else {
+                await addCategory({ name, name_bn }).unwrap()
+                setMessage('Category added successfully')
+            }
             setName('')
+            setNameBn('')
         } catch (error) {
-            setMessage('Failed to add category')
+            setMessage(editingId ? 'Failed to update category' : 'Failed to add category')
         }
+    }
+
+    const handleEdit = (cat) => {
+        setEditingId(cat._id)
+        setName(cat.name)
+        setNameBn(cat.name_bn || '')
+        setMessage('')
+    }
+
+    const cancelEdit = () => {
+        setEditingId(null)
+        setName('')
+        setNameBn('')
+        setMessage('')
     }
 
     const handleDelete = async (id) => {
@@ -43,10 +70,12 @@ const AddCategory = () => {
           {/* Left Side: Form */}
           <div className='w-full md:w-1/3'>
             <div className='bg-gray-50 p-6 rounded-lg border border-gray-100'>
-              <h3 className="text-xl font-semibold mb-4 text-gray-700">Add New Category</h3>
+              <h3 className="text-xl font-semibold mb-4 text-gray-700">
+                  {editingId ? 'Edit Category' : 'Add New Category'}
+              </h3>
               <form onSubmit={handleSubmit} className='space-y-4'>
                 <div>
-                    <label className='block text-sm font-medium text-gray-600 mb-1'>Category Name</label>
+                    <label className='block text-sm font-medium text-gray-600 mb-1'>Category Name (English)</label>
                     <input 
                         type="text" 
                         value={name}
@@ -55,25 +84,46 @@ const AddCategory = () => {
                         className='w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'
                     />
                 </div>
+                <div>
+                    <label className='block text-sm font-medium text-gray-600 mb-1'>বিভাগ নাম (Bangla)</label>
+                    <input 
+                        type="text" 
+                        value={name_bn}
+                        onChange={(e) => setNameBn(e.target.value)}
+                        placeholder='উদা: প্রযুক্তি'
+                        className='w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'
+                    />
+                </div>
 
                 {message && <p className={`text-sm font-medium ${message.includes('Faile') ? 'text-red-500' : 'text-green-500'}`}>{message}</p>}
 
-                <button 
-                    type='submit'
-                    disabled={isAdding}
-                    className='w-full bg-[#1E73BE] hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition duration-200 flex items-center justify-center gap-2'
-                >
-                    {isAdding ? (
-                        <span>Adding...</span>
-                    ) : (
-                        <>
-                            <span>Add Category</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
-                            </svg>
-                        </>
+                <div className='flex flex-col gap-2'>
+                    <button 
+                        type='submit'
+                        disabled={isAdding || isUpdating}
+                        className='w-full bg-[#1E73BE] hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition duration-200 flex items-center justify-center gap-2'
+                    >
+                        {isAdding || isUpdating ? (
+                            <span>Processing...</span>
+                        ) : (
+                            <>
+                                <span>{editingId ? 'Update Category' : 'Add Category'}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                                </svg>
+                            </>
+                        )}
+                    </button>
+                    {editingId && (
+                        <button 
+                            type='button'
+                            onClick={cancelEdit}
+                            className='w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2.5 rounded-lg transition duration-200'
+                        >
+                            Cancel Edit
+                        </button>
                     )}
-                </button>
+                </div>
               </form>
             </div>
           </div>
@@ -96,24 +146,38 @@ const AddCategory = () => {
                     {categories && categories.length > 0 ? (
                         <div className="divide-y divide-gray-100">
                             {categories.map((cat) => (
-                                <div key={cat._id} className="flex justify-between items-center p-4 hover:bg-gray-50 transition duration-150">
+                                <div key={cat._id} className={`flex justify-between items-center p-4 transition duration-150 ${editingId === cat._id ? 'bg-blue-50' : 'hover:bg-gray-50'}`}>
                                     <div className="flex items-center gap-3">
                                         <div className="bg-blue-100 p-2 rounded-full text-blue-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fillRule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                                             </svg>
                                         </div>
-                                        <span className="text-gray-800 font-medium text-lg">{cat.name}</span>
+                                        <div className='flex flex-col'>
+                                            <span className="text-gray-800 font-medium text-lg">{cat.name}</span>
+                                            <span className="text-gray-400 text-sm font-bangla">{cat.name_bn || 'নাম নেই'}</span>
+                                        </div>
                                     </div>
-                                    <button 
-                                        onClick={() => handleDelete(cat._id)}
-                                        className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-full transition duration-200"
-                                        title="Delete Category"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
+                                    <div className='flex items-center gap-2'>
+                                        <button 
+                                            onClick={() => handleEdit(cat)}
+                                            className="text-blue-400 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-full transition duration-200"
+                                            title="Edit Category"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </button>
+                                        <button 
+                                            onClick={() => handleDelete(cat._id)}
+                                            className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-full transition duration-200"
+                                            title="Delete Category"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
                         </div>

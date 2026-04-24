@@ -281,7 +281,7 @@ const Navbar = () => {
                   onClick={() => handleCategoryChange(cat.name)}
                   className={`text-[11px] font-outfit font-black uppercase tracking-[0.2em] transition-all duration-300 relative py-2 ${searchParams.get("category") === cat.name ? "text-orange-600 after:w-full" : "text-gray-900 hover:text-orange-600 after:w-0"} after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-orange-600 after:transition-all hover:after:w-full`}
                 >
-                  {cat.name}
+                  {i18n.language === 'bn' ? (cat.name_bn || cat.name) : cat.name}
                 </button>
               </li>
             ))}
@@ -315,7 +315,7 @@ const Navbar = () => {
                         onClick={() => handleCategoryChange(cat.name)}
                         className={`w-full text-left px-5 py-3 text-[10px] font-black uppercase tracking-widest transition-colors ${searchParams.get("category") === cat.name ? "bg-orange-50 text-orange-600" : "text-gray-600 hover:bg-gray-50 hover:text-orange-600"}`}
                       >
-                        {cat.name}
+                        {i18n.language === 'bn' ? (cat.name_bn || cat.name) : cat.name}
                       </button>
                     ))}
                   </div>
@@ -429,7 +429,7 @@ const Navbar = () => {
                     }}
                     className="text-xl font-black uppercase tracking-widest text-gray-900"
                   >
-                    {cat.name}
+                    {i18n.language === 'bn' ? (cat.name_bn || cat.name) : cat.name}
                   </button>
                 </li>
               ))}

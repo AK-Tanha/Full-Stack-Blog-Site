@@ -38,10 +38,13 @@ const Blogs = ({ query }) => {
                   {t('featuredStory')}
                 </span>
                 <h2 className="text-xl md:text-4xl font-outfit font-black leading-tight mb-3 md:mb-4 text-white drop-shadow-2xl group-hover:underline decoration-2 md:decoration-4 underline-offset-8">
-                  {featuredBlog.title}
+                  {i18n.language === 'bn' ? (featuredBlog.title_bn || featuredBlog.title) : featuredBlog.title}
                 </h2>
                 <p className="text-gray-200 line-clamp-2 text-sm md:text-lg max-w-2xl font-medium opacity-90">
-                  {featuredBlog.description || t('newsletterDesc')}
+                  {i18n.language === 'bn' 
+                    ? (featuredBlog.description_bn || featuredBlog.description || t('newsletterDesc')) 
+                    : (featuredBlog.description || t('newsletterDesc'))
+                  }
                 </p>
                 <div className="mt-8 flex items-center gap-4 text-white/60 text-xs font-bold uppercase tracking-widest">
                   <span>{new Date(featuredBlog.createdAt).toLocaleDateString(i18n.language === 'bn' ? 'bn-BD' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
@@ -61,10 +64,10 @@ const Blogs = ({ query }) => {
                 </div>
                 <div className="flex flex-col justify-center py-1">
                   <span className={`text-[10px] font-outfit font-black uppercase tracking-[0.15em] ${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} mb-2`}>
-                    {blog.category || t('general')}
+                    {i18n.language === 'bn' ? (blog.category_bn || blog.category || t('general')) : (blog.category || t('general'))}
                   </span>
                   <h4 className={`text-lg font-outfit font-bold text-gray-900 line-clamp-2 leading-tight group-hover:${themeColor === 'orange' ? 'text-orange-600' : 'text-amber-500'} transition-colors duration-300`}>
-                    {blog.title}
+                    {i18n.language === 'bn' ? (blog.title_bn || blog.title) : blog.title}
                   </h4>
                   <div className="mt-3 flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                     <span>{new Date(blog.createdAt).toLocaleDateString(i18n.language === 'bn' ? 'bn-BD' : 'en-US', { month: 'short', day: 'numeric' })}</span>
