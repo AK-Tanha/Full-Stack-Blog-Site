@@ -4,6 +4,7 @@ import authReducer from "./features/auth/authSlice.js";
 import { blogApi } from './features/blogs/blogsApi';
 import { categoryApi } from './features/category/categoryApi';
 import commentApi from './features/comments/commentApi';
+import { adsApi } from './features/ads/adsApi';
 
 export const store = configureStore({
     reducer:{
@@ -11,8 +12,9 @@ export const store = configureStore({
        [ authApi.reducerPath] : authApi.reducer,
        [ commentApi.reducerPath] : commentApi.reducer,
        [ categoryApi.reducerPath] : categoryApi.reducer,
+       [ adsApi.reducerPath] : adsApi.reducer,
        auth : authReducer,
     },
      middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(blogApi.middleware, authApi.middleware, commentApi.middleware, categoryApi.middleware )
+    getDefaultMiddleware().concat(blogApi.middleware, authApi.middleware, commentApi.middleware, categoryApi.middleware, adsApi.middleware )
 })

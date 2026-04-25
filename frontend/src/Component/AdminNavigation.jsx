@@ -31,6 +31,7 @@ const AdminNavigation = ({ onClose }) => {
     { name: 'Add New Post', path: '/dashboard/add-new-post', icon: HiOutlinePlusCircle },
     { name: 'Add Category', path: '/dashboard/add-category', icon: HiOutlineTag },
     { name: 'Manage Items', path: '/dashboard/manage-items', icon: HiOutlineCollection },
+    { name: 'Manage Ads', path: '/dashboard/manage-ads', icon: HiOutlinePlusCircle },
     { name: 'Users', path: '/dashboard/users', icon: HiOutlineUsers },
   ]
 

@@ -39,6 +39,7 @@ const commentRoutes = require('./src/routes/comment.route') ;
 const categoryRoutes = require('./src/routes/category.route');
 const userRoute = require ('./src/routes/auth.user');
 const uploadRoute = require('./src/routes/upload.route');
+const adRoutes = require('./src/routes/ad.route');
 
 // Cache connection promise for serverless optimization
 let cachedConnection = null;
@@ -78,6 +79,7 @@ app.use("/api/auth", ensureDBConnection, userRoute);
 app.use("/api/blogs", ensureDBConnection, blogRoutes);
 app.use("/api/comments", ensureDBConnection, commentRoutes);
 app.use("/api/categories", ensureDBConnection, categoryRoutes);
+app.use("/api/ads", ensureDBConnection, adRoutes);
 app.use("/api", uploadRoute);
 
 app.get('/', (req, res) => {

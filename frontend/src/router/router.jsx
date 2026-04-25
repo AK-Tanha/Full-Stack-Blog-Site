@@ -7,6 +7,8 @@ import AdminLayout from "../pages/admin/AdminLayout";
 import AddCategory from "../pages/admin/category/AddCategory";
 import Dashboard from "../pages/admin/dashboard/Dashboard";
 import ManageUser from "../pages/admin/user/ManageUser";
+import ManageAds from "../pages/admin/ad/ManageAds";
+import AddAd from "../pages/admin/ad/AddAd";
 import Singleblogs from "../pages/blogs/singleblogs/Singleblogs";
 import Home from "../pages/Home/Home";
 import About from "../pages/miniPages/About";
@@ -101,6 +103,18 @@ const router = createBrowserRouter([
           {
             path: "users",
             element: <ManageUser />,
+          },
+          {
+            path: "manage-ads",
+            element: <ManageAds />,
+          },
+          {
+            path: "add-ad",
+            element: <AddAd />,
+          },
+          {
+            path: "update-ad/:id",
+            element: <AddAd />,
           },
         ],
       },
