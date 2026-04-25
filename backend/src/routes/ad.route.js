@@ -19,10 +19,11 @@ router.post('/create-ad', verifyToken, isAdmin, async (req, res) => {
 // Get all Ads (Public or Admin)
 router.get('/', async (req, res) => {
     try {
-        const { slot, isActive } = req.query;
+        const { slot, isActive, category } = req.query;
         const query = {};
         if (slot) query.slot = slot;
         if (isActive !== undefined) query.isActive = isActive === 'true';
+        if (category) query.category = category;
 
         const ads = await Ad.find(query).sort({ createdAt: -1 });
         res.status(200).send(ads);

@@ -137,6 +137,7 @@ const SingleBlogCard = ({ blog }) => {
             {/* IN-ARTICLE BANNER AD */}
             <BannerAd
               slot="horizontal"
+              category={category}
               className="my-12 opacity-80 hover:opacity-100 transition-opacity"
             />
 
@@ -191,6 +192,7 @@ const SingleBlogCard = ({ blog }) => {
           <aside className="lg:col-span-4 sticky top-32 h-fit space-y-8">
             <BannerAd
               slot="sidebar"
+              category={category}
               className="shadow-2xl shadow-orange-600/5"
             />
 

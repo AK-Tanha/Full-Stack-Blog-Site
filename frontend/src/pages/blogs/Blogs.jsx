@@ -168,18 +168,31 @@ const Blogs = ({ query }) => {
         blogs.length > 0 &&
         renderBlogSection(t("latestStories"), blogs.slice(0, 5), "orange")}
 
-      {/* MID-FEED AD SLOT */}
-      {!isLoading && blogs.length > 5 && (
-        <div className="container mx-auto px-4">
-          <BannerAd slot="horizontal" className="my-16" />
-        </div>
-      )}
-
-      {/* Category-wise Blog Sections */}
+      {/* Category-wise Blog Sections with Dynamic Ads */}
       {!isLoading &&
-        Object.entries(groupedBlogs).map(([catName, catBlogs]) =>
-          renderBlogSection(catName, catBlogs, "amber", catName),
-        )}
+        Object.entries(groupedBlogs).map(([catName, catBlogs], index) => (
+          <div key={catName}>
+            {/* Alternating theme colors for dynamic feel */}
+            {renderBlogSection(
+              catName,
+              catBlogs,
+              index % 2 === 0 ? "amber" : "orange",
+              catName,
+            )}
+
+            {/* Periodic Ad Placement: After the 1st and then every subsequent 2nd category section */}
+            {(index === 0 || (index + 1) % 2 === 0) &&
+              index !== Object.entries(groupedBlogs).length - 1 && (
+                <div className="container mx-auto px-4">
+                  <BannerAd
+                    slot="horizontal"
+                    className="my-16"
+                    category={catName}
+                  />
+                </div>
+              )}
+          </div>
+        ))}
     </div>
   );
 };

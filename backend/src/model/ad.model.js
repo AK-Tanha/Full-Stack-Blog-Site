@@ -25,6 +25,9 @@ const adSchema = new mongoose.Schema({
         required: true,
         enum: ['horizontal', 'sidebar', 'mobile', 'masthead']
     },
+    category: {
+        type: String
+    },
     isActive: {
         type: Boolean,
         default: true

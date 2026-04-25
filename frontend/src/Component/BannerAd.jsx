@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { IoClose } from "react-icons/io5";
 import { useFetchAdsQuery } from '../redux/features/ads/adsApi';
 
-const BannerAd = ({ slot = "horizontal", className = "" }) => {
-  const { t } = useTranslation();
+const BannerAd = ({ slot = "horizontal", className = "", category }) => {
+  const { t, i18n } = useTranslation();
   const [isVisible, setIsVisible] = useState(true);
   
   // Fetch active ads for this specific slot
-  const { data: ads, isLoading } = useFetchAdsQuery({ slot, isActive: true });
+  const { data: ads, isLoading } = useFetchAdsQuery({ slot, isActive: true, category });
   
   const [currentAd, setCurrentAd] = useState(null);
 
@@ -106,10 +106,10 @@ const BannerAd = ({ slot = "horizontal", className = "" }) => {
         <div className="relative h-full flex items-center px-6 md:px-10 justify-between">
           <div className="max-w-[70%]">
             <h4 className="text-white text-xs md:text-sm font-black uppercase tracking-widest mb-1 drop-shadow-md">
-              {currentAd.title}
+              {i18n.language === 'bn' ? currentAd.title_bn || currentAd.title : currentAd.title}
             </h4>
             <p className="text-white/60 text-[9px] md:text-[11px] font-bold uppercase tracking-wider line-clamp-1">
-              {currentAd.subtitle}
+              {i18n.language === 'bn' ? currentAd.subtitle_bn || currentAd.subtitle : currentAd.subtitle}
             </p>
           </div>
           
