@@ -16,7 +16,6 @@ import { useFetchCategoriesQuery } from "../../src/redux/features/category/categ
 import { useGetUserProfileQuery } from "../../src/redux/features/auth/authAPI";
 import { useFetchBlogsQuery } from "../../src/redux/features/blogs/blogsApi";
 import { useTranslation } from "react-i18next";
-import BannerAd from "./BannerAd";
 
 // Mega Menu Content Component
 const MegaMenuContent = ({ category, onClose }) => {
@@ -286,10 +285,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* MASTHEAD AD SLOT - Hidden on mobile, shown on large screens */}
-          <div className="hidden lg:block flex-1 max-w-2xl px-10">
-            <BannerAd slot="masthead" className="!my-0" />
-          </div>
 
           <div className="flex items-center gap-1.5 md:gap-5">
             <button

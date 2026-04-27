@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import Loading from "../../Component/Loading";
 import { useFetchBlogsQuery } from "../../redux/features/blogs/blogsApi";
 import { useTranslation } from "react-i18next";
-import BannerAd from "../../Component/BannerAd";
 
 const Blogs = ({ query }) => {
   const { data: blogs = [], error, isLoading } = useFetchBlogsQuery(query);
@@ -179,18 +178,6 @@ const Blogs = ({ query }) => {
               index % 2 === 0 ? "amber" : "orange",
               catName,
             )}
-
-            {/* Periodic Ad Placement: After the 1st and then every subsequent 2nd category section */}
-            {(index === 0 || (index + 1) % 2 === 0) &&
-              index !== Object.entries(groupedBlogs).length - 1 && (
-                <div className="container mx-auto px-4">
-                  <BannerAd
-                    slot="horizontal"
-                    className="my-16"
-                    category={catName}
-                  />
-                </div>
-              )}
           </div>
         ))}
     </div>
