@@ -10,7 +10,6 @@ import {
 import { formatDate } from "../../../utility/DateFormat";
 import { useTranslation } from "react-i18next";
 import i18n from "../../../i18n";
-import BannerAd from "../../../Component/BannerAd";
 
 const socialICONS = [
   {
@@ -38,7 +37,6 @@ const SingleBlogCard = ({ blog }) => {
     coverImg,
     category,
     rating,
-    author,
     createdAt,
   } = blog || {};
   const { t } = useTranslation();
@@ -56,7 +54,7 @@ const SingleBlogCard = ({ blog }) => {
 
       <div className="px-4 md:px-12">
         {/* Article Header Info - Tightened Spacing */}
-        <div className="max-w-4xl mb-8">
+        <div className="max-w-[1248px] mx-auto mb-8">
           {category && (
             <span className="bg-orange-600 text-white text-[9px] md:text-[10px] font-outfit font-black uppercase tracking-[0.2em] px-4 md:px-5 py-2 rounded-full mb-4 inline-block shadow-lg">
               {category}
@@ -68,17 +66,9 @@ const SingleBlogCard = ({ blog }) => {
 
           <div className="flex flex-wrap items-center gap-6 text-gray-500 text-xs font-bold uppercase tracking-widest border-y border-gray-100 py-5">
             <div className="flex items-center gap-2">
-              {author?.profileImage ? (
-                <img
-                  src={author.profileImage}
-                  alt={author.username}
-                  className="w-6 h-6 rounded-full object-cover border border-orange-100 shadow-sm"
-                />
-              ) : (
-                <FaUserCircle className="text-orange-600 w-5 h-5" />
-              )}
+              <FaUserCircle className="text-orange-600 w-5 h-5" />
               <span className="text-gray-900 font-outfit font-black">
-                {t("by")} {author?.username || t("combatStaff")}
+                {t("by")} Combat Cornerbd Stuff
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -92,9 +82,9 @@ const SingleBlogCard = ({ blog }) => {
           </div>
         </div>
 
-        {/* Blog Content Layout - Grid for Sidebar Ad */}
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16">
-          <div className="lg:col-span-8">
+        {/* Blog Content Layout */}
+        <div className="max-w-[1248px] mx-auto pb-16">
+          <div className="w-full">
             {(description ||
               (i18n.language === "bn" && blog.description_bn)) && (
               <div className="mb-12 p-8 bg-orange-50/50 rounded-[32px] border-l-8 border-orange-600 shadow-sm">
@@ -134,12 +124,7 @@ const SingleBlogCard = ({ blog }) => {
               className="quill-content ql-editor prose prose-lg md:prose-xl max-w-none text-gray-800 leading-relaxed mb-12"
             />
 
-            {/* IN-ARTICLE BANNER AD */}
-            <BannerAd
-              slot="horizontal"
-              category={category}
-              className="my-12 opacity-80 hover:opacity-100 transition-opacity"
-            />
+
 
             {/* Article Footer / Rating */}
             <div className="mt-16 pt-10 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-8">
@@ -187,34 +172,6 @@ const SingleBlogCard = ({ blog }) => {
               </div>
             </div>
           </div>
-
-          {/* SIDEBAR AD SLOT */}
-          <aside className="lg:col-span-4 sticky top-32 h-fit space-y-8">
-            <BannerAd
-              slot="sidebar"
-              category={category}
-              className="shadow-2xl shadow-orange-600/5"
-            />
-
-            <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100">
-              <h4 className="text-[10px] font-outfit font-black uppercase tracking-[0.3em] text-orange-600 mb-4">
-                {t("newsletterTitle")}
-              </h4>
-              <p className="text-sm font-bold text-gray-900 mb-6 leading-tight">
-                {t("newsletterDesc")}
-              </p>
-              <div className="space-y-3">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3 text-sm font-medium outline-none focus:border-orange-600 transition-colors"
-                />
-                <button className="w-full bg-gray-900 text-white text-[10px] font-black uppercase tracking-widest py-4 rounded-xl hover:bg-orange-600 transition-colors shadow-lg active:scale-95">
-                  {t("subscribe")}
-                </button>
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
     </div>

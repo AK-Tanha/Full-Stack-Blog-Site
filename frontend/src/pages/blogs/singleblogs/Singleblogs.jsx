@@ -5,6 +5,7 @@ import CommentsCard from '../Comments/CommentsCard';
 import RelatedBlogs from './RelatedBlogs';
 import SingleBlogCard from './SingleBlogCard';
 import Loading from '../../../Component/Loading';
+import BannerAd from '../../../Component/BannerAd';
 
 const Singleblogs = () => {
   const { id } = useParams(); 
@@ -50,6 +51,12 @@ const Singleblogs = () => {
             {/* Sticky Sidebar */}
             <div className="w-full lg:w-[32%]">
               <div className="sticky top-32 space-y-10">
+                <BannerAd
+                  slot="sidebar"
+                  category={blog?.post?.category}
+                  className="opacity-80 hover:opacity-100 transition-opacity"
+                />
+
                 <div className="bg-white rounded-[32px] p-8 border border-gray-100 shadow-xl shadow-gray-200/40">
                   <div className="flex items-center gap-4 mb-8">
                     <h3 className="text-xl font-black uppercase tracking-tight text-gray-900 px-4 py-1.5 bg-amber-50 border-amber-500 border-l-4">

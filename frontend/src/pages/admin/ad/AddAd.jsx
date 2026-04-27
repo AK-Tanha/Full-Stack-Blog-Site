@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCreateAdMutation, useFetchAdByIdQuery, useUpdateAdMutation } from '../../../redux/features/ads/adsApi';
 import { useUploadImageMutation } from '../../../redux/features/blogs/blogsApi';
-import { HiOutlinePlusCircle, HiOutlineTicket, HiOutlineExternalLink, HiOutlinePhotograph, HiOutlineHashtag, HiOutlineViewGrid, HiOutlineCloudUpload, HiOutlineX } from 'react-icons/hi';
+import { useFetchCategoriesQuery } from '../../../redux/features/category/categoryApi';
+import { HiOutlinePlusCircle, HiOutlineTicket, HiOutlineExternalLink, HiOutlinePhotograph, HiOutlineHashtag, HiOutlineViewGrid, HiOutlineCloudUpload, HiOutlineX, HiOutlineTag } from 'react-icons/hi';
 
 const AddAd = () => {
     const { id } = useParams();
@@ -11,6 +12,7 @@ const AddAd = () => {
     const [updateAd, { isLoading: isUpdating }] = useUpdateAdMutation();
     const [uploadImage, { isLoading: isUploading }] = useUploadImageMutation();
     const { data: adData, isLoading: isLoadingAd } = useFetchAdByIdQuery(id, { skip: !id });
+    const { data: categories } = useFetchCategoriesQuery();
     const [showFull, setShowFull] = useState(false);
 
     const [ad, setAd] = useState({
@@ -20,6 +22,7 @@ const AddAd = () => {
         cta: 'SHOP NOW',
         link: '',
         slot: 'horizontal',
+        category: '',
         isActive: true
     });
 
@@ -36,6 +39,7 @@ const AddAd = () => {
                     cta: actualAd.cta || 'SHOP NOW',
                     link: actualAd.link || '',
                     slot: actualAd.slot || 'horizontal',
+                    category: actualAd.category || '',
                     isActive: actualAd.isActive !== undefined ? actualAd.isActive : true
                 });
                 setHasInitialized(true);
@@ -253,6 +257,25 @@ const AddAd = () => {
                             <option value="masthead">Masthead (Header)</option>
                             <option value="sidebar">Sidebar (Square)</option>
                             <option value="mobile">Mobile (320x50)</option>
+                        </select>
+                    </div>
+                    
+                    {/* Category Selection */}
+                    <div className="space-y-3">
+                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
+                            <HiOutlineTag className="text-indigo-600" size={16} />
+                            Target Category (Optional)
+                        </label>
+                        <select
+                            name="category"
+                            value={ad.category}
+                            onChange={handleChange}
+                            className="w-full bg-gray-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white rounded-2xl px-6 py-4 text-sm font-black uppercase transition-all outline-none cursor-pointer"
+                        >
+                            <option value="">Global (All Categories)</option>
+                            {categories && categories.map((cat) => (
+                                <option key={cat._id} value={cat.name}>{cat.name}</option>
+                            ))}
                         </select>
                     </div>
 
