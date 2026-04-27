@@ -5,7 +5,13 @@ const adSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    title_bn: {
+        type: String
+    },
     subtitle: {
+        type: String
+    },
+    subtitle_bn: {
         type: String
     },
     image: {

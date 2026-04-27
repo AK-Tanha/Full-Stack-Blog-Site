@@ -22,8 +22,17 @@ router.get('/', async (req, res) => {
         const { slot, isActive, category } = req.query;
         const query = {};
         if (slot) query.slot = slot;
-        if (isActive !== undefined) query.isActive = isActive === 'true';
-        if (category) query.category = category;
+        if (isActive !== undefined) {
+            query.isActive = isActive === 'true' || isActive === true;
+        }
+        if (category) {
+            query.$or = [
+                { category: category },
+                { category: { $exists: false } },
+                { category: "" },
+                { category: null }
+            ];
+        }
 
         const ads = await Ad.find(query).sort({ createdAt: -1 });
         res.status(200).send(ads);

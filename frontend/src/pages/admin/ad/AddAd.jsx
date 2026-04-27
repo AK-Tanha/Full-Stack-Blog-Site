@@ -17,7 +17,9 @@ const AddAd = () => {
 
     const [ad, setAd] = useState({
         title: '',
+        title_bn: '',
         subtitle: '',
+        subtitle_bn: '',
         image: '',
         cta: 'SHOP NOW',
         link: '',
@@ -25,6 +27,8 @@ const AddAd = () => {
         category: '',
         isActive: true
     });
+
+    const [activeLang, setActiveLang] = useState('en');
 
     const [hasInitialized, setHasInitialized] = useState(false);
 
@@ -34,7 +38,9 @@ const AddAd = () => {
             if (actualAd) {
                 setAd({
                     title: actualAd.title || '',
+                    title_bn: actualAd.title_bn || '',
                     subtitle: actualAd.subtitle || '',
+                    subtitle_bn: actualAd.subtitle_bn || '',
                     image: actualAd.image || '',
                     cta: actualAd.cta || 'SHOP NOW',
                     link: actualAd.link || '',
@@ -107,21 +113,38 @@ const AddAd = () => {
                 <p className="text-gray-500 font-bold uppercase text-[10px] tracking-[0.3em]">Campaign Management Center</p>
             </div>
 
+            <div className="flex gap-4 mb-8 p-1 bg-gray-100 rounded-2xl w-fit">
+                <button
+                    type="button"
+                    onClick={() => setActiveLang('en')}
+                    className={`px-6 py-2 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all ${activeLang === 'en' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                    English
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setActiveLang('bn')}
+                    className={`px-6 py-2 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all ${activeLang === 'bn' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                    Bangla
+                </button>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-8 bg-white p-8 md:p-12 rounded-[40px] shadow-2xl shadow-indigo-100 border border-indigo-50">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Title */}
                     <div className="space-y-3">
                         <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
                             <HiOutlineHashtag className="text-indigo-600" size={16} />
-                            Ad Title
+                            Ad Title ({activeLang === 'en' ? 'English' : 'Bangla'})
                         </label>
                         <input
                             type="text"
-                            name="title"
-                            value={ad.title}
+                            name={activeLang === 'en' ? 'title' : 'title_bn'}
+                            value={activeLang === 'en' ? ad.title : ad.title_bn}
                             onChange={handleChange}
-                            required
-                            placeholder="e.g. PREMIUM FIGHT GEAR"
+                            required={activeLang === 'en'}
+                            placeholder={activeLang === 'en' ? "e.g. PREMIUM FIGHT GEAR" : "উদা: প্রিমিয়াম ফাইট গিয়ার"}
                             className="w-full bg-gray-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white rounded-2xl px-6 py-4 text-sm font-bold transition-all outline-none"
                         />
                     </div>
@@ -130,14 +153,14 @@ const AddAd = () => {
                     <div className="space-y-3">
                         <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
                             <HiOutlineTicket className="text-indigo-600" size={16} />
-                            Subtitle / Offer
+                            Subtitle / Offer ({activeLang === 'en' ? 'English' : 'Bangla'})
                         </label>
                         <input
                             type="text"
-                            name="subtitle"
-                            value={ad.subtitle}
+                            name={activeLang === 'en' ? 'subtitle' : 'subtitle_bn'}
+                            value={activeLang === 'en' ? ad.subtitle : ad.subtitle_bn}
                             onChange={handleChange}
-                            placeholder="e.g. UP TO 40% OFF"
+                            placeholder={activeLang === 'en' ? "e.g. UP TO 40% OFF" : "উদা: ৪০% পর্যন্ত ছাড়"}
                             className="w-full bg-gray-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white rounded-2xl px-6 py-4 text-sm font-bold transition-all outline-none"
                         />
                     </div>
