@@ -101,28 +101,30 @@ const BannerAd = ({ slot = "horizontal", className = "", category }) => {
         <img 
           src={currentAd.image} 
           alt={currentAd.title} 
-          className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40 group-hover:scale-105 transition-transform duration-1000"
+          className="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:scale-110 transition-transform duration-1000"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
+        {/* Subtle overlay to ensure text readability without obscuring the image */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
 
         <div className="relative h-full flex items-center px-6 md:px-10 justify-between">
           <div className="max-w-[70%]">
-            <h4 className="text-white text-xs md:text-sm font-black uppercase tracking-widest mb-1 drop-shadow-md">
+            <h4 className="text-white text-sm md:text-lg font-black uppercase tracking-widest mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
               {i18n.language === 'bn' ? currentAd.title_bn || currentAd.title : currentAd.title}
             </h4>
-            <p className="text-white/60 text-[9px] md:text-[11px] font-bold uppercase tracking-wider line-clamp-1">
+            <p className="text-white/90 text-[10px] md:text-xs font-bold uppercase tracking-wider line-clamp-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
               {i18n.language === 'bn' ? currentAd.subtitle_bn || currentAd.subtitle : currentAd.subtitle}
             </p>
           </div>
           
           <div className="flex flex-col items-end">
-            <button className="bg-orange-600 hover:bg-orange-500 text-white text-[8px] md:text-[10px] font-black uppercase tracking-widest px-4 md:px-6 py-2 md:py-2.5 rounded-full transition-all shadow-lg hover:shadow-orange-600/20 active:scale-95">
+            <button className="bg-orange-600 hover:bg-orange-500 text-white text-[9px] md:text-[11px] font-black uppercase tracking-widest px-5 md:px-7 py-2.5 md:py-3 rounded-xl transition-all shadow-2xl hover:shadow-orange-600/40 active:scale-95">
               {currentAd.cta || 'LEARN MORE'}
             </button>
           </div>
         </div>
 
-        <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg]" />
+        {/* Glossy shine effect on hover */}
+        <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg]" />
       </a>
     </div>
   );
