@@ -455,6 +455,11 @@ const Navbar = () => {
         </div>
       </nav>
 
+      {/* MOBILE HEADER AD */}
+      <div className="block lg:hidden w-full px-4 py-3 bg-white border-b border-gray-50">
+        <BannerAd slot="masthead" className="!my-0" />
+      </div>
+
       {/* SEARCH OVERLAY */}
       {isSearchOpen && (
         <div className="fixed inset-0 z-[2000] bg-white/98 backdrop-blur-md flex flex-col p-4 md:p-10 animate-in fade-in zoom-in-95 duration-300">
