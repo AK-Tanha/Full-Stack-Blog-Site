@@ -7,12 +7,20 @@ import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useFetchBlogsQuery } from '../../redux/features/blogs/blogsApi';
 const Hero = () => {
-  const { data: blogs = [] } = useFetchBlogsQuery();
+  const { data: blogs = [], isLoading } = useFetchBlogsQuery({});
   
   const { t, i18n } = useTranslation();
 
   // Filter for featured blogs only
-  const featuredBlogs = blogs.filter(blog => blog.is_featured);
+  const featuredBlogs = blogs.filter(blog => blog.is_featured === true);
+
+  if (isLoading) {
+    return (
+      <div className="h-[400px] md:h-[550px] w-full bg-gray-900 rounded-2xl flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (featuredBlogs.length === 0) {
     return null; 
