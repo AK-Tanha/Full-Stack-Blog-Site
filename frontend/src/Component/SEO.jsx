@@ -6,16 +6,15 @@ const SEO = ({ title, description, image, url, type = 'article' }) => {
   const siteDescription = 'Your premium source for combat sports news and blogs.';
   const metaDescription = description || siteDescription;
   
-  // Base URL for the frontend
-  const siteUrl = 'https://full-stack-blog-site-frontend.vercel.app'; // Replace with your actual frontend URL if different
-  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : siteUrl;
+  // Base URL for the frontend - ALWAYS use production URL for OG tags
+  const siteUrl = 'https://full-stack-blog-site-ontq.vercel.app'; // Using the URL from your backend config
   
-  const fullUrl = url ? `${currentOrigin}${url}` : (typeof window !== 'undefined' ? window.location.href : siteUrl);
+  const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
   
   // Ensure image is an absolute URL
-  let metaImage = image || `${currentOrigin}/Logo.png`;
+  let metaImage = image || `${siteUrl}/Logo.png`;
   if (metaImage && !metaImage.startsWith('http')) {
-    metaImage = `${currentOrigin}${metaImage.startsWith('/') ? '' : '/'}${metaImage}`;
+    metaImage = `${siteUrl}${metaImage.startsWith('/') ? '' : '/'}${metaImage}`;
   }
 
   return (
@@ -35,6 +34,7 @@ const SEO = ({ title, description, image, url, type = 'article' }) => {
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content={siteTitle} />
+      <meta itemprop="image" content={metaImage} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -43,7 +43,7 @@ const SEO = ({ title, description, image, url, type = 'article' }) => {
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={metaImage} />
       
-      {/* WhatsApp specific (often uses og:image, but sometimes needs this) */}
+      {/* WhatsApp specific */}
       <meta property="og:image:type" content="image/jpeg" />
     </Helmet>
   );
