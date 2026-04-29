@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom"
 import Blogs from "../blogs/Blogs"
 import Hero from "./Hero"
 import { useTranslation } from "react-i18next";
+import SEO from "../../Component/SEO";
 
 const Home = () => {
   const [searchParams] = useSearchParams();
@@ -13,6 +14,11 @@ const Home = () => {
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen text-gray-900">
+      <SEO 
+        title={t('home')} 
+        description={t('newsletterDesc')}
+        url="/"
+      />
       {/* Breaking News Ticker */}
       <div className="bg-white border-b border-gray-200 py-3 mb-6">
         <div className="container mx-auto px-4 flex items-center gap-4">

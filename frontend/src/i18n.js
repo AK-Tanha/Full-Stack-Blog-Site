@@ -73,7 +73,10 @@ const resources = {
       registerButton: "Sign Up",
       noAccount: "Don't have an account?",
       alreadyHaveAccount: "Already have an account?",
-      backToHome: "Back to Home"
+      backToHome: "Back to Home",
+      siteName: "Combat Corner",
+      siteDescription: "Your premium source for combat sports news and blogs in Bangladesh.",
+      home: "Home"
     }
   },
   bn: {
@@ -146,7 +149,10 @@ const resources = {
       registerButton: "সাইন আপ করুন",
       noAccount: "অ্যাকাউন্ট নেই?",
       alreadyHaveAccount: "ইতিমধ্যেই অ্যাকাউন্ট আছে?",
-      backToHome: "হোমে ফিরে যান"
+      backToHome: "হোমে ফিরে যান",
+      siteName: "কমব্যাট কর্নার",
+      siteDescription: "বাংলাদেশে কমব্যাট স্পোর্টস নিউজ এবং ব্লগের আপনার প্রিমিয়াম উৎস।",
+      home: "হোম"
     }
   }
 };

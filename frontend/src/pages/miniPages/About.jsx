@@ -1,8 +1,15 @@
 import React from 'react'
+import SEO from '../../Component/SEO'
 
 const about = () => {
   return (
-   <section className="container mx-auto px-6 py-16 max-w-5xl text-gray-800">
+    <>
+      <SEO 
+        title="About Us" 
+        description="Combat Corner Bangladesh is the premier online platform dedicated to promoting and growing Mixed Martial Arts (MMA) and boxing across Bangladesh."
+        url="/about-us"
+      />
+      <section className="container mx-auto px-6 py-16 max-w-5xl text-gray-800">
       <h1 className="text-4xl font-bold mb-6 text-center text-blue-700">
         About Combat Corner Bangladesh
       </h1>
@@ -39,6 +46,7 @@ const about = () => {
         </p>
       </div>
     </section>
+    </>
   )
 }
 

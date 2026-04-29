@@ -6,14 +6,29 @@ import RelatedBlogs from './RelatedBlogs';
 import SingleBlogCard from './SingleBlogCard';
 import Loading from '../../../Component/Loading';
 import BannerAd from '../../../Component/BannerAd';
+import SEO from '../../../Component/SEO';
+import i18n from '../../../i18n';
 
 const Singleblogs = () => {
   const { id } = useParams(); 
   const { data: blog, error, isLoading } = useFetchBlogsByIDQuery(id); 
   const { t } = useTranslation();
 
+  const blogPost = blog?.post;
+  const displayTitle = i18n.language === "bn" ? blogPost?.title_bn || blogPost?.title : blogPost?.title;
+  const displayDescription = i18n.language === "bn" ? blogPost?.description_bn || blogPost?.description : blogPost?.description;
+
   return (
     <div className="bg-gray-50 min-h-screen pt-12 pb-24">
+      {blogPost && (
+        <SEO 
+          title={displayTitle}
+          description={displayDescription}
+          image={blogPost.coverImg}
+          url={`/blogs/${id}`}
+          type="article"
+        />
+      )}
       <div className="container mx-auto px-6 max-w-7xl">
         {isLoading && (
           <div className="flex justify-center items-center py-40">

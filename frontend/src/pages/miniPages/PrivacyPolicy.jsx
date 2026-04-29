@@ -1,8 +1,15 @@
 import React from 'react'
+import SEO from '../../Component/SEO'
 
 const PrivacyPolicy = () => {
   return (
-    <section className="container mx-auto px-6 py-16 max-w-4xl text-gray-800">
+    <>
+      <SEO 
+        title="Privacy Policy" 
+        description="Learn how Combat Corner Bangladesh collects, uses, and protects your personal information."
+        url="/privacy-policy"
+      />
+      <section className="container mx-auto px-6 py-16 max-w-4xl text-gray-800">
       <h1 className="text-4xl font-bold mb-8 text-center text-blue-700">Privacy Policy</h1>
       
       <p className="mb-4">
@@ -37,6 +44,7 @@ const PrivacyPolicy = () => {
         </a>.
       </p>
     </section>
+    </>
   )
 }
 
