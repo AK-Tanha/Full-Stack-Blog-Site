@@ -23,6 +23,10 @@ const BlogSchema = new mongoose.Schema({
         required: true
     },
     rating: Number,
+    is_featured: {
+        type: Boolean,
+        default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now

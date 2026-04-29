@@ -29,7 +29,8 @@ const UpdatePost = () => {
     coverImg: '',
     rating: 0,
     content: '',
-    content_bn: ''
+    content_bn: '',
+    is_featured: false
   })
 
   const [activeLang, setActiveLang] = useState('en')
@@ -84,7 +85,8 @@ const UpdatePost = () => {
           coverImg: actualPost.coverImg || '',
           rating: actualPost.rating || 0,
           content: getInitialContent(actualPost.content),
-          content_bn: getInitialContent(actualPost.content_bn)
+          content_bn: getInitialContent(actualPost.content_bn),
+          is_featured: actualPost.is_featured || false
         });
         setHasInitialized(true);
       }
@@ -277,6 +279,27 @@ const UpdatePost = () => {
               step='0.1'
               className='w-full px-4 md:px-6 py-3 md:py-4 bg-gray-50 border border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-orange-600 focus:ring-4 focus:ring-orange-100 transition-all duration-300 font-bold'
             />
+          </div>
+        </div>
+
+        {/* Featured Toggle */}
+        <div className="flex items-center gap-4 p-4 md:p-6 bg-orange-50/50 rounded-2xl border border-orange-100/50">
+          <div className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer">
+            <input
+              type="checkbox"
+              id="is_featured"
+              checked={formData.is_featured}
+              onChange={(e) => setFormData(prev => ({...prev, is_featured: e.target.checked}))}
+              className="sr-only peer"
+            />
+            <label
+              htmlFor="is_featured"
+              className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600"
+            ></label>
+          </div>
+          <div>
+            <span className="block text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-900">Featured Story</span>
+            <p className="text-[9px] md:text-[10px] font-medium text-gray-400 uppercase tracking-wider">Highlight this article in the Hero slider</p>
           </div>
         </div>
 
