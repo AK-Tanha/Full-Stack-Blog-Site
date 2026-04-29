@@ -17,6 +17,18 @@ const SEO = ({ title, description, image, url, type = 'article' }) => {
     metaImage = `${siteUrl}${metaImage.startsWith('/') ? '' : '/'}${metaImage}`;
   }
 
+  // Detect image type
+  const getImageType = (url) => {
+    if (url && typeof url === 'string') {
+      if (url.endsWith('.png')) return 'image/png';
+      if (url.endsWith('.gif')) return 'image/gif';
+      if (url.endsWith('.webp')) return 'image/webp';
+    }
+    return 'image/jpeg';
+  };
+
+  const imageType = getImageType(metaImage);
+
   return (
     <Helmet>
       {/* Standard Metadata */}
@@ -31,6 +43,7 @@ const SEO = ({ title, description, image, url, type = 'article' }) => {
       <meta property="og:description" content={metaDescription} />
       <meta property="og:image" content={metaImage} />
       <meta property="og:image:secure_url" content={metaImage} />
+      <meta property="og:image:type" content={imageType} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content={siteTitle} />
@@ -42,9 +55,6 @@ const SEO = ({ title, description, image, url, type = 'article' }) => {
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={metaImage} />
-      
-      {/* WhatsApp specific */}
-      <meta property="og:image:type" content="image/jpeg" />
     </Helmet>
   );
 };
