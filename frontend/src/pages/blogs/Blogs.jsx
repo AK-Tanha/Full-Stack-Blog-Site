@@ -2,10 +2,21 @@ import { Link } from "react-router-dom";
 import Loading from "../../Component/Loading";
 import { useFetchBlogsQuery } from "../../redux/features/blogs/blogsApi";
 import { useTranslation } from "react-i18next";
+import SEO from "../../Component/SEO";
 
 const Blogs = ({ query }) => {
   const { data: blogs = [], error, isLoading } = useFetchBlogsQuery(query);
   const { t, i18n } = useTranslation();
+
+  // Get the first blog for SEO purposes
+  const firstBlog = blogs.length > 0 ? blogs[0] : null;
+  const seoTitle = firstBlog 
+    ? (i18n.language === "bn" ? firstBlog.title_bn || firstBlog.title : firstBlog.title)
+    : t('latestStories');
+  const seoDescription = firstBlog 
+    ? (i18n.language === "bn" ? firstBlog.description_bn || firstBlog.description : firstBlog.description)
+    : t('newsletterDesc');
+  const seoImage = firstBlog?.coverImg;
 
   const renderBlogSection = (
     title,
@@ -141,6 +152,12 @@ const Blogs = ({ query }) => {
 
   return (
     <div className="w-full">
+      <SEO 
+        title={seoTitle}
+        description={seoDescription}
+        image={seoImage}
+        type="website"
+      />
       {/* Status messages */}
       {isLoading && <Loading />}
       {error && (
