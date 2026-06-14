@@ -76,8 +76,8 @@ export default async function middleware(request) {
       return;
     }
 
-    const title = post.title_bn || post.title || '';
-    const description = post.description_bn || post.description || '';
+    const title = post.title || post.title_bn || '';
+    const description = post.description || post.description_bn || '';
     const image = post.coverImg || `${API_BASE}/og-default.png`;
 
     const html = buildOgHtml({
