@@ -12,7 +12,7 @@ const SEO = ({ title, description, image, url, type = 'article' }) => {
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
   
   // Ensure image is an absolute URL
-  let metaImage = image || `${siteUrl}/Logo.png`;
+  let metaImage = image || `${siteUrl}/og-default.png`;
   if (metaImage && !metaImage.startsWith('http')) {
     metaImage = `${siteUrl}${metaImage.startsWith('/') ? '' : '/'}${metaImage}`;
   }
@@ -44,8 +44,6 @@ const SEO = ({ title, description, image, url, type = 'article' }) => {
       <meta property="og:image" content={metaImage} />
       <meta property="og:image:secure_url" content={metaImage} />
       <meta property="og:image:type" content={imageType} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content={siteTitle} />
       <meta itemprop="image" content={metaImage} />
 
