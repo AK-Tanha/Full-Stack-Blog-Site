@@ -1,4 +1,4 @@
-const CRAWLER_PATTERN = /facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Slack|Discordbot|TelegramBot|Pinterest|Flipboard|MetaInspector/i;
+const CRAWLER_PATTERN = /facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Slack|Discordbot|TelegramBot|Pinterest|Flipboard|MetaInspector|Applebot|Embedly/i;
 
 const API_BASE = 'https://full-stack-blog-site-ontq.vercel.app';
 const SITE_NAME = 'Combat Corner';
@@ -32,6 +32,8 @@ function buildOgHtml({ title, description, image, url, type = 'website' }) {
 <meta property="og:description" content="${metaDesc}">
 <meta property="og:image" content="${escapeHtml(metaImage)}">
 <meta property="og:image:secure_url" content="${escapeHtml(metaImage)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:site_name" content="${SITE_NAME}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="${escapeHtml(fullUrl)}">
@@ -40,9 +42,7 @@ function buildOgHtml({ title, description, image, url, type = 'website' }) {
 <meta name="twitter:image" content="${escapeHtml(metaImage)}">
 <link rel="canonical" href="${escapeHtml(fullUrl)}">
 </head>
-<body>
-<script>window.location.href="${escapeHtml(fullUrl)}"</script>
-</body>
+<body></body>
 </html>`;
 }
 
