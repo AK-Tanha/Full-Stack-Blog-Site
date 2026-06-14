@@ -1,4 +1,4 @@
-const CRAWLER_PATTERN = /facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Slack|Discordbot|TelegramBot|Pinterest|Flipboard|MetaInspector|Applebot|Embedly/i;
+const CRAWLER_PATTERN = /facebookexternalhit|Facebot|Twitterbot|WhatsApp|LinkedInBot|Slack|Discordbot|TelegramBot|Pinterest|Flipboard|MetaInspector|meta-externalagent|Applebot|Embedly|Google-InspectionTool|Amazonbot|Slurp|BingPreview/i;
 
 const API_BASE = 'https://full-stack-blog-site-ontq.vercel.app';
 const SITE_NAME = 'Combat Corner';
@@ -13,10 +13,16 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
+function toAbsoluteUrl(path) {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  return `${API_BASE}${path.startsWith('/') ? '' : '/'}${path}`;
+}
+
 function buildOgHtml({ title, description, image, url, type = 'website' }) {
   const fullTitle = title ? `${escapeHtml(title)} | ${SITE_NAME}` : SITE_NAME;
   const metaDesc = escapeHtml(description || 'Your premium source for combat sports news and blogs.');
-  const metaImage = image || `${API_BASE}/og-default.png`;
+  const metaImage = toAbsoluteUrl(image) || `${API_BASE}/og-default.png`;
   const fullUrl = url || API_BASE;
 
   return `<!DOCTYPE html>
@@ -78,7 +84,8 @@ export default async function middleware(request) {
 
     const title = post.title || post.title_bn || '';
     const description = post.description || post.description_bn || '';
-    const image = post.coverImg || `${API_BASE}/og-default.png`;
+    const rawImage = post.coverImg || '';
+    const image = toAbsoluteUrl(rawImage) || `${API_BASE}/og-default.png`;
 
     const html = buildOgHtml({
       title,
