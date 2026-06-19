@@ -19,11 +19,21 @@ function toAbsoluteUrl(path) {
   return `${API_BASE}${path.startsWith('/') ? '' : '/'}${path}`;
 }
 
+function getImageType(url) {
+  if (url && typeof url === 'string') {
+    if (url.endsWith('.png')) return 'image/png';
+    if (url.endsWith('.gif')) return 'image/gif';
+    if (url.endsWith('.webp')) return 'image/webp';
+  }
+  return 'image/jpeg';
+}
+
 function buildOgHtml({ title, description, image, url, type = 'website' }) {
   const fullTitle = title ? `${escapeHtml(title)} | ${SITE_NAME}` : SITE_NAME;
   const metaDesc = escapeHtml(description || 'Your premium source for combat sports news and blogs.');
   const metaImage = toAbsoluteUrl(image) || `${API_BASE}/og-default.png`;
   const fullUrl = url || API_BASE;
+  const imageType = getImageType(metaImage);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -38,9 +48,11 @@ function buildOgHtml({ title, description, image, url, type = 'website' }) {
 <meta property="og:description" content="${metaDesc}">
 <meta property="og:image" content="${escapeHtml(metaImage)}">
 <meta property="og:image:secure_url" content="${escapeHtml(metaImage)}">
+<meta property="og:image:type" content="${imageType}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="${SITE_NAME}">
+<meta itemprop="image" content="${escapeHtml(metaImage)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="${escapeHtml(fullUrl)}">
 <meta name="twitter:title" content="${fullTitle}">
